@@ -1,0 +1,231 @@
+'use client';
+
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, Menu, Zap } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+import sidebarLinks from '@/lib/sidebar-links';
+import Link from 'next/link';
+import { CgMenuGridR } from 'react-icons/cg';
+
+const StoreSidebar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [activeMenu, setActiveMenu] = useState<string | null>('Dashboard');
+  const [activeItem, setActiveItem] = useState<string | null>('Overview');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleMenu = (menuName: string) => {
+    setActiveMenu(menuName);
+    setActiveItem(null);
+  };
+
+  return (
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] border-none '>
+      <CardContent className='p-0 h-full'>
+        <motion.div
+          initial={false}
+          animate={{ width: isSidebarOpen ? '16rem' : '5rem' }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className='h-full bg-white dark:bg-muted/40 flex-shrink-0 overflow-hidden'
+        >
+          <div className='p-4 h-full flex flex-col'>
+            <div className='flex items-center justify-between mb-6'>
+              <AnimatePresence>
+                {isSidebarOpen && (
+                  <motion.h2
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className='text-xl font-bold text-gray-800 dark:text-white'
+                  >
+                    MyStore
+                  </motion.h2>
+                )}
+              </AnimatePresence>
+              <Button variant='ghost' size='icon' onClick={toggleSidebar}>
+                <CgMenuGridR className='h-6 w-6' />
+              </Button>
+            </div>
+            <ScrollArea className='flex-grow -mr-4 pr-4'>
+              <nav className='space-y-2'>
+                {sidebarLinks.map((item, index) => (
+                  <div key={index}>
+                    <TooltipProvider delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant='ghost'
+                            className={cn(
+                              'w-full justify-between  transition-all duration-300 ease-in-out',
+                              isSidebarOpen ? 'px-4' : 'px-2',
+                              activeMenu === item.name &&
+                                'bg-gradient-to-r text-white from-[#091E3A] via-[#2F80ED] to-[#2D9EE0]',
+                              activeMenu === item.name && 'rounded-lg'
+                            )}
+                            onClick={() => {
+                              toggleMenu(item.name);
+                              if (activeMenu === item.name) {
+                                setActiveMenu(null);
+                              } else {
+                                toggleMenu(item.name);
+                              }
+                            }}
+                          >
+                            <motion.div
+                              className='flex items-center'
+                              initial={false}
+                              animate={{
+                                justifyContent: isSidebarOpen
+                                  ? 'flex-start'
+                                  : 'center',
+                                width: isSidebarOpen ? '100%' : 'auto',
+                              }}
+                              transition={{ duration: 0.3, ease: 'easeIn' }}
+                            >
+                              <motion.div
+                                initial={false}
+                                animate={{
+                                  marginRight: isSidebarOpen ? '0.9rem' : '0',
+                                  scale: isSidebarOpen ? 1 : 1.2,
+                                }}
+                                transition={{
+                                  duration: 0.3,
+                                  ease: 'easeInOut',
+                                }}
+                              >
+                                {/* {item.icon} */}
+                                <item.icon
+                                  className={cn('h-5 w-5 text-blue-400', {
+                                    'text-white h-4 w-4': !isSidebarOpen,
+                                  })}
+                                />
+                              </motion.div>
+                              <AnimatePresence>
+                                {isSidebarOpen && (
+                                  <motion.span
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -10 }}
+                                    transition={{
+                                      duration: 0.3,
+                                      ease: 'easeInOut',
+                                    }}
+                                  >
+                                    {item.name}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
+                            </motion.div>
+                            {isSidebarOpen && (
+                              <ChevronDown
+                                className={cn(
+                                  'h-4 w-4 transition-transform duration-200',
+                                  activeMenu === item.name && 'rotate-180'
+                                )}
+                              />
+                            )}
+                          </Button>
+                        </TooltipTrigger>
+                        {!isSidebarOpen && (
+                          <TooltipContent side='right'>
+                            <p>{item.name}</p>
+                          </TooltipContent>
+                        )}
+                      </Tooltip>
+                    </TooltipProvider>
+                    <AnimatePresence>
+                      {activeMenu === item.name && isSidebarOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        >
+                          {item.subitems.map((subitem, subIndex) => (
+                            <motion.div
+                              key={subIndex}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: subIndex * 0.1,
+                              }}
+                            >
+                              <Link
+                                href={`${subitem.path}`}
+                                className={cn(
+                                  buttonVariants({ variant: 'ghost' }),
+                                  'w-full my-1.5 block  transition-all duration-300z'
+                                )}
+                              >
+                                {subitem.name}
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </nav>
+            </ScrollArea>
+
+            <Card
+              className={cn(
+                'mt-4 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white transition-all duration-300',
+                isSidebarOpen ? 'p-4' : 'p-2'
+              )}
+            >
+              <CardContent
+                className={cn(
+                  'flex flex-col items-center justify-center',
+                  isSidebarOpen ? 'p-0' : 'p-0 h-20'
+                )}
+              >
+                {isSidebarOpen ? (
+                  <>
+                    <h3 className='font-semibold mb-2'>Upgrade your plan</h3>
+                    <p className='text-sm mb-4 text-center'>
+                      Get more features and benefits
+                    </p>
+                    <Button className='w-full bg-white text-primary hover:bg-gray-100'>
+                      <Zap className='mr-2 h-4 w-4' />
+                      Upgrade Now
+                    </Button>
+                  </>
+                ) : (
+                  <Button className='w-full h-full bg-white text-primary hover:bg-gray-100 p-0'>
+                    <Zap className='h-6 w-6' />
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default StoreSidebar;
