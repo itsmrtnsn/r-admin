@@ -1,17 +1,13 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
-import React from 'react';
 import { useRouter } from 'next/navigation';
-import ProductInfoForm from './product-info';
-import ProductCategoryForm from './product-category';
 import ProductStatusBadge from '../components/product-status-badge';
-import { FaClipboardCheck } from 'react-icons/fa';
-
+import ProductInfoForm from './product-info';
 const NewProductPage = () => {
   const router = useRouter();
+
   return (
     <div>
       <div className='flex items-center gap-4 mb-10'>
@@ -32,19 +28,9 @@ const NewProductPage = () => {
           <Button size='sm' variant='destructive'>
             Annuler
           </Button>
-          <Button
-            size='sm'
-            className='text-white bg-gradient-to-r from-[#1488CC] to-[#2B32B2] hover:bg-primary transition-all ease-in-out '
-          >
-            <FaClipboardCheck className='mr-2' />
-            Enregistrer l'article
-          </Button>
         </div>
       </div>
-      <main className='grid grid-cols-[1fr_auto] gap-8'>
-        <ProductInfoForm />
-        <ProductCategoryForm />
-      </main>
+      <ProductInfoForm onSubmit={() => console.log('submit')} />
     </div>
   );
 };

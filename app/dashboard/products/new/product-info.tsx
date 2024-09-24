@@ -1,70 +1,223 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormControl } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-// import { Textarea } from '@/components/ui/textarea';
-import React from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import { productCategory } from '../data/product-category';
+import {
+  productInfoSchema,
+  type ProductInfo,
+} from '../schema/product-info-schema';
+import { productStatus } from '../data/product-status';
 
-const ProductInfoForm = () => {
+interface ProductInfoFormProps {
+  onSubmit: (data: ProductInfo) => void;
+}
+
+const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<ProductInfo>({
+    resolver: zodResolver(productInfoSchema),
+  });
+
+  const handleFormSubmit = (data: ProductInfo) => {
+    onSubmit(data);
+  };
+
   return (
-    <Card
-      x-chunk='dashboard-07-chunk-0'
-      className='shadow-none bg-white border-[0.1px] rounded-xl pb-4'
+    <form
+      className='grid grid-cols-[1fr_auto] gap-8'
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <CardHeader>
-        <CardTitle>Détails de l'article</CardTitle>
-        {/* <CardDescription>
-          • Enter a concise, memorable product name. • Provide a clear
-          description highlighting key features and benefits.
-        </CardDescription> */}
-      </CardHeader>
-      <CardContent>
-        <div className='grid gap-8'>
-          <div className='flex gap-3 items-center'>
-            <div className='w-full'>
-              <Label htmlFor='name'>Nom</Label>
-              <Input
-                id='name'
-                type='text'
-                className='w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
-              />
+      <Card
+        x-chunk='dashboard-07-chunk-0'
+        className='shadow-none bg-white border-[0.1px] rounded-xl pb-4'
+      >
+        <CardHeader>
+          <CardTitle>Détails de l'article</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='grid gap-8'>
+            <div className='flex gap-3 items-center'>
+              <div className='w-full space-y-3'>
+                <Label htmlFor='name'>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.name ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.name ? errors.name.message : 'Name'}
+                  </p>
+                </Label>
+                <Input
+                  id='name'
+                  type='text'
+                  {...register('name')}
+                  className='w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
+                />
+              </div>
+              <div className='w-full space-y-3'>
+                <Label htmlFor='description'>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.price ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.price ? errors.price.message : 'Prix'}
+                  </p>
+                </Label>
+                <Input
+                  id='description'
+                  defaultValue=''
+                  {...register('price', { valueAsNumber: true })}
+                  className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
+                />
+              </div>
             </div>
-            <div className='w-full'>
-              <Label htmlFor='description'>Prix</Label>
-              <Input
-                id='description'
-                defaultValue=''
-                className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
-              />
-            </div>
-          </div>
 
-          <div className='flex gap-3 items-center'>
-            <div className='w-full'>
-              <Label htmlFor='description'>Quantité</Label>
-              <Input
-                id='description'
-                defaultValue=''
-                className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
-              />
-            </div>
-            <div className='w-full'>
-              <Label htmlFor='description'>Seuil</Label>
-              <Input
-                id='description'
-                defaultValue=''
-                className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
-              />
+            <div className='flex gap-3 items-center'>
+              <div className='w-full space-y-3'>
+                <Label htmlFor='description'>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.quantityInStock ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.quantityInStock
+                      ? errors.quantityInStock.message
+                      : 'Quantité'}
+                  </p>
+                </Label>
+                <Input
+                  id='description'
+                  {...register('quantityInStock', { valueAsNumber: true })}
+                  className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
+                />
+              </div>
+              <div className='w-full space-y-3'>
+                <Label htmlFor='description'>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.threshold ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.threshold ? errors.threshold.message : 'Seuil'}
+                  </p>
+                </Label>
+                <Input
+                  id='description'
+                  {...register('threshold', { valueAsNumber: true })}
+                  className=' w-full border-slate-400 border-[0.1px] placeholder:text-gray-600 placeholder:text-sm focus-visible:ring-1 outline-none focus-visible:border-none transition-all ease-in-out duration-300 hover:border-gray-300 focus:scale-[1.02]'
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      {/* other section */}
+      <div className=''>
+        <Card
+          x-chunk='dashboard-07-chunk-2'
+          className='bg-muted max-w-[16rem] shadow-none  bg-white border-[0.1px] rounded-xl'
+        >
+          <CardHeader>
+            <CardTitle>Catégorie de l'article</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className='w-full'>
+              <div className='grid gap-3'>
+                <Label htmlFor='category'>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.category ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.category ? errors.category.message : 'Catégorie'}
+                  </p>
+                </Label>
+                <Controller
+                  control={control}
+                  name='category'
+                  render={({ field }) => (
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select a category' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {productCategory.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+
+              <div className='space-y-3 mt-4'>
+                <Label>
+                  <p
+                    className={`transition-all duration-300 ${
+                      errors.status ? 'text-red-500' : ''
+                    }`}
+                  >
+                    {errors.status ? errors.status.message : 'Statut'}
+                  </p>
+                </Label>
+                <Controller
+                  control={control}
+                  name='status'
+                  render={({ field }) => (
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select a category' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {productStatus.map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {status === 'draft' && 'Brouillon'}
+                            {status === 'published' && 'Publié'}
+                            {status === 'archived' && 'Archivé'}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className='shadow-none bg-white border-[0.1px] rounded-xl mt-3'>
+          <Button type='submit' className='w-full'>
+            Créer
+          </Button>
+        </Card>
+      </div>
+    </form>
   );
 };
 
