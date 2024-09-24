@@ -5,6 +5,8 @@ import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import ProductStatusBadge from '../components/product-status-badge';
 import ProductInfoForm from './product-info';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const NewProductPage = () => {
   const router = useRouter();
 
@@ -30,7 +32,12 @@ const NewProductPage = () => {
           </Button>
         </div>
       </div>
-      <ProductInfoForm onSubmit={() => console.log('submit')} />
+      <ProductInfoForm
+        onSubmit={(data) => {
+          toast.success('Product created successfully');
+        }}
+      />
+      <ToastContainer />
     </div>
   );
 };

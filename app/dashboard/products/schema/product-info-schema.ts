@@ -3,9 +3,14 @@ import { productStatus } from '../data/product-status';
 import { productCategory } from '../data/product-category';
 
 export const productInfoSchema = z.object({
-  name: z.string().min(1, { message: 'Le nom est requis' }).max(255, {
-    message: 'Le nom est trop long',
-  }),
+  name: z
+    .string({ required_error: 'Le nom est requis' })
+    .min(3, {
+      message: 'Le nom doit contenir au moins 3 caractères',
+    })
+    .max(100, {
+      message: 'Le nom doit contenir au plus 100 caractères',
+    }),
   price: z
     .number({
       required_error: 'Le prix est requis',

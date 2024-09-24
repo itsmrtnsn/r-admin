@@ -3,7 +3,6 @@ import MotionProvider from '@/components/motion-provider';
 import StoreSidebar from '@/components/side-bar';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
-import React from 'react';
 
 interface LayoutProps {
   params: { store_identifier: string };

@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -13,13 +12,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
+import { Control, Controller, FieldError, useForm } from 'react-hook-form';
 import { productCategory } from '../data/product-category';
+import { productStatus } from '../data/product-status';
 import {
   productInfoSchema,
   type ProductInfo,
 } from '../schema/product-info-schema';
-import { productStatus } from '../data/product-status';
 
 interface ProductInfoFormProps {
   onSubmit: (data: ProductInfo) => void;
@@ -31,12 +30,14 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<ProductInfo>({
     resolver: zodResolver(productInfoSchema),
   });
 
   const handleFormSubmit = (data: ProductInfo) => {
     onSubmit(data);
+    reset();
   };
 
   return (
@@ -54,7 +55,7 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
         <CardContent>
           <div className='grid gap-8'>
             <div className='flex gap-3 items-center'>
-              <div className='w-full space-y-3'>
+              <div className='w-full space-y-3 text-xs'>
                 <Label htmlFor='name'>
                   <p
                     className={`transition-all duration-300 ${
@@ -130,10 +131,10 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
         </CardContent>
       </Card>
       {/* other section */}
-      <div className=''>
+      <div className='max-w-[20rem]'>
         <Card
           x-chunk='dashboard-07-chunk-2'
-          className='bg-muted max-w-[16rem] shadow-none  bg-white border-[0.1px] rounded-xl'
+          className='bg-muted  shadow-none  bg-white border-[0.1px] rounded-xl'
         >
           <CardHeader>
             <CardTitle>Catégorie de l'article</CardTitle>
@@ -159,7 +160,7 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
                       defaultValue={field.value}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a category' />
+                        <SelectValue placeholder='Product category' />
                       </SelectTrigger>
                       <SelectContent>
                         {productCategory.map((category) => (
@@ -192,7 +193,7 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
                       defaultValue={field.value}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a category' />
+                        <SelectValue placeholder='Product status' />
                       </SelectTrigger>
                       <SelectContent>
                         {productStatus.map((status) => (
@@ -222,3 +223,12 @@ const ProductInfoForm: React.FC<ProductInfoFormProps> = ({ onSubmit }) => {
 };
 
 export default ProductInfoForm;
+
+interface ProductInputProps {
+  label: string;
+  name: string;
+  control: Control<ProductInfo>;
+  error: FieldError;
+  [key: string]: any;
+  className?: string;
+}
