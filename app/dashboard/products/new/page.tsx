@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import ProductInfoForm from './product-info';
 import ProductCategoryForm from './product-category';
 import ProductStatusBadge from '../components/product-status-badge';
+import { FaClipboardCheck } from 'react-icons/fa';
+
 const NewProductPage = () => {
   const router = useRouter();
   return (
@@ -23,18 +25,19 @@ const NewProductPage = () => {
           <span className='sr-only'>Back</span>
         </Button>
         <h1 className='flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0'>
-          New Product
+          Créer un Article
         </h1>
         <ProductStatusBadge status='published' />
         <div className='hidden items-center gap-2 md:ml-auto md:flex'>
           <Button size='sm' variant='destructive'>
-            Discard Changes
+            Annuler
           </Button>
           <Button
             size='sm'
             className='text-white bg-gradient-to-r from-[#1488CC] to-[#2B32B2] hover:bg-primary transition-all ease-in-out '
           >
-            Save Product
+            <FaClipboardCheck className='mr-2' />
+            Enregistrer l'article
           </Button>
         </div>
       </div>

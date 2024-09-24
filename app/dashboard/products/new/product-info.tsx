@@ -17,7 +17,7 @@ const ProductInfoForm = () => {
       className='shadow-none bg-white border-[0.1px] rounded-xl pb-4'
     >
       <CardHeader>
-        <CardTitle>Product Details</CardTitle>
+        <CardTitle>Détails de l'article</CardTitle>
         {/* <CardDescription>
           • Enter a concise, memorable product name. • Provide a clear
           description highlighting key features and benefits.
@@ -27,7 +27,7 @@ const ProductInfoForm = () => {
         <div className='grid gap-8'>
           <div className='flex gap-3 items-center'>
             <div className='w-full'>
-              <Label htmlFor='name'>Name</Label>
+              <Label htmlFor='name'>Nom</Label>
               <Input
                 id='name'
                 type='text'
@@ -35,7 +35,7 @@ const ProductInfoForm = () => {
               />
             </div>
             <div className='w-full'>
-              <Label htmlFor='description'>Price</Label>
+              <Label htmlFor='description'>Prix</Label>
               <Input
                 id='description'
                 defaultValue=''
@@ -46,7 +46,7 @@ const ProductInfoForm = () => {
 
           <div className='flex gap-3 items-center'>
             <div className='w-full'>
-              <Label htmlFor='description'>Quantity</Label>
+              <Label htmlFor='description'>Quantité</Label>
               <Input
                 id='description'
                 defaultValue=''
@@ -54,7 +54,7 @@ const ProductInfoForm = () => {
               />
             </div>
             <div className='w-full'>
-              <Label htmlFor='description'>Theshold</Label>
+              <Label htmlFor='description'>Seuil</Label>
               <Input
                 id='description'
                 defaultValue=''

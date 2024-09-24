@@ -16,12 +16,12 @@ const ProductCategoryForm = () => {
       className='bg-muted max-w-[16rem] shadow-none  bg-white border-[0.1px] rounded-xl'
     >
       <CardHeader>
-        <CardTitle>Product Category</CardTitle>
+        <CardTitle>Catégorie de l'article</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='w-full'>
           <div className='grid gap-3'>
-            <Label htmlFor='category'>Category</Label>
+            <Label htmlFor='category'>Catégorie</Label>
             <Select defaultValue='clothing'>
               <SelectTrigger
                 id='category'
@@ -39,7 +39,7 @@ const ProductCategoryForm = () => {
           </div>
           <div className='mt-6 grid gap-3'>
             <Label htmlFor='status' className='text-'>
-              Status
+              Statut
             </Label>
             <Select defaultValue='draft'>
               <SelectTrigger id='status' aria-label='Select status'>

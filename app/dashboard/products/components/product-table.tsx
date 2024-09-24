@@ -1,8 +1,5 @@
 'use client';
 
-import { MoreHorizontal } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -12,13 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
   Table,
   TableBody,
   TableCell,
@@ -27,12 +17,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Product } from '../../types/product';
-import InventoryStatusBadge from './inventory-status-badge';
 import EmptyProductTable from './empty-product-table';
+import InventoryStatusBadge from './inventory-status-badge';
 
 interface Props {
   products: Product[];
 }
+
+const tableHeads = ['Item', 'Status', 'Prix', 'Categorie', 'Vente Totale'];
 
 export default function ProductTable({ products }: Props) {
   if (products.length === 0) {
@@ -44,9 +36,9 @@ export default function ProductTable({ products }: Props) {
       <CardHeader>
         <div className='flex justify-between items-center'>
           <div>
-            <CardTitle>Products</CardTitle>
+            <CardTitle>Produits</CardTitle>
             <CardDescription>
-              Manage your products and view their sales performance.
+              Gérez vos produits et visualisez leurs performances de vente.
             </CardDescription>
           </div>
         </div>
@@ -55,23 +47,15 @@ export default function ProductTable({ products }: Props) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Price</TableHead>
-
-              <TableHead className='hidden md:table-cell'>Category</TableHead>
-              <TableHead className='hidden md:table-cell'>
-                Total Sales
-              </TableHead>
-              <TableHead>
-                <span className='sr-only'>Actions</span>
-              </TableHead>
+              {tableHeads.map((head) => (
+                <TableHead key={head}>{head}</TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
               <TableRow key={product.id} className='cursor-pointer font-normal'>
-                <TableCell className='text-sm'>{product.name}</TableCell>
+                <TableCell className='text-sm py-3.5'>{product.name}</TableCell>
                 <TableCell>
                   <InventoryStatusBadge status={product.status} />
                 </TableCell>
@@ -83,23 +67,9 @@ export default function ProductTable({ products }: Props) {
                   {product.totalSales}
                 </TableCell>
 
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup='true' size='icon' variant='ghost'>
-                        <MoreHorizontal className='h-4 w-4' />
-                        <span className='sr-only'>Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>
-                        {/* <DeleteProductDialog /> */}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
+                {/* <TableCell>
+                  <ProductAction />
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
