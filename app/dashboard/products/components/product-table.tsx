@@ -19,6 +19,7 @@ import {
 import { Product } from '../../types/product';
 import EmptyProductTable from './empty-product-table';
 import InventoryStatusBadge from './inventory-status-badge';
+import Pagination from '@/components/pagination';
 
 interface Props {
   products: Product[];
@@ -75,11 +76,18 @@ export default function ProductTable({ products }: Props) {
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter>
-        <div className='text-xs text-muted-foreground'>
-          Showing <strong>1-{products.length}</strong> of{' '}
-          <strong>{products.length}</strong> products
-        </div>
+      <CardFooter className='w-full'>
+        <Pagination
+          itemsPerPage={10}
+          totalPages={10}
+          currentPage={1}
+          handleItemsPerPageChange={(value: string) => {
+            console.log(value);
+          }}
+          handlePageChange={(value: number) => {
+            console.log(value);
+          }}
+        />
       </CardFooter>
     </Card>
   );

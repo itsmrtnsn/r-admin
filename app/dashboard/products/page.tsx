@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { IoMdAdd } from 'react-icons/io';
+import Pagination from '@/components/pagination';
 
 const ProductsPage = async () => {
   const products = await getProducts();
