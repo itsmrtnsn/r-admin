@@ -2,7 +2,7 @@ import Header from '@/components/dashboard-header';
 import MotionProvider from '@/components/motion-provider';
 import StoreSidebar from '@/components/side-bar';
 import { Card, CardContent } from '@/components/ui/card';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface LayoutProps {
   params: { store_identifier: string };
@@ -12,7 +12,7 @@ interface LayoutProps {
 const layout = ({ children, params }: LayoutProps) => {
   return (
     <section>
-      <div className='min-h-screen  p-4 flex gap-4 bg-slate-50'>
+      <div className='min-h-screen  p-4 flex gap-4 bg-slate-50 dark:bg-slate-900'>
         {/* Sidebar */}
         <StoreSidebar />
         {/* Main Content */}

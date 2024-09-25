@@ -16,22 +16,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Product } from '../../types/product';
-import EmptyProductTable from './empty-product-table';
-import InventoryStatusBadge from './inventory-status-badge';
+
 import Pagination from '@/components/pagination';
+import { Product } from '@prisma/client';
+import InventoryStatusBadge from './inventory-status-badge';
 
 interface Props {
-  products: Product[];
+  products: (Product & { category: { name: string }; quantitySold: number })[];
+  totalPages: number;
+  currentPage: number;
+  itemsPerPage: number;
 }
 
-const tableHeads = ['Item', 'Status', 'Prix', 'Categorie', 'Vente Totale'];
+const tableHeads = ['Item', 'Statut', 'Prix', 'Categorie', 'Vente Totale'];
 
-export default function ProductTable({ products }: Props) {
-  if (products.length === 0) {
-    return <EmptyProductTable />;
-  }
-
+export default function ProductTable({
+  products,
+  totalPages,
+  currentPage,
+  itemsPerPage,
+}: Props) {
   return (
     <Card className='shadow-none bg-white border-[0.1px] rounded-xl'>
       <CardHeader>
@@ -58,19 +62,19 @@ export default function ProductTable({ products }: Props) {
               <TableRow key={product.id} className='cursor-pointer font-normal'>
                 <TableCell className='text-sm py-3.5'>{product.name}</TableCell>
                 <TableCell>
-                  <InventoryStatusBadge status={product.status} />
+                  <InventoryStatusBadge
+                    status={product.status}
+                    quantityInStock={product.quantityInStock}
+                    threshold={product.threshold}
+                  />
                 </TableCell>
-                <TableCell className=''>{product.price.toFixed(2)}</TableCell>
+                <TableCell className=''>{product.price}</TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {product.category}
+                  {product.category.name}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {product.totalSales}
+                  {product.quantitySold}
                 </TableCell>
-
-                {/* <TableCell>
-                  <ProductAction />
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -78,15 +82,9 @@ export default function ProductTable({ products }: Props) {
       </CardContent>
       <CardFooter className='w-full'>
         <Pagination
-          itemsPerPage={10}
-          totalPages={10}
-          currentPage={1}
-          handleItemsPerPageChange={(value: string) => {
-            console.log(value);
-          }}
-          handlePageChange={(value: number) => {
-            console.log(value);
-          }}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
         />
       </CardFooter>
     </Card>

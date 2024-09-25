@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { geistSans } from './fonts';
 import './globals.css';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,7 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={cn('antialiased', geistSans.className)}>{children}</body>
+      <body
+        className={cn('antialiased', geistSans.className)}
+        suppressHydrationWarning
+      >
+        <ThemeProvider attribute='class' defaultTheme='light'>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

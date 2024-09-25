@@ -46,7 +46,7 @@ const StoreSidebar = () => {
           initial={false}
           animate={{ width: isSidebarOpen ? '16rem' : '5rem' }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className='h-full bg-white dark:bg-muted/40 flex-shrink-0 overflow-hidden'
+          className='h-full bg-white dark:bg-card flex-shrink-0 overflow-hidden'
         >
           <div className='p-4 h-full flex flex-col'>
             <div className='flex items-center justify-between mb-6'>
@@ -79,7 +79,7 @@ const StoreSidebar = () => {
                               'w-full justify-between  transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
-                                'bg-gradient-to-r text-white from-[#091E3A] via-[#2F80ED] to-[#2D9EE0]',
+                                'bg-gradient-to-r from-[#00d2ff] to-[#3a7bd5] text-white',
                               activeMenu === item.name && 'rounded-lg'
                             )}
                             onClick={() => {
@@ -115,8 +115,9 @@ const StoreSidebar = () => {
                               >
                                 {/* {item.icon} */}
                                 <item.icon
-                                  className={cn('h-5 w-5 text-blue-400', {
+                                  className={cn('h-5 w-5 text-blue-500', {
                                     'text-white h-4 w-4': !isSidebarOpen,
+                                    'text-white': activeMenu === item.name,
                                   })}
                                 />
                               </motion.div>
