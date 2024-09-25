@@ -1,9 +1,5 @@
-'use client';
-
 import { Card, CardContent } from '@/components/ui/card';
-import Cart from './cart';
 import ProductCard from './product-card';
-import ItemsGrid from './items-grid';
 
 const products: {
   id: string;
@@ -25,17 +21,18 @@ const products: {
   { id: '12', name: 'Espresso Martini', price: 10.0, category: 'Cocktails' },
 ];
 
-const SalesPage = () => {
+const ItemsGrid = () => {
   return (
-    <div className='grid grid-cols-[1fr_auto] gap-4 overflow-hidden'>
-      <div className=''>
-        <ItemsGrid />
-      </div>
-      <div className='w-[23rem]'>
-        <Cart />
-      </div>
-    </div>
+    <Card className='overflow-y-auto shadow-none border-[0.1px] border-slate-200 dark:border-slate-700 h-[calc(83vh-64px)] pt-4'>
+      <CardContent>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
-export default SalesPage;
+export default ItemsGrid;
