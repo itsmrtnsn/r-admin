@@ -20,6 +20,7 @@ import {
 import Pagination from '@/components/pagination';
 import { Product } from '@prisma/client';
 import InventoryStatusBadge from './inventory-status-badge';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface Props {
   products: (Product & { category: { name: string }; quantitySold: number })[];
@@ -28,7 +29,14 @@ interface Props {
   itemsPerPage: number;
 }
 
-const tableHeads = ['Item', 'Statut', 'Prix', 'Categorie', 'Vente Totale'];
+const tableHeads = [
+  'Item',
+  'Prix',
+  'Categorie',
+  'Total Vente',
+  'Statut',
+  'Action',
+];
 
 export default function ProductTable({
   products,
@@ -52,28 +60,37 @@ export default function ProductTable({
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>
+                <Checkbox></Checkbox>
+              </TableHead>
               {tableHeads.map((head) => (
-                <TableHead key={head}>{head}</TableHead>
+                <TableHead key={head} className='text-sm font-medium'>
+                  {head}
+                </TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow key={product.id} className='cursor-pointer font-normal'>
-                <TableCell className='text-sm py-3.5'>{product.name}</TableCell>
+              <TableRow
+                key={product.id}
+                className='cursor-pointer font-light text-sm text-slate-900'
+              >
+                <TableCell>
+                  <Checkbox />
+                </TableCell>
+                <TableCell className='py-3.5'>{product.name}</TableCell>
+
+                <TableCell className=''>{product.price}</TableCell>
+
+                <TableCell className=''>{product.category.name}</TableCell>
+                <TableCell className=''>{product.quantitySold}</TableCell>
                 <TableCell>
                   <InventoryStatusBadge
                     status={product.status}
                     quantityInStock={product.quantityInStock}
                     threshold={product.threshold}
                   />
-                </TableCell>
-                <TableCell className=''>{product.price}</TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {product.category.name}
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {product.quantitySold}
                 </TableCell>
               </TableRow>
             ))}

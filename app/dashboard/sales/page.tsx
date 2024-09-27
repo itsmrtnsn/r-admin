@@ -4,6 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import Cart from './cart';
 import ProductCard from './product-card';
 import ItemsGrid from './items-grid';
+import ProductSearch from '../products/components/product-search';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import UserAvatar from '@/components/user-avatar';
 
 const products: {
   id: string;
@@ -27,11 +30,20 @@ const products: {
 
 const SalesPage = () => {
   return (
-    <div className='grid grid-cols-[1fr_auto] gap-4 overflow-hidden'>
-      <div className=''>
-        <ItemsGrid />
-      </div>
-      <div className='w-[23rem]'>
+    <div className='grid grid-cols-[1fr_auto] gap-4 overflow-hidden  rounded-lg p-4'>
+      <Card className='border-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]'>
+        <CardContent className=''>
+          <div className='mt-4 mb-8 flex items-center justify-between'>
+            <ProductSearch />
+            <UserAvatar />
+          </div>
+          <ScrollArea className='h-[calc(86vh-4rem)]'>
+            <ItemsGrid />
+            <ScrollBar />
+          </ScrollArea>
+        </CardContent>
+      </Card>
+      <div className='w-[22rem]'>
         <Cart />
       </div>
     </div>
