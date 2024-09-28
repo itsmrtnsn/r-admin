@@ -1,6 +1,8 @@
-import { receiptData } from './data';
+interface Props {
+  transactionId: string;
+}
 
-const BarCode = () => {
+const BarCode = ({ transactionId }: Props) => {
   return (
     <div className='flex flex-col items-center mt-4'>
       <div className='bg-white'>
@@ -18,7 +20,7 @@ const BarCode = () => {
         </svg>
       </div>
       <p className='text-center text-[10px] text-gray-400 mt-1'>
-        {receiptData.transactionId}
+        {transactionId}
       </p>
     </div>
   );

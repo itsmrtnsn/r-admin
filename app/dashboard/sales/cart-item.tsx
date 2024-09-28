@@ -18,19 +18,16 @@ const CartItem = ({ item }: CartItemProps) => {
         <h4 className='font-medium  text-sm truncate max-w-[60%]'>
           {item.product.name}
         </h4>
-
-        <Button
-          size='icon'
-          variant='ghost'
-          className='text-red-400 bg-gray-100 rounded-full transition-colors duration-300 h-6 w-6'
-          onClick={() => removeItem(item.product.id)}
-        >
-          <X className='h-4 w-4' />
-        </Button>
       </div>
       <div className='flex items-center justify-between mt-2'>
-        <div className='flex items-center font-medium text-sm text-blue-500'>
+        <div className='flex items-center font-semibold text-sm text-blue-500'>
           <p> {item.product.price}</p> <span>x</span> <p>{item.quantity}</p>
+          <p
+            className='font-medium text-xs text-red-500 ml-2 cursor-pointer hover:text-red-800'
+            onClick={() => removeItem(item.product.id)}
+          >
+            remove
+          </p>
         </div>
 
         <div className='flex items-center space-x-1 border-[0.1px] border-gray-400 rounded-full px-1 py-0.5'>
@@ -49,6 +46,7 @@ const CartItem = ({ item }: CartItemProps) => {
             size='icon'
             variant='ghost'
             className='rounded-full h-6 w-6 hover:bg-gray-600'
+            disabled={item.quantity >= item.product.quantityInStock}
             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
           >
             <Plus className='h-3 w-3 text-blue-400' />

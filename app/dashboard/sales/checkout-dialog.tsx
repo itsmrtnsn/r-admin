@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -7,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -14,19 +16,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useState } from 'react';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { motion } from 'framer-motion';
-import { CreditCard, Smartphone, DollarSign, FileText } from 'lucide-react';
-import MagicStudioReceipt from './_receipt/bar-receipt';
 import { Switch } from '@/components/ui/switch';
+import { motion } from 'framer-motion';
+import { CreditCard, DollarSign, FileText, Smartphone } from 'lucide-react';
+import { useState } from 'react';
+import MagicStudioReceipt from './_receipt/bar-receipt';
+import { Data } from './types/product';
 
 type CheckoutDialogProps = {
   subTotal: number;
   discount: number;
   total: number;
+  transactionId: string;
+  cashier: string;
+  products: Data[];
 };
 
 const paymentOptions = [
@@ -40,6 +44,9 @@ export function CheckoutDialog({
   subTotal,
   discount,
   total,
+  transactionId,
+
+  cashier,
 }: CheckoutDialogProps) {
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<string>('cash');
@@ -49,6 +56,8 @@ export function CheckoutDialog({
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
+
+  const customerChange = cashReceived || 0 - total;
 
   const handleCompletePayment = () => {
     if (isRoomCharge && !roomNumber) {
@@ -216,7 +225,17 @@ export function CheckoutDialog({
             </CardFooter>
           </Card>
         ) : (
-          <MagicStudioReceipt />
+          <MagicStudioReceipt
+            transactionId={transactionId}
+            cashier={cashier}
+            items={[]}
+            subtotal={subTotal}
+            discount={discount}
+            total={total}
+            amountReceived={cashReceived!}
+            change={customerChange}
+            paymentMethod={selectedPaymentOption}
+          />
         )}
       </DialogContent>
       {showReceiptDialog && (

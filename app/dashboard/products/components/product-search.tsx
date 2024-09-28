@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import useQueryParameter from '@/app/hooks/use-query-parameter';
 
 export default function ProductSearch() {
   const [isFocused, setIsFocused] = useState(false);
+  const { handleQuery } = useQueryParameter('product_search');
 
   return (
     <div className='relative w-full max-w-sm'>
@@ -20,6 +22,7 @@ export default function ProductSearch() {
         <Search className='w-5 h-5 text-gray-400' />
       </div>
       <Input
+        onChange={(value) => handleQuery(value.target.value)}
         type='search'
         placeholder='Search...'
         className={cn(
@@ -30,13 +33,6 @@ export default function ProductSearch() {
         )}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-      />
-      <div
-        className={`
-          absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary
-          transition-all duration-300 ease-in-out
-          ${isFocused ? 'w-full left-0' : ''}
-        `}
       />
     </div>
   );

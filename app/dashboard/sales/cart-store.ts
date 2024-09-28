@@ -6,6 +6,7 @@ interface Product {
   name: string;
   price: number;
   category: string;
+  quantityInStock: number;
 }
 
 export interface CartItem {
@@ -36,7 +37,16 @@ export const useCartStore = create<CartStore>()(
             return {
               items: state.items.map((item) =>
                 item.product.id === product.id
-                  ? { ...item, quantity: item.quantity + 1 }
+                  ? {
+                      ...item,
+                      quantity: Math.max(
+                        1,
+                        Math.min(
+                          item.quantity + 1,
+                          item.product.quantityInStock
+                        )
+                      ),
+                    }
                   : item
               ),
             };
@@ -54,7 +64,13 @@ export const useCartStore = create<CartStore>()(
           items: state.items
             .map((item) =>
               item.product.id === productId
-                ? { ...item, quantity: Math.max(0, quantity) }
+                ? {
+                    ...item,
+                    quantity: Math.max(
+                      0,
+                      Math.min(quantity, item.product.quantityInStock)
+                    ),
+                  }
                 : item
             )
             .filter((item) => item.quantity > 0),
