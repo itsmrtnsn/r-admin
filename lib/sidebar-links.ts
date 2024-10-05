@@ -111,27 +111,13 @@ const sidebarItems: {
         icon: MdDashboardCustomize,
         path: '/settings/account',
       },
-      {
-        name: 'API',
-        icon: MdDashboardCustomize,
-        path: '/settings/api',
-      },
+
       {
         name: 'Notifications',
         icon: MdDashboardCustomize,
         path: '/settings/notifications',
       },
-      {
-        name: 'Integrations',
-        icon: MdDashboardCustomize,
-        path: '/settings/integrations',
-      },
 
-      {
-        name: 'Organization',
-        icon: MdDashboardCustomize,
-        path: '/settings/organization',
-      },
       {
         name: 'Preferences',
         icon: MdDashboardCustomize,

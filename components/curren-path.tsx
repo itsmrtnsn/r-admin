@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,27 +8,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { usePathname } from 'next/navigation';
 
 import React from 'react';
 
 const CurrentPath = () => {
+  const pathName = usePathname();
+  const paths = pathName.split('/').slice(1);
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink className='text-base' href='/'>
-            Home
+          <BreadcrumbLink href={`/${paths[0]}`} className='text-base'>
+            {capitalizeFirstLetter(paths[0])}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href='/components' className='text-base'>
-            Components
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage className='text-base'>Breadcrumb</BreadcrumbPage>
+          <BreadcrumbPage className='text-base'>
+            {capitalizeFirstLetter(paths[1])}
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -34,3 +36,8 @@ const CurrentPath = () => {
 };
 
 export default CurrentPath;
+
+const capitalizeFirstLetter = (word: string) => {
+  if (!word) return '';
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
