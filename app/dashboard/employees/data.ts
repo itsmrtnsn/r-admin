@@ -1,0 +1,42 @@
+export const tableData = [
+  {
+    employee_id: '123456',
+    first_name: 'John',
+    last_name: 'Doe',
+    phone_number: '09123456789',
+    position: 'Software Engineer',
+    shift: '09:00 AM - 05:00 PM',
+  },
+  {
+    employee_id: '123457',
+    first_name: 'Jane',
+    last_name: 'Smith',
+    phone_number: '09123456789',
+    position: 'Software Engineer',
+    shift: '09:00 AM - 05:00 PM',
+  },
+  {
+    employee_id: '123458',
+    first_name: 'Alice',
+    last_name: 'Johnson',
+    phone_number: '09123456789',
+    position: 'Software Engineer',
+    shift: '09:00 AM - 05:00 PM',
+  },
+  {
+    employee_id: '123459',
+    first_name: 'Bob',
+    last_name: 'Brown',
+    phone_number: '09123456789',
+    position: 'Software Engineer',
+    shift: '09:00 AM - 05:00 PM',
+  },
+  {
+    employee_id: '123460',
+    first_name: 'Charlie',
+    last_name: 'Davis',
+    phone_number: '09123456789',
+    position: 'Software Engineer',
+    shift: '09:00 AM - 05:00 PM',
+  },
+];

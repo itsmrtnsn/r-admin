@@ -55,7 +55,7 @@ const sidebarItems: {
       {
         name: 'Attendance',
         icon: MdDashboardCustomize,
-        path: '/attendance',
+        path: '/dashboard/attendance',
       },
       {
         name: 'Attendance Report',

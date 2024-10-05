@@ -16,7 +16,7 @@ const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
   return (
     <div className='flex w-full flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0'>
       <div className='flex items-center space-x-2'>
-        <p className='text-xs text-gray-500'>
+        <p className='text-sm text-gray-500'>
           Afficher {itemsPerPage} articles par page
         </p>
       </div>
@@ -31,7 +31,7 @@ const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
         >
           <ChevronLeft className='h-4 w-4' />
         </Button>
-        <p className='text-xs text-gray-500'>
+        <p className='text-sm text-gray-500'>
           Page {currentPage} of {totalPages}
         </p>
         <Button

@@ -1,67 +1,35 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import EmployeeStatusBadge from './employee-status-badge';
 
 const tableHeaders = [
-  { label: 'EmployeeID', value: 'employee_id' },
-  { label: 'Name', value: 'name' },
-  { label: 'Status', value: 'status' },
-  { label: 'Check In', value: 'check_in' },
-  { label: 'Check Out', value: 'check_out' },
-  { label: 'Date', value: 'date' },
+  { label: 'Employee ID', value: 'employee_id' },
+  { label: 'First Name', value: 'first_name' },
+  { label: 'Last Name', value: 'last_name' },
+  { label: 'Phone Number', value: 'phone_number' },
+  { label: 'Position', value: 'position' },
+  { label: 'Shift', value: 'shift' },
 ];
 
-const tableData = [
-  {
-    employee_id: '123456',
-    name: 'John Doe',
-    status: 'present',
-    check_in: '09:00 AM',
-    check_out: '05:00 PM',
-    date: '2024-01-01',
-  },
-  {
-    employee_id: '123457',
-    name: 'Jane Smith',
-    status: 'present',
-    check_in: '09:05 AM',
-    check_out: '05:10 PM',
-    date: '2024-01-01',
-  },
-  {
-    employee_id: '123458',
-    name: 'Alice Johnson',
-    status: 'absent',
-    check_in: '-',
-    check_out: '-',
-    date: '2024-01-01',
-  },
-  {
-    employee_id: '123459',
-    name: 'Bob Brown',
-    status: 'present',
-    check_in: '09:00 AM',
-    check_out: '05:00 PM',
-    date: '2024-01-01',
-  },
-  {
-    employee_id: '123460',
-    name: 'Charlie Davis',
-    status: 'late',
-    check_in: '09:15 AM',
-    check_out: '05:00 PM',
-    date: '2024-01-01',
-  },
-];
+type Employee = {
+  employee_id: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  position: string;
+  shift: string;
+};
 
-const EmployeeTable = () => {
+interface Props {
+  employees: Employee[];
+}
+
+const EmployeeTable = ({ employees }: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -74,16 +42,24 @@ const EmployeeTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tableData.map((data) => (
+        {employees.map((employee) => (
           <TableRow className='h-12'>
-            <TableCell className='text-slate-700'>{data.employee_id}</TableCell>
-            <TableCell className='text-slate-950'>{data.name}</TableCell>
-            <TableCell>
-              <EmployeeStatusBadge status={data.status} />
+            <TableCell className='text-slate-700'>
+              {employee.employee_id}
             </TableCell>
-            <TableCell className='text-slate-950'>{data.check_in}</TableCell>
-            <TableCell className='text-slate-700'>{data.check_out}</TableCell>
-            <TableCell className='text-slate-700'>{data.date}</TableCell>
+            <TableCell className='text-slate-700'>
+              {employee.first_name}
+            </TableCell>
+            <TableCell className='text-slate-700'>
+              {employee.last_name}
+            </TableCell>
+            <TableCell className='text-slate-700'>
+              {employee.phone_number}
+            </TableCell>
+            <TableCell className='text-slate-700'>
+              {employee.position}
+            </TableCell>
+            <TableCell className='text-slate-700'>{employee.shift}</TableCell>
           </TableRow>
         ))}
       </TableBody>
