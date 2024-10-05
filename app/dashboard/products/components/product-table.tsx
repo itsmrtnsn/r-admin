@@ -74,7 +74,7 @@ export default function ProductTable({
             {products.map((product) => (
               <TableRow
                 key={product.id}
-                className='cursor-pointer font-light text-sm text-slate-900'
+                className='cursor-pointer text-sm text-slate-900'
               >
                 <TableCell>
                   <Checkbox />

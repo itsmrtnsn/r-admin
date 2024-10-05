@@ -50,7 +50,7 @@ const sidebarItems: {
       {
         name: 'Employees',
         icon: MdDashboardCustomize,
-        path: '/employees',
+        path: '/dashboard/employees',
       },
       {
         name: 'Attendance',
@@ -58,9 +58,9 @@ const sidebarItems: {
         path: '/attendance',
       },
       {
-        name: 'Products',
+        name: 'Attendance Report',
         icon: MdDashboardCustomize,
-        path: '/dashboard/products',
+        path: '/dashboard/attendance-report',
       },
     ],
   },
