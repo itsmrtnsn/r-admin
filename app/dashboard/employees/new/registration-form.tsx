@@ -15,35 +15,14 @@ import { toast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { EmployeeFormData, registerEmployee } from './actions';
-
-const employeeSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number'),
-  department: z.enum(['engineering', 'marketing', 'sales', 'hr', 'finance']),
-  startDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: 'Invalid date format',
-  }),
-  shiftStart: z
-    .string()
-    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Invalid time format'),
-  shiftEnd: z
-    .string()
-    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Invalid time format'),
-  dayOff: z.enum([
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ]),
-  gender: z.enum(['male', 'female', 'other']),
-});
+import { registerEmployee } from './actions';
+import {
+  dayOff,
+  EmployeeFormData,
+  employeeSchema,
+  gender,
+} from './employee-schema';
+import { InputFields } from './input-fields';
 
 export default function EmployeeRegistrationForm() {
   const [serverErrors, setServerErrors] = useState<
@@ -77,41 +56,10 @@ export default function EmployeeRegistrationForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='p-6 bg-white  transition-transform '
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className='p-6'>
       <div className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {[
-            {
-              label: 'First Name',
-              name: 'firstName',
-              type: 'text',
-              placeholder: 'John',
-            },
-            {
-              label: 'Last Name',
-              name: 'lastName',
-              type: 'text',
-              placeholder: 'Doe',
-            },
-            {
-              label: 'Email',
-              name: 'email',
-              type: 'email',
-              placeholder: 'john.doe@company.com',
-            },
-            {
-              label: 'Phone Number',
-              name: 'phone',
-              type: 'tel',
-              placeholder: '+1 (555) 123-4567',
-            },
-            { label: 'Start Date', name: 'startDate', type: 'date' },
-            { label: 'Shift Start', name: 'shiftStart', type: 'time' },
-            { label: 'Shift End', name: 'shiftEnd', type: 'time' },
-          ].map(({ label, name, type, placeholder }) => (
+          {InputFields.map(({ label, name, type, placeholder }) => (
             <div className='space-y-2' key={name}>
               <Label htmlFor={name} className='font-semibold'>
                 {label}
@@ -121,7 +69,7 @@ export default function EmployeeRegistrationForm() {
                 type={type}
                 {...register(name as keyof EmployeeFormData)}
                 placeholder={placeholder}
-                className='border-[0.1px] h-10 border-slate-300 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'
+                className='border-[0.1px] h-10 border-slate-300 shadow-none rounded-md p-2 focus:border-slate-500 focus:outline-none  focus:ring-slate-300 focus:ring-2 transition duration-200'
               />
               {errors[name as keyof EmployeeFormData] && (
                 <p className='text-xs text-red-500 animate-pulse'>
@@ -147,8 +95,8 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select a department' />
+                  <SelectTrigger className='border-[0.1px] h-10 border-slate-300 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                    <SelectValue placeholder='Sélectionnez un département' />
                   </SelectTrigger>
                   <SelectContent>
                     {['engineering', 'marketing', 'sales', 'hr', 'finance'].map(
@@ -175,7 +123,7 @@ export default function EmployeeRegistrationForm() {
           </div>
           <div className='space-y-2'>
             <Label htmlFor='dayOff' className='font-semibold'>
-              Day Off
+              Jour de repos
             </Label>
             <Controller
               name='dayOff'
@@ -185,19 +133,11 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select day off' />
+                  <SelectTrigger className='border-[0.1px] h-10 border-slate-300 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                    <SelectValue placeholder='Sélectionnez un jour de repos' />
                   </SelectTrigger>
                   <SelectContent>
-                    {[
-                      'monday',
-                      'tuesday',
-                      'wednesday',
-                      'thursday',
-                      'friday',
-                      'saturday',
-                      'sunday',
-                    ].map((day) => (
+                    {dayOff.map((day) => (
                       <SelectItem key={day} value={day}>
                         {day.charAt(0).toUpperCase() + day.slice(1)}
                       </SelectItem>
@@ -218,7 +158,7 @@ export default function EmployeeRegistrationForm() {
             )}
           </div>
           <div className='space-y-2'>
-            <Label className='font-semibold'>Gender</Label>
+            <Label className='font-semibold'>Genre</Label>
             <Controller
               name='gender'
               control={control}
@@ -228,7 +168,7 @@ export default function EmployeeRegistrationForm() {
                   defaultValue={field.value}
                   className='flex space-x-4'
                 >
-                  {['male', 'female', 'other'].map((gender) => (
+                  {gender.map((gender) => (
                     <div className='flex items-center space-x-2' key={gender}>
                       <RadioGroupItem
                         value={gender}
