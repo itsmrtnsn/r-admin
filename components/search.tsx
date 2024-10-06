@@ -10,7 +10,7 @@ const Search = () => {
         placeholder='Search employees...'
         // value={searchQuery}
         // onChange={(e) => setSearchQuery(e.target.value)}
-        className='pl-8 w-full md:w-[300px] h-10 shadow-none border-[0.1px] border-slate-300'
+        className='pl-8 w-full md:w-[300px] h-10 shadow-none border-[0.1px] bg-black'
       />
     </div>
   );

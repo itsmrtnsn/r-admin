@@ -19,7 +19,7 @@ const Employees = () => {
       </div>
       <EmployeeSummaryCard />
 
-      <Card className='border-[0.1px] border-slate-300 shadow-none flex-1'>
+      <Card className='border-[0.1px] bg-background shadow-none flex-1'>
         <CardHeader>
           <div className='flex items-center gap-2 justify-between'>
             <Search />

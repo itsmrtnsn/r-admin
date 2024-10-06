@@ -19,16 +19,25 @@ export function DatePicker() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant={'outline'}
-          className={cn(
-            'w-[280px] justify-start text-left font-normal h-10 shadow-none border-[0.1px] border-slate-300',
-            !date && 'text-muted-foreground'
-          )}
-        >
-          <CalendarIcon className='mr-2 h-4 w-4' />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button
+            variant={'outline'}
+            className={cn(
+              'w-[200px] justify-start text-left font-normal h-10 shadow-none border-[0.1px] bg-background',
+              !date && 'text-muted-foreground'
+            )}
+          >
+            <CalendarIcon className='mr-2 h-4 w-4' />
+            {date ? format(date, 'PPP') : <span>Choisir une date</span>}
+          </Button>
+          <Button
+            disabled={!date}
+            variant={'secondary'}
+            className='font-normal'
+          >
+            Sumettre
+          </Button>
+        </div>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0'>
         <Calendar

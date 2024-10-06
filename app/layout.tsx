@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
-import { geistSans } from './fonts';
+import { geistSans, inter } from './fonts';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -17,10 +17,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={cn('antialiased', geistSans.className)}
+        className={cn('antialiased', inter.className)}
         suppressHydrationWarning
       >
-        <ThemeProvider attribute='class' defaultTheme='light'>
+        <ThemeProvider attribute='class' defaultTheme='dark'>
           {children}
         </ThemeProvider>
       </body>

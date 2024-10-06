@@ -10,22 +10,27 @@ export const dayOff = [
 ] as const;
 
 export const gender = ['masculin', 'féminin'] as const;
+
 export const employeeSchema = z.object({
   firstName: z
     .string({
       required_error: 'Le prénom est requis',
+      invalid_type_error: 'Le prénom doit être une chaîne de caractères',
     })
-    .min(2, 'Le prénom doit contenir au moins 3 caractères')
+    .min(3, 'Le prénom doit contenir au moins 3 caractères')
     .max(50, 'Le prénom doit contenir au plus 50 caractères'),
   lastName: z
     .string({
       required_error: 'Le nom est requis',
+      invalid_type_error:
+        'le nom de famille doit être une chaîne de caractères',
     })
-    .min(2, 'Le nom doit contenir au moins 3 caractères')
+    .min(3, 'Le nom doit contenir au moins 3 caractères')
     .max(50, 'Le nom doit contenir au plus 50 caractères'),
   email: z
     .string({
       required_error: "L'adresse e-mail est requise",
+      invalid_type_error: 'Adresse e-mail invalide',
     })
     .email('Adresse e-mail invalide'),
   phone: z
@@ -34,9 +39,13 @@ export const employeeSchema = z.object({
     })
     .regex(/^\+?[1-9]\d{1,14}$/, 'Numéro de téléphone invalide'),
   department: z.enum(['engineering', 'marketing', 'sales', 'hr', 'finance']),
-  startDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: 'Format de date invalide',
-  }),
+  position: z
+    .string({
+      invalid_type_error: 'le position doit être une chaîne de caractères',
+      required_error: 'position est requis',
+    })
+    .min(5, { message: 'Le position doit contenir au moins 5 caractères' })
+    .max(50, { message: 'Le nom doit contenir au plus 5 caractères' }),
   shiftStart: z
     .string()
     .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Format de temps invalide'),

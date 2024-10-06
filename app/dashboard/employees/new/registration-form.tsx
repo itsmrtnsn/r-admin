@@ -56,12 +56,12 @@ export default function EmployeeRegistrationForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='p-6'>
+    <form onSubmit={handleSubmit(onSubmit)} className='p-4'>
       <div className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {InputFields.map(({ label, name, type, placeholder }) => (
             <div className='space-y-2' key={name}>
-              <Label htmlFor={name} className='font-semibold'>
+              <Label htmlFor={name} className='text-sm font-medium'>
                 {label}
               </Label>
               <Input
@@ -69,7 +69,7 @@ export default function EmployeeRegistrationForm() {
                 type={type}
                 {...register(name as keyof EmployeeFormData)}
                 placeholder={placeholder}
-                className='border-[0.1px] h-10 border-slate-300 shadow-none rounded-md p-2 focus:border-slate-500 focus:outline-none  focus:ring-slate-300 focus:ring-2 transition duration-200'
+                className='border-[0.1px] h-10 shadow-none bg-black rounded-md p-2 focus:border-blue-500 focus:outline-none  focus:ring-blue-600 focus:ring-2 transition duration-300'
               />
               {errors[name as keyof EmployeeFormData] && (
                 <p className='text-xs text-red-500 animate-pulse'>
@@ -84,7 +84,7 @@ export default function EmployeeRegistrationForm() {
             </div>
           ))}
           <div className='space-y-2'>
-            <Label htmlFor='department' className='font-semibold'>
+            <Label htmlFor='department' className='font-medium'>
               Department
             </Label>
             <Controller
@@ -95,7 +95,7 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className='border-[0.1px] h-10 border-slate-300 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un département' />
                   </SelectTrigger>
                   <SelectContent>
@@ -122,7 +122,7 @@ export default function EmployeeRegistrationForm() {
             )}
           </div>
           <div className='space-y-2'>
-            <Label htmlFor='dayOff' className='font-semibold'>
+            <Label htmlFor='dayOff' className='font-medium'>
               Jour de repos
             </Label>
             <Controller
@@ -133,7 +133,7 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className='border-[0.1px] h-10 border-slate-300 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un jour de repos' />
                   </SelectTrigger>
                   <SelectContent>
@@ -157,8 +157,8 @@ export default function EmployeeRegistrationForm() {
               </p>
             )}
           </div>
-          <div className='space-y-2'>
-            <Label className='font-semibold'>Genre</Label>
+          <div className='space-y-2 mt-3'>
+            <Label className='font-medium'>Genre</Label>
             <Controller
               name='gender'
               control={control}
@@ -200,7 +200,7 @@ export default function EmployeeRegistrationForm() {
           <Button
             type='submit'
             size='lg'
-            className='h-12 w-[250px] bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700 transition duration-200'
+            className='h-10 w-[230px] text-base font-normal bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700 transition duration-200'
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Registering...' : 'Register Employee'}

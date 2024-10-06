@@ -69,13 +69,15 @@ const AttendanceReportTable = () => {
       <TableHeader>
         <TableRow>
           {tableHeadeers.map((header, index) => (
-            <TableHead key={index}>{header.label}</TableHead>
+            <TableHead key={index} className='font-medium'>
+              {header.label}
+            </TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {attendanceData.map((item, index) => (
-          <TableRow key={index} className='h-12'>
+          <TableRow key={index} className='h-12 text-sms'>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.present}</TableCell>
             <TableCell>{item.absent}</TableCell>

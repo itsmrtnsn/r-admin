@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Calendar, Clock, Users } from 'lucide-react';
 
 const reportSummary = [
@@ -33,11 +34,19 @@ const AttendanceReportSummary = () => {
           className='shadow-none border-[0.1px] border-slate-300'
         >
           <CardHeader className='flex flex-row items-center justify-between space-y-0 '>
-            <CardTitle className='text-xs font-normal'>{item.name}</CardTitle>
-            <item.icon className='h-4 w-4 text-muted-foreground' />
+            <CardTitle className='text-sm font-medium text-muted-foreground'>
+              {item.name}
+            </CardTitle>
+            <item.icon
+              className={cn('w-5 h-5 text-muted-foreground', {
+                'text-red-600': item.name === 'Late Rate',
+                'text-green-600': item.name === 'On Time Rate',
+                'text-blue-600': item.name === 'Present Rate',
+              })}
+            />
           </CardHeader>
           <CardContent>
-            <div className='text-3xl font-semibold'>{item.value}%</div>
+            <div className='text-2xl font-semibold'>{item.value}%</div>
           </CardContent>
         </Card>
       ))}

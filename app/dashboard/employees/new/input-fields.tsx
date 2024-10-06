@@ -21,9 +21,9 @@ export const InputFields = [
     label: 'Numéro de téléphone',
     name: 'phone',
     type: 'tel',
-    placeholder: '+1 (555) 123-4567',
+    placeholder: '+509 0000-0000',
   },
-  { label: 'Date de début', name: 'startDate', type: 'date' },
-  { label: 'Heure de début de la journée', name: 'shiftStart', type: 'time' },
+  { label: 'Position', name: 'position', type: 'text' },
+  { label: 'début de quart de travail', name: 'shiftStart', type: 'time' },
   { label: 'Heure de fin de la journée', name: 'shiftEnd', type: 'time' },
 ];

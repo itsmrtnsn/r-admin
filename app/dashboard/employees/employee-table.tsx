@@ -1,3 +1,5 @@
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -6,11 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import UserAvatar from '@/components/user-avatar';
+import EmployeeStatusBadge from './employee-status-badge';
 
 const tableHeaders = [
   { label: 'Employee ID', value: 'employee_id' },
-  { label: 'First Name', value: 'first_name' },
-  { label: 'Last Name', value: 'last_name' },
+  { label: 'Employee', value: 'name' },
+  { label: 'Status', value: 'status' },
   { label: 'Phone Number', value: 'phone_number' },
   { label: 'Position', value: 'position' },
   { label: 'Shift', value: 'shift' },
@@ -20,9 +24,11 @@ type Employee = {
   employee_id: string;
   first_name: string;
   last_name: string;
+  email: string;
   phone_number: string;
   position: string;
   shift: string;
+  status: string;
 };
 
 interface Props {
@@ -34,32 +40,42 @@ const EmployeeTable = ({ employees }: Props) => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>
+            <Checkbox />
+          </TableHead>
           {tableHeaders.map((header) => (
-            <TableHead className='text-black' key={header.value}>
-              {header.label}
-            </TableHead>
+            <TableHead key={header.value}>{header.label}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {employees.map((employee) => (
-          <TableRow className='h-12'>
-            <TableCell className='text-slate-700'>
-              {employee.employee_id}
+          <TableRow className='h-14  border-b-[0.1px]'>
+            <TableCell className=''>
+              <Checkbox />
             </TableCell>
-            <TableCell className='text-slate-700'>
-              {employee.first_name}
+            <TableCell className=''>{employee.employee_id}</TableCell>
+            <TableCell className=''>
+              <div className='flex  items-center gap-2'>
+                <UserAvatar />
+                <div className=''>
+                  <p className='font-medium flex items-center gap-2'>
+                    <span>{employee.first_name}</span>
+                    <span>{employee.last_name}</span>
+                  </p>
+                  <p className='text-xs text-muted-foreground'>
+                    {employee.email}
+                  </p>
+                </div>
+              </div>
             </TableCell>
-            <TableCell className='text-slate-700'>
-              {employee.last_name}
+            <TableCell className=''>
+              <EmployeeStatusBadge status={employee.status} />
             </TableCell>
-            <TableCell className='text-slate-700'>
-              {employee.phone_number}
-            </TableCell>
-            <TableCell className='text-slate-700'>
-              {employee.position}
-            </TableCell>
-            <TableCell className='text-slate-700'>{employee.shift}</TableCell>
+            <TableCell className=''>{employee.phone_number}</TableCell>
+
+            <TableCell className=''>{employee.position}</TableCell>
+            <TableCell className=''>{employee.shift}</TableCell>
           </TableRow>
         ))}
       </TableBody>
