@@ -7,7 +7,7 @@ const Search = () => {
       <SearchIcon className='absolute left-2 top-3 h-4 w-4 text-muted-foreground' />
       <Input
         type='text'
-        placeholder='Search employees...'
+        placeholder='Rechercher un employé...'
         // value={searchQuery}
         // onChange={(e) => setSearchQuery(e.target.value)}
         className='pl-8 w-full md:w-[300px] h-10 shadow-none border-[0.1px] bg-black'

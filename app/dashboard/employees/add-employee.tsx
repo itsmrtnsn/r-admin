@@ -8,11 +8,10 @@ const AddEmployee = () => {
     <Link href='/dashboard/employees/new'>
       <Button
         size='lg'
-        // variant='outline'
         className='pl-2 pr-4 h-10 shadow-none border-[0.1px] bg-blue-700 text-white  hover:bg-blue-800'
       >
         <IoMdAdd className='w-5 h-5 mr-2' />
-        Add Employee
+        Ajouter un employé
       </Button>
     </Link>
   );

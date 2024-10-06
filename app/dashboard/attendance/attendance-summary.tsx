@@ -7,24 +7,24 @@ import { IoMdClock } from 'react-icons/io';
 
 const summaryCards = [
   {
-    title: 'Total Employees',
-    description: 'Total Active Employees',
+    title: 'Total Employés',
+    description: 'Total Employés',
     value: 20,
     icon: FaUser,
   },
   {
-    title: 'Present Today',
+    title: "Présent aujourd'hui",
     value: 17,
     icon: FaCircleHalfStroke,
   },
   {
-    title: 'Check In On Time',
+    title: "Check In à l'heure",
     description: '3% Increased from yesterday',
     value: 16,
     icon: FaUserClock,
   },
   {
-    title: 'Check In Late',
+    title: 'Check In en retard',
     description: '3% Increased from yesterday',
     value: 1,
     icon: IoMdClock,
@@ -45,11 +45,11 @@ const AttendanceSummary = () => {
               <card.icon
                 className={cn(
                   'w-5 h-5 text-blue-500 shrink-0',
-                  card.title === 'Total Employees'
+                  card.title === 'Total Employés'
                     ? 'text-blue-500'
-                    : card.title === 'Present Today'
+                    : card.title === "Présent aujourd'hui"
                     ? 'text-green-500'
-                    : card.title === 'Check In On Time'
+                    : card.title === "Check In à l'heure"
                     ? 'text-yellow-500'
                     : 'text-red-500'
                 )}

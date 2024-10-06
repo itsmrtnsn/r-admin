@@ -10,9 +10,9 @@ import {
 import AttendanceStatusBadge from './attendance-status-badge';
 
 const tableHeaders = [
-  { label: 'EmployeeID', value: 'employee_id' },
-  { label: 'Name', value: 'name' },
-  { label: 'Status', value: 'status' },
+  { label: 'ID', value: 'employee_id' },
+  { label: 'Employé', value: 'name' },
+  { label: 'Statut', value: 'status' },
   { label: 'Check In', value: 'check_in' },
   { label: 'Check Out', value: 'check_out' },
   { label: 'Date', value: 'date' },

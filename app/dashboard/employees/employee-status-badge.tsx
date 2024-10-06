@@ -6,22 +6,22 @@ const EmployeeStatusBadge = ({ status }: { status: string }) => {
     switch (status) {
       case 'active':
         return {
-          label: 'Active',
+          label: 'Actif',
           className: 'bg-green-700/20 text-green-500 border-green-600/30',
         };
       case 'inactive':
         return {
-          label: 'Inactive',
+          label: 'Inactif',
           className: 'bg-red-700/20 text-red-500 border-red-600/30',
         };
       case 'on_leave':
         return {
-          label: 'On Leave',
+          label: 'En vacances',
           className: 'bg-yellow-700/20 text-yellow-500 border-yellow-600/30',
         };
       default:
         return {
-          label: 'Unknown',
+          label: 'Inconnu',
           className: 'bg-gray-700/20 text-gray-500 border-gray-600/30',
         };
     }

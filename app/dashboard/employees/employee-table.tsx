@@ -12,11 +12,11 @@ import UserAvatar from '@/components/user-avatar';
 import EmployeeStatusBadge from './employee-status-badge';
 
 const tableHeaders = [
-  { label: 'Employee ID', value: 'employee_id' },
-  { label: 'Employee', value: 'name' },
-  { label: 'Status', value: 'status' },
-  { label: 'Phone Number', value: 'phone_number' },
-  { label: 'Position', value: 'position' },
+  { label: 'Identifiant', value: 'employee_id' },
+  { label: 'Employé', value: 'name' },
+  { label: 'Statut', value: 'status' },
+  { label: 'Téléphone', value: 'phone_number' },
+  { label: 'Poste', value: 'position' },
   { label: 'Shift', value: 'shift' },
 ];
 

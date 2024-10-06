@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={cn('antialiased', inter.className)}
+        className={cn('antialiased', geistSans.className)}
         suppressHydrationWarning
       >
         <ThemeProvider attribute='class' defaultTheme='dark'>

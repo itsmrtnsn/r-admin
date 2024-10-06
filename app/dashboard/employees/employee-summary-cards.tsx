@@ -6,25 +6,26 @@ import { FaCircleHalfStroke } from 'react-icons/fa6';
 
 const summaryCards = [
   {
-    title: 'Total Employees',
-    description: 'Total Active Employees',
+    title: `Total employés`,
+    slug: 'total-employees',
     value: 20,
     icon: FaUser,
   },
   {
-    title: 'Active Employees',
+    title: 'Employés actifs',
+    slug: 'active-employees',
     value: 17,
     icon: FaCircleHalfStroke,
   },
   {
-    title: 'Male',
-    description: '3% Increased from yesterday',
+    title: 'Hommes',
+    slug: 'male',
     value: 16,
     icon: FaMale,
   },
   {
-    title: 'Female',
-    description: '3% Increased from yesterday',
+    title: 'Femmes',
+    slug: 'female',
     value: 1,
     icon: FaFemale,
   },
@@ -44,11 +45,11 @@ const EmployeeSummaryCard = () => {
               <card.icon
                 className={cn(
                   'w-5 h-5 text-blue-500 shrink-0',
-                  card.title === 'Total Employees'
+                  card.slug === 'total-employees'
                     ? 'text-blue-500'
-                    : card.title === 'Active Employees'
+                    : card.slug === 'active-employees'
                     ? 'text-green-500'
-                    : card.title === 'Male'
+                    : card.slug === 'male'
                     ? 'text-purple-500'
                     : 'text-pink-500'
                 )}
