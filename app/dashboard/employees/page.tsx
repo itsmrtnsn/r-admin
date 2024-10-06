@@ -17,28 +17,32 @@ const Employees = () => {
         <CurrentPath />
         <DatePicker />
       </div>
-      <EmployeeSummaryCard />
 
-      <Card className='border-[0.1px] bg-background shadow-none flex-1'>
-        <CardHeader>
-          <div className='flex items-center gap-2 justify-between'>
-            <Search />
-            <div className='flex items-center gap-6'>
-              <div className='flex items-center gap-3'>
-                <FaThList className='w-6 h-6 text-muted-foreground cursor-pointer hover:text-primary transition-all duration-300' />
-                <IoIdCardSharp className='w-6 h-6 text-muted-foreground cursor-pointer hover:text-primary transition-all duration-300' />
+      <ScrollArea className='h-[80vh]'>
+        <div className='space-y-10'>
+          <EmployeeSummaryCard />
+
+          <Card className='border-[0.1px] bg-[#0c0a09] shadow-none flex-1 overflow-hidden'>
+            <CardHeader>
+              <div className='flex items-center gap-2 justify-between'>
+                <Search />
+                <div className='flex items-center gap-6'>
+                  <div className='flex items-center gap-3'>
+                    <FaThList className='w-6 h-6 text-muted-foreground cursor-pointer hover:text-primary transition-all duration-300' />
+                    <IoIdCardSharp className='w-6 h-6 text-muted-foreground cursor-pointer hover:text-primary transition-all duration-300' />
+                  </div>
+                  <AddEmployee />
+                </div>
               </div>
-              <AddEmployee />
-            </div>
-          </div>
-        </CardHeader>
-        <ScrollArea className='h-[48vh]'>
-          <CardContent className='bg-background'>
-            <EmployeeTable employees={tableData} />
-            <Pagination totalPages={10} currentPage={1} itemsPerPage={10} />
-          </CardContent>
-        </ScrollArea>
-      </Card>
+            </CardHeader>
+
+            <CardContent className='bg-[#0a0a0a]'>
+              <EmployeeTable employees={tableData} />
+              <Pagination totalPages={10} currentPage={1} itemsPerPage={10} />
+            </CardContent>
+          </Card>
+        </div>
+      </ScrollArea>
     </div>
   );
 };

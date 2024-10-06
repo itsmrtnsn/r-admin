@@ -37,49 +37,53 @@ interface Props {
 
 const EmployeeTable = ({ employees }: Props) => {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>
-            <Checkbox />
-          </TableHead>
-          {tableHeaders.map((header) => (
-            <TableHead key={header.value}>{header.label}</TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {employees.map((employee) => (
-          <TableRow className='h-14  border-b-[0.1px]'>
-            <TableCell className=''>
+    <div>
+      <Table>
+        <TableHeader>
+          <TableRow className='h-14 hover:rounded-lg'>
+            <TableHead>
               <Checkbox />
-            </TableCell>
-            <TableCell className=''>{employee.employee_id}</TableCell>
-            <TableCell className=''>
-              <div className='flex  items-center gap-2'>
-                <UserAvatar />
-                <div className=''>
-                  <p className='font-medium flex items-center gap-2'>
-                    <span>{employee.first_name}</span>
-                    <span>{employee.last_name}</span>
-                  </p>
-                  <p className='text-xs text-muted-foreground'>
-                    {employee.email}
-                  </p>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell className=''>
-              <EmployeeStatusBadge status={employee.status} />
-            </TableCell>
-            <TableCell className=''>{employee.phone_number}</TableCell>
-
-            <TableCell className=''>{employee.position}</TableCell>
-            <TableCell className=''>{employee.shift}</TableCell>
+            </TableHead>
+            {tableHeaders.map((header) => (
+              <TableHead key={header.value}>{header.label}</TableHead>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {employees.map((employee) => (
+            <TableRow className='h-14  border-b-[0.1px]'>
+              <TableCell className=''>
+                <Checkbox />
+              </TableCell>
+              <TableCell className=''>{employee.employee_id}</TableCell>
+              <TableCell className=''>
+                <div className='flex  items-center gap-2'>
+                  <UserAvatar
+                    fallback={employee.first_name[0] + employee.last_name[0]}
+                  />
+                  <div className=''>
+                    <p className='font-medium flex items-center gap-2'>
+                      <span>{employee.first_name}</span>
+                      <span>{employee.last_name}</span>
+                    </p>
+                    <p className='text-xs text-muted-foreground'>
+                      {employee.email}
+                    </p>
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell className=''>
+                <EmployeeStatusBadge status={employee.status} />
+              </TableCell>
+              <TableCell className=''>{employee.phone_number}</TableCell>
+
+              <TableCell className=''>{employee.position}</TableCell>
+              <TableCell className=''>{employee.shift}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

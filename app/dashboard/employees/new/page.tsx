@@ -12,7 +12,7 @@ const NewEmployee = () => {
           employé.
         </p>
       </div>
-      <Card className='shadow-none border-[0.1px] bg-background'>
+      <Card className='shadow-none border-[0.1px] bg-gradient-to-br from-[#0c0a09] to-[#0a0a0a]'>
         <CardContent className='pt-4'>
           <ScrollArea className='h-[70vh]'>
             <EmployeeRegistrationForm />

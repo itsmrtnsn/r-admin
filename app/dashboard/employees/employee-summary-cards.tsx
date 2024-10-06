@@ -37,21 +37,21 @@ const EmployeeSummaryCard = () => {
       {summaryCards.map((card) => (
         <Card
           key={card.title}
-          className='border-[0.1px] shadow-none bg-background'
+          className='border-[0.1px] shadow-none bg-gradient-to-br from-[#0c0a09] to-[#0a0a0a] '
         >
           <CardHeader>
             <CardTitle className='text-sm font-medium flex items-center gap-2 justify-between'>
               <p>{card.title}</p>
               <card.icon
                 className={cn(
-                  'w-5 h-5 text-blue-500 shrink-0',
+                  'w-5 h-5 text-blue-600 shrink-0',
                   card.slug === 'total-employees'
-                    ? 'text-blue-500'
+                    ? 'text-blue-700'
                     : card.slug === 'active-employees'
-                    ? 'text-green-500'
+                    ? 'text-green-600'
                     : card.slug === 'male'
-                    ? 'text-purple-500'
-                    : 'text-pink-500'
+                    ? 'text-purple-600'
+                    : 'text-pink-600'
                 )}
               />
             </CardTitle>

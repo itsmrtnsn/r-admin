@@ -40,13 +40,13 @@ const StoreSidebar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-2rem)] overflow-hidden shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]   '>
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]  border-[0.1px] '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}
           animate={{ width: isSidebarOpen ? '16rem' : '5rem' }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className='h-full bg-white dark:bg-card flex-shrink-0 overflow-hidden'
+          className='h-full bg-[#000000] flex-shrink-0 overflow-hidden'
         >
           <div className='p-4 h-full flex flex-col'>
             <div className='flex items-center justify-between mb-6'>
@@ -56,13 +56,18 @@ const StoreSidebar = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className='text-xl font-bold text-gray-800 dark:text-white'
+                    className='text-xl font-bold  dark:text-white'
                   >
                     MyStore
                   </motion.h2>
                 )}
               </AnimatePresence>
-              <Button variant='ghost' size='icon' onClick={toggleSidebar}>
+              <Button
+                variant='ghost'
+                size='icon'
+                className={cn('h-6 w-6 ml-3')}
+                onClick={toggleSidebar}
+              >
                 <CgMenuGridR className='h-6 w-6' />
               </Button>
             </div>
@@ -79,7 +84,7 @@ const StoreSidebar = () => {
                               'w-full justify-between  transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
-                                'bg-gradient-to-r from-[#00d2ff] to-[#3a7bd5] text-white',
+                                'bg-blue-700 text-white',
                               activeMenu === item.name && 'rounded-lg'
                             )}
                             onClick={() => {
@@ -115,8 +120,8 @@ const StoreSidebar = () => {
                               >
                                 {/* {item.icon} */}
                                 <item.icon
-                                  className={cn('h-5 w-5 text-blue-500', {
-                                    'text-white h-4 w-4': !isSidebarOpen,
+                                  className={cn('h-5 w-5  text-blue-700', {
+                                    'ml-1.5 w-4 h-4': !isSidebarOpen,
                                     'text-white': activeMenu === item.name,
                                   })}
                                 />
@@ -177,7 +182,7 @@ const StoreSidebar = () => {
                                 href={`${subitem.path}`}
                                 className={cn(
                                   buttonVariants({ variant: 'ghost' }),
-                                  'w-full my-1.5 block  transition-all duration-300z'
+                                  'w-full my-1.5 block  transition-all duration-300'
                                 )}
                               >
                                 {subitem.name}
@@ -194,7 +199,7 @@ const StoreSidebar = () => {
 
             <Card
               className={cn(
-                'mt-4 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white transition-all duration-300',
+                'mt-4 bg-background  text-white transition-all duration-300',
                 isSidebarOpen ? 'p-4' : 'p-2'
               )}
             >
@@ -210,13 +215,13 @@ const StoreSidebar = () => {
                     <p className='text-sm mb-4 text-center'>
                       Get more features and benefits
                     </p>
-                    <Button className='w-full bg-white text-primary hover:bg-gray-100'>
-                      <Zap className='mr-2 h-4 w-4' />
+                    <Button className='w-full bg-white text-blue-700 hover:bg-gray-100'>
+                      <Zap className='mr-2 h-4 w-4 text-blue-700' />
                       Upgrade Now
                     </Button>
                   </>
                 ) : (
-                  <Button className='w-full h-full bg-white text-primary hover:bg-gray-100 p-0'>
+                  <Button className='w-full h-full bg-blue-700 text-primary0 p-0'>
                     <Zap className='h-6 w-6' />
                   </Button>
                 )}

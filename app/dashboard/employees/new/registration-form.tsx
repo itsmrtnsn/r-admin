@@ -200,7 +200,7 @@ export default function EmployeeRegistrationForm() {
           <Button
             type='submit'
             size='lg'
-            className='h-10 w-[230px] text-base font-normal bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700 transition duration-200'
+            className='h-10 w-[230px] text-base font-normal bg-blue-700 text-white rounded-md p-2 hover:bg-blue-800 transition duration-200'
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Registering...' : 'Register Employee'}

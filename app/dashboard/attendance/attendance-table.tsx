@@ -76,7 +76,7 @@ const AttendanceTable = () => {
       </TableHeader>
       <TableBody>
         {tableData.map((data) => (
-          <TableRow className='h-12'>
+          <TableRow className='h-14'>
             <TableCell className=''>
               <Checkbox />
             </TableCell>
