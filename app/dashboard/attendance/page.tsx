@@ -15,7 +15,7 @@ const Attendance = () => {
         <DatePicker />
       </div>
       <AttendanceSummaryCard />
-      <Card className='border-[0.1px] border-slate-300 shadow-none'>
+      <Card className='border-[0.1px] bg-background shadow-none'>
         <CardHeader>
           <div className='flex items-center gap-2'>
             <Search />

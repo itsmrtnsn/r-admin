@@ -1,3 +1,4 @@
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -68,6 +69,9 @@ const AttendanceReportTable = () => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className=''>
+            <Checkbox />
+          </TableHead>
           {tableHeadeers.map((header, index) => (
             <TableHead key={index} className='font-medium'>
               {header.label}
@@ -78,6 +82,9 @@ const AttendanceReportTable = () => {
       <TableBody>
         {attendanceData.map((item, index) => (
           <TableRow key={index} className='h-12 text-sms'>
+            <TableCell>
+              <Checkbox />
+            </TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.present}</TableCell>
             <TableCell>{item.absent}</TableCell>

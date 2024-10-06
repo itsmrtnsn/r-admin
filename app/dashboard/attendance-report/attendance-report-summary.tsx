@@ -29,10 +29,7 @@ const AttendanceReportSummary = () => {
   return (
     <div className='grid grid-cols-4 gap-4'>
       {reportSummary.map((item, index) => (
-        <Card
-          key={index}
-          className='shadow-none border-[0.1px] border-slate-300'
-        >
+        <Card key={index} className='shadow-none border-[0.1px] bg-background'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 '>
             <CardTitle className='text-sm font-medium text-muted-foreground'>
               {item.name}

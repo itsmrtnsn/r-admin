@@ -37,7 +37,7 @@ const AttendanceSummary = () => {
       {summaryCards.map((card) => (
         <Card
           key={card.title}
-          className='border-[0.1px] border-slate-300 shadow-none'
+          className='border-[0.1px] bg-background shadow-none'
         >
           <CardHeader>
             <CardTitle className='text-sm flex items-center gap-2 justify-between'>

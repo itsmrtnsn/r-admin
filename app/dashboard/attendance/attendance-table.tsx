@@ -1,13 +1,13 @@
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import EmployeeStatusBadge from '../employees/employee-status-badge';
+import AttendanceStatusBadge from './attendance-status-badge';
 
 const tableHeaders = [
   { label: 'EmployeeID', value: 'employee_id' },
@@ -66,24 +66,28 @@ const AttendanceTable = () => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className='text-black'>
+            <Checkbox />
+          </TableHead>
           {tableHeaders.map((header) => (
-            <TableHead className='text-black' key={header.value}>
-              {header.label}
-            </TableHead>
+            <TableHead key={header.value}>{header.label}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {tableData.map((data) => (
           <TableRow className='h-12'>
-            <TableCell className='text-slate-700'>{data.employee_id}</TableCell>
-            <TableCell className='text-slate-950'>{data.name}</TableCell>
-            <TableCell>
-              <EmployeeStatusBadge status={data.status} />
+            <TableCell className=''>
+              <Checkbox />
             </TableCell>
-            <TableCell className='text-slate-950'>{data.check_in}</TableCell>
-            <TableCell className='text-slate-700'>{data.check_out}</TableCell>
-            <TableCell className='text-slate-700'>{data.date}</TableCell>
+            <TableCell className=''>{data.employee_id}</TableCell>
+            <TableCell className=''>{data.name}</TableCell>
+            <TableCell>
+              <AttendanceStatusBadge status={data.status} />
+            </TableCell>
+            <TableCell className=''>{data.check_in}</TableCell>
+            <TableCell className=''>{data.check_out}</TableCell>
+            <TableCell className=''>{data.date}</TableCell>
           </TableRow>
         ))}
       </TableBody>

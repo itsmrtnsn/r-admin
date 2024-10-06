@@ -33,7 +33,7 @@ const Employees = () => {
           </div>
         </CardHeader>
         <ScrollArea className='h-[48vh]'>
-          <CardContent className=''>
+          <CardContent className='bg-background'>
             <EmployeeTable employees={tableData} />
             <Pagination totalPages={10} currentPage={1} itemsPerPage={10} />
           </CardContent>
