@@ -15,14 +15,14 @@ const SalesPage = ({ searchParams: { product_search } }: Props) => {
     {
       id: '1',
       name: 'Prestige',
-      price: 5.0,
+      price: 250,
       category: 'Beer',
       quantityInStock: 3,
     },
     {
       id: '2',
       name: '7up',
-      price: 8.0,
+      price: 150,
       category: 'Cocktails',
       quantityInStock: 3,
     },
@@ -61,11 +61,69 @@ const SalesPage = ({ searchParams: { product_search } }: Props) => {
       category: 'Cocktails',
       quantityInStock: 80,
     },
-    // { id: '8', name: 'Cuba Libre', price: 6.5, category: 'Cocktails' },
-    // { id: '9', name: 'IPA', price: 4.5, category: 'Beer' },
-    // { id: '10', name: 'Tequila Shot', price: 5.0, category: 'Spirits' },
-    // { id: '11', name: 'Classic Mojito', price: 8.5, category: 'Cocktails' },
-    // { id: '12', name: 'Espresso Martini', price: 10.0, category: 'Cocktails' },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
+    {
+      id: '7',
+      name: 'Moscow Mule',
+      price: 6.5,
+      category: 'Cocktails',
+      quantityInStock: 80,
+    },
   ];
   let filteredProduct = products;
   if (product_search)
@@ -80,7 +138,7 @@ const SalesPage = ({ searchParams: { product_search } }: Props) => {
         <CardContent>
           <div className='mt-4 mb-8 flex items-center justify-between'>
             <ProductSearch />
-            <UserAvatar />
+            <UserAvatar fallback={'GC'} />
           </div>
           <ScrollArea className='h-[calc(89vh-6rem)]'>
             <ProductGrid products={filteredProduct} />
@@ -88,7 +146,7 @@ const SalesPage = ({ searchParams: { product_search } }: Props) => {
           </ScrollArea>
         </CardContent>
       </Card>
-      <div className='w-[22rem]'>
+      <div className='w-[22rem] border-[0.1px] rounded-lg'>
         <Cart />
       </div>
     </div>

@@ -20,13 +20,16 @@ const CurrentPath = () => {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/${paths[0]}`} className='text-base'>
+          <BreadcrumbLink
+            href={`/${paths[0]}`}
+            className='text-base font-normal'
+          >
             {capitalizeFirstLetter(paths[0])}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className='text-base'>
+          <BreadcrumbPage className='text-base font-normal'>
             {capitalizeFirstLetter(paths[1])}
           </BreadcrumbPage>
         </BreadcrumbItem>

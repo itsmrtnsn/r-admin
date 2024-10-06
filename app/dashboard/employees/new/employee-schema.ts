@@ -38,7 +38,7 @@ export const employeeSchema = z.object({
       required_error: 'Le numéro de téléphone est requis',
     })
     .regex(/^\+?[1-9]\d{1,14}$/, 'Numéro de téléphone invalide'),
-  department: z.enum(['engineering', 'marketing', 'sales', 'hr', 'finance']),
+  // department: z.enum(['engineering', 'marketing', 'sales', 'hr', 'finance']),
   position: z
     .string({
       invalid_type_error: 'le position doit être une chaîne de caractères',

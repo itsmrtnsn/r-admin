@@ -78,13 +78,13 @@ export function CheckoutDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl'>
+        <Button className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'>
           Proceed to Checkout
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[550px] bg-white rounded-2xl'>
         <DialogHeader>
-          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600'>
+          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-800'>
             Checkout
           </DialogTitle>
         </DialogHeader>

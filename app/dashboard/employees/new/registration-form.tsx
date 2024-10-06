@@ -32,6 +32,7 @@ export default function EmployeeRegistrationForm() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<EmployeeFormData>({
     resolver: zodResolver(employeeSchema),
@@ -44,6 +45,7 @@ export default function EmployeeRegistrationForm() {
         title: 'Employee Registered',
         description: 'The employee has been successfully registered.',
       });
+      reset();
       setServerErrors({});
     } else {
       setServerErrors(result.errors || {});
@@ -83,7 +85,7 @@ export default function EmployeeRegistrationForm() {
               )}
             </div>
           ))}
-          <div className='space-y-2'>
+          {/* <div className='space-y-2'>
             <Label htmlFor='department' className='font-medium'>
               Department
             </Label>
@@ -120,7 +122,7 @@ export default function EmployeeRegistrationForm() {
                 {serverErrors.department?.[0]}
               </p>
             )}
-          </div>
+          </div> */}
           <div className='space-y-2'>
             <Label htmlFor='dayOff' className='font-medium'>
               Jour de repos

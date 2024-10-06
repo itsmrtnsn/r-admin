@@ -23,7 +23,12 @@ export const InputFields = [
     type: 'tel',
     placeholder: '+509 0000-0000',
   },
-  { label: 'Position', name: 'position', type: 'text' },
+  {
+    label: 'Position',
+    name: 'position',
+    type: 'text',
+    placeholder: 'Ingénieur',
+  },
   { label: 'début de quart de travail', name: 'shiftStart', type: 'time' },
   { label: 'Heure de fin de la journée', name: 'shiftEnd', type: 'time' },
 ];

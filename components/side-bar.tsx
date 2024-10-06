@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, Menu, Zap } from 'lucide-react';
+import { ChevronDown, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import sidebarLinks from '@/lib/sidebar-links';
@@ -81,7 +81,7 @@ const StoreSidebar = () => {
                           <Button
                             variant='ghost'
                             className={cn(
-                              'w-full justify-between  transition-all duration-300 ease-in-out',
+                              'w-full justify-between  font-normal transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
                                 'bg-blue-700 text-white',

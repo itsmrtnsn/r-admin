@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CartItem from './cart-item';
 import { useCartStore } from './cart-store';
 import { CheckoutDialog } from './checkout-dialog';
@@ -19,6 +19,12 @@ const Cart = () => {
   const [discountType, setDiscountType] = useState<'percentage' | 'amount'>(
     'percentage'
   );
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const [discountValue, setDiscountValue] = useState('');
 
   const subtotal = getTotal();
@@ -34,7 +40,7 @@ const Cart = () => {
   const total = Math.max(subtotal - discount, 0);
 
   return (
-    <Card className='h-[calc(100vh-4rem)] border-red-600 flex flex-col p-0 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] border-none'>
+    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] border-none'>
       <CardContent className='p-0 flex flex-col h-full pb-2'>
         <div className='flex-grow overflow-auto mb-0  px-4 pt-3'>
           {items.map((item) => (
@@ -47,7 +53,7 @@ const Cart = () => {
         <div className='space-y-4 mt-auto p-4 pb-2'>
           <div className='flex justify-between text-base font-semibold'>
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>${isClient ? subtotal.toFixed(2) : '0.00'}</span>
           </div>
           <div className='flex items-center space-x-2'>
             <Select
@@ -79,7 +85,7 @@ const Cart = () => {
           </div>
           <div className='flex justify-between text-base font-bold text-primary'>
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>${isClient ? total.toFixed(2) : '0.00'}</span>
           </div>
           <CheckoutDialog
             subTotal={subtotal}

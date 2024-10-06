@@ -19,17 +19,14 @@ export default function ProductSearch() {
           ${isFocused ? 'opacity-100' : 'opacity-50'}
         `}
       >
-        <Search className='w-5 h-5 text-gray-400' />
+        <Search className='w-5 h-5 text-muted-foreground' />
       </div>
       <Input
         onChange={(value) => handleQuery(value.target.value)}
         type='search'
         placeholder='Search...'
         className={cn(
-          'pl-10 pr-4 py-2 w-full border-[0.1px] rounded-full bg-slate-50 border-slate-200 transition-all duration-300 ease-in-out focus:outline-none shadow-none',
-          {
-            'bg-white ': isFocused,
-          }
+          'pl-10 pr-4 py-2 w-full border-[0.1px] rounded-full transition-all duration-300 ease-in-out focus:outline-none shadow-none'
         )}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
