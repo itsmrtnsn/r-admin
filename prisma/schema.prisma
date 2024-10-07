@@ -32,13 +32,38 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@index([name])
-  sales Sale[]
+  SaleItem SaleItem[]
 }
+
+
+
 
 model Sale {
   id String @id @default(cuid())
+  reference String @unique @db.VarChar(12)
+  paymentMethod PaymentMethod @default(cash)
+  cashier String @db.VarChar(100)
+  amountReceived Int
+  change Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  SaleItem SaleItem[]
+  @@index([reference])
+}
+
+enum PaymentMethod {
+  cash
+  credit_card
+  mobile_payment
+  check
+}
+
+model SaleItem {
+  id String @id @default(cuid())
   product Product @relation(fields: [productId], references: [id])
+  sale Sale @relation(fields: [saleId], references: [id])
   productId String
+  saleId String
   quantity Int
   unitPrice Int
   totalPrice Int
@@ -51,10 +76,7 @@ enum ProductStatus {
   draft
   active
   archived
-
 }
-
-
 
 
 model Employee {

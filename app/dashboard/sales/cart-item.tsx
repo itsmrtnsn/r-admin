@@ -12,7 +12,7 @@ const CartItem = ({ item }: CartItemProps) => {
   return (
     <div
       key={item.product.id}
-      className='border-[0.1px] rounded-lg  bg-[#0c0a09]  p-4 mb-2 transition-all duration-300 '
+      className='border-[0.1px] rounded-lg  bg-[#0a0a0a]  p-4 mb-2 transition-all duration-300 '
     >
       <div className='flex items-center justify-between'>
         <h4 className='font-medium  text-sm truncate max-w-[60%]'>

@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { FaSpinner } from 'react-icons/fa';
+
 import {
   Dialog,
   DialogContent,
@@ -18,10 +20,14 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
+import paymentOptions from '@/lib/payment-option';
 import { motion } from 'framer-motion';
-import { CreditCard, DollarSign, FileText, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 import { Data } from './types/product';
+import { useCartStore } from './cart-store';
+import BarReceipt from './_receipt/bar-receipt';
+import PrintReceipt from './print-receipt';
+// Assuming you have a Spinner component
 
 type CheckoutDialogProps = {
   subTotal: number;
@@ -32,21 +38,15 @@ type CheckoutDialogProps = {
   products: Data[];
 };
 
-const paymentOptions = [
-  { id: 1, name: 'Cash', value: 'cash', icon: DollarSign },
-  { id: 2, name: 'Credit Card', value: 'credit_card', icon: CreditCard },
-  { id: 3, name: 'Mobile Payment', value: 'mobile_payment', icon: Smartphone },
-  { id: 4, name: 'Check', value: 'check', icon: FileText },
-];
-
 export function CheckoutDialog({
   subTotal,
   discount,
   total,
   transactionId,
-
   cashier,
 }: CheckoutDialogProps) {
+  const { clearCart, getTotal } = useCartStore();
+
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<string>('cash');
   const [cashReceived, setCashReceived] = useState<number>();
@@ -55,14 +55,21 @@ export function CheckoutDialog({
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
 
   const customerChange = (cashReceived || 0) - total;
 
-  const handleCompletePayment = () => {
+  const handleCompletePayment = async () => {
     if (isRoomCharge && !roomNumber) {
       alert('Please enter a room number');
       return;
     }
+
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsLoading(false); // Hide spinner
+    clearCart();
+
     setShowReceiptDialog(true);
   };
 
@@ -78,23 +85,26 @@ export function CheckoutDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'>
+        <Button
+          disabled={!getTotal()}
+          className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'
+        >
           Proceed to Checkout
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[550px] bg-white rounded-2xl'>
+      <DialogContent className='sm:max-w-[450px]  rounded-2xl border-[0.1px]'>
         <DialogHeader>
-          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-800'>
+          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800'>
             Checkout
           </DialogTitle>
         </DialogHeader>
 
-        <Card className='mt-4 border-none shadow-lg'>
+        <Card className='mt-4 border-none bg-transparent shadow-lg'>
           <CardContent className='space-y-6 pt-6'>
             <div className='grid grid-cols-4 items-center gap-4'>
               <Label
                 htmlFor='payment-method'
-                className='text-right font-medium text-gray-700'
+                className='text-right font-medium text-muted-foreground'
               >
                 Payment Method
               </Label>
@@ -102,10 +112,10 @@ export function CheckoutDialog({
                 defaultValue='cash'
                 onValueChange={(option) => setSelectedPaymentOption(option)}
               >
-                <SelectTrigger className='col-span-3 bg-gray-100 border-gray-200'>
+                <SelectTrigger className='col-span-3 border-[0.1px]'>
                   <SelectValue placeholder='Select payment method' />
                 </SelectTrigger>
-                <SelectContent className='bg-white border-gray-200'>
+                <SelectContent className='bg-[#0a0a0a] border-[0.1px]'>
                   {paymentOptions.map((option) => (
                     <SelectItem
                       key={option.id}
@@ -130,7 +140,7 @@ export function CheckoutDialog({
               >
                 <Label
                   htmlFor='cash-received'
-                  className='text-right font-medium text-gray-700'
+                  className='text-right font-medium text-muted-foreground'
                 >
                   Cash Received
                 </Label>
@@ -139,7 +149,7 @@ export function CheckoutDialog({
                   value={cashReceived}
                   onChange={(e) => setCashReceived(parseFloat(e.target.value))}
                   placeholder='Enter amount'
-                  className='col-span-3 bg-gray-100 border-gray-200'
+                  className='col-span-3 border-[0.1px]'
                   type='number'
                   step='0.01'
                 />
@@ -174,11 +184,11 @@ export function CheckoutDialog({
                   value={roomNumber}
                   onChange={(e) => setRoomNumber(e.target.value)}
                   placeholder='Enter room number'
-                  className='col-span-3 bg-gray-100 border-gray-200'
+                  className='col-span-3 border-[0.1px]'
                 />
               </motion.div>
             )}
-            <Separator className='bg-gray-200' />
+            <Separator className='bg-muted' />
             <div className='space-y-2'>
               <div className='flex justify-between text-lg text-gray-700'>
                 <span>Subtotal</span>
@@ -188,8 +198,8 @@ export function CheckoutDialog({
                 <span>Discount</span>
                 <span>-${discount.toFixed(2)}</span>
               </div>
-              <Separator className='bg-gray-200' />
-              <div className='flex justify-between text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600'>
+              <Separator className='bg-muted' />
+              <div className='flex justify-between text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500'>
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
@@ -199,7 +209,7 @@ export function CheckoutDialog({
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className='flex justify-between text-lg font-semibold text-blue-600'
+                className='flex justify-between text-lg font-semibold'
               >
                 <span>Change</span>
                 <span>${Math.max(cashReceived - total, 0).toFixed(2)}</span>
@@ -207,59 +217,73 @@ export function CheckoutDialog({
             )}
           </CardContent>
           <CardFooter>
-            <Button
-              className='w-full rounded-full py-6 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl'
-              disabled={
-                !selectedPaymentOption ||
-                (selectedPaymentOption === 'cash' &&
-                  (cashReceived ?? 0) < total) ||
-                (isRoomCharge && !roomNumber)
-              }
-              onClick={handleCompletePayment}
-            >
-              Complete Payment
-            </Button>
+            {!showReceiptDialog && (
+              <Button
+                className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
+                disabled={
+                  !selectedPaymentOption ||
+                  (selectedPaymentOption === 'cash' &&
+                    (cashReceived ?? 0) < total) ||
+                  (isRoomCharge && !roomNumber)
+                }
+                onClick={handleCompletePayment}
+              >
+                {isLoading ? (
+                  <p className='flex items-center justify-center gap-4'>
+                    <FaSpinner className='animate-spin' />
+                    <span>Processing...</span>
+                  </p>
+                ) : (
+                  'Complete Payment'
+                )}
+              </Button>
+            )}
+            {showReceiptDialog && <PrintReceipt />}
           </CardFooter>
         </Card>
       </DialogContent>
+
+      {/* Receipt Dialog */}
+      {/* <Dialog open={showReceiptDialog} onOpenChange={setShowReceiptDialog}>
+        <DialogContent className='sm:max-w-[400px] bg-[#0a0a0a] rounded-2xl border-[0.1px]'>
+          <DialogHeader>
+            <DialogTitle className='text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800'>
+              Receipt
+            </DialogTitle>
+          </DialogHeader>
+          <div className='space-y-4'>
+            <p>Transaction ID: {transactionId}</p>
+            <p>Cashier: {cashier}</p>
+            <p>Total: ${total.toFixed(2)}</p>
+            <p>Change: ${Math.max(cashReceived ?? 0 - total, 0).toFixed(2)}</p>
+            <BarReceipt
+              transactionId={''}
+              cashier={''}
+              items={[]}
+              subtotal={0}
+              discount={0}
+              total={0}
+              amountReceived={0}
+              change={0}
+              paymentMethod={''}
+            />
+          </div>
+          <CardFooter>
+            <Button
+              className='w-full rounded-full py-6 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'
+              onClick={handlePrintReceipt}
+            >
+              Print Receipt
+            </Button>
+            <Button
+              className='w-full rounded-full py-6 text-lg font-semibold text-gray-500 bg-gray-200 hover:bg-gray-300 transition-all duration-300'
+              onClick={handleCancelReceipt}
+            >
+              Cancel
+            </Button>
+          </CardFooter>
+        </DialogContent>
+      </Dialog> */}
     </Dialog>
   );
 }
-
-{
-  /* <Dialog open={showReceiptDialog} onOpenChange={setShowReceiptDialog}>
-  <DialogContent className='sm:max-w-[400px] bg-white rounded-2xl'>
-    <DialogHeader>
-      <DialogTitle className='text-2xl font-bold text-center'>
-        Payment Completed
-      </DialogTitle>
-    </DialogHeader>
-    <div className='flex justify-center space-x-4 mt-6'>
-      <Button
-        onClick={handlePrintReceipt}
-        className='bg-blue-500 hover:bg-blue-600 text-white'
-      >
-        Print Receipt
-      </Button>
-      <Button
-        onClick={handleCancelReceipt}
-        className='bg-gray-300 hover:bg-gray-400 text-gray-800'
-      >
-        Cancel
-      </Button>
-    </div>
-  </DialogContent>
-</Dialog>; */
-}
-
-// <MagicStudioReceipt
-//   transactionId={transactionId}
-//   cashier={cashier}
-//   items={[]}
-//   subtotal={subTotal}
-//   discount={discount}
-//   total={total}
-//   amountReceived={cashReceived!}
-//   change={customerChange}
-//   paymentMethod={selectedPaymentOption}
-// />;
