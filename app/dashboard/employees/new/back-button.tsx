@@ -11,7 +11,7 @@ const BackButton = () => {
       onClick={() => router.back()}
       variant='outline'
       size='icon'
-      className='bg-[#0a0a0a] border-[0.1px]'
+      className='bg-[#1f1f1f] border-[0.1px]'
     >
       <ChevronsLeft className='w-4 h-4' />
     </Button>

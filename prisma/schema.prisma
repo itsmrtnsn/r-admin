@@ -28,14 +28,15 @@ enum DayOff {
 
 
 enum EmployeeStatus {
-  active
-  inactive
-  on_leave
-  fired
-  retired
-  resigned
-  pending
+  actif
+  inactif
+  en_vacances
+  licencie
+  retraite
+  en_attente
+  demissionne
 }
+
 
 
 model Employee {
@@ -48,8 +49,8 @@ model Employee {
   shiftStart DateTime @db.Time()
   shiftEnd DateTime @db.Time()
   dayOff DayOff?
-  gender Gender 
-  status EmployeeStatus @default(pending)
+  gender Gender
+  status EmployeeStatus @default(en_attente)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@index([email])

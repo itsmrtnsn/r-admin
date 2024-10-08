@@ -1,48 +1,46 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 import { FaFemale, FaMale, FaUser } from 'react-icons/fa';
 import { FaCircleHalfStroke } from 'react-icons/fa6';
-import { getEmployeeStatistics } from '../_actions/employee-statistic';
-
-const EmployeeSummaryCard = async () => {
-  const employeeStatistics = await getEmployeeStatistics();
-  const summaryCards = [
+const EmployeeSummaryCardSkeleton = () => {
+  const cards = [
     {
       title: `Total employés`,
       slug: 'total-employees',
-      value: employeeStatistics.totalEmployees,
+      value: 0,
       icon: FaUser,
     },
     {
       title: 'Employés actifs',
       slug: 'active-employees',
-      value: employeeStatistics.totalActiveEmployees,
+      value: 0,
       icon: FaCircleHalfStroke,
     },
     {
       title: 'Hommes',
       slug: 'male',
-      value: employeeStatistics.totalMen,
+      value: 0,
       icon: FaMale,
     },
     {
       title: 'Femmes',
       slug: 'female',
-      value: employeeStatistics.totalWomen,
+      value: 0,
       icon: FaFemale,
     },
   ];
   return (
     <div className='grid grid-cols-4 gap-4'>
-      {summaryCards.map((card) => (
+      {cards.map((card) => (
         <Card
           key={card.title}
           className='border-[0.1px] shadow-none bg-[#0a0a0a] '
         >
           <CardHeader>
             <CardTitle className='text-sm font-medium flex items-center gap-2 justify-between'>
-              <p>{card.title}</p>
+              <Skeleton className='w-full h-full' />
               <card.icon
                 className={cn(
                   'w-5 h-5 text-blue-600 shrink-0',
@@ -58,12 +56,13 @@ const EmployeeSummaryCard = async () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-3xl font-semibold'>{card.value}</p>
+            <p className='text-3xl font-semibold'>
+              <Skeleton className='w-full h-full' />
+            </p>
           </CardContent>
         </Card>
       ))}
     </div>
   );
 };
-
-export default EmployeeSummaryCard;
+export default EmployeeSummaryCardSkeleton;

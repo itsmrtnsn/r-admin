@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -11,28 +10,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { generateEmployeeId } from '@/lib/generate-employee-id';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createEmployee } from '../../_actions/create-employee';
-import createEmployeeSchema from '../../_schema/create-employee-schema';
-import { CreateEmployeeFormData } from '../../_types/create-employee-form-data';
 
+import { editEmployee } from '@/app/dashboard/_actions/edit-employee';
+import editEmployeeFormSchema from '@/app/dashboard/_schema/edit-employee-form-schema';
+import { dayOffOptionList } from '@/app/dashboard/_types/day-off-option';
+import { EditEmployeeFormData } from '@/app/dashboard/_types/edit-employee-form-data';
+import { employeeStatusOptionList } from '@/app/dashboard/_types/employee-status-option';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { dayOffOptionList } from '../../_types/day-off-option';
-import { employeeStatusOptionList } from '../../_types/employee-status-option';
-import { genderOptionList } from '../../_types/gender-option';
-import { InputFields } from './input-fields';
+import { EditEmployeeInputFields } from './edit-employee-input-fields';
 
-export default function EmployeeRegistrationForm() {
+interface Props {
+  employeeId: string;
+  initialData: EditEmployeeFormData;
+}
+
+export default function EditEmployeeForm({ employeeId, initialData }: Props) {
   const router = useRouter();
   const [serverErrors, setServerErrors] = useState<
-    Partial<Record<keyof CreateEmployeeFormData, string[]>>
+    Partial<Record<keyof EditEmployeeFormData, string[]>>
   >({});
 
   const {
@@ -41,20 +43,26 @@ export default function EmployeeRegistrationForm() {
     control,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<CreateEmployeeFormData>({
-    resolver: zodResolver(createEmployeeSchema),
+  } = useForm<EditEmployeeFormData>({
+    resolver: zodResolver(editEmployeeFormSchema),
+    defaultValues: {
+      email: initialData.email,
+      phone: initialData.phone,
+      position: initialData.position,
+      shiftStart: initialData.shiftStart,
+      shiftEnd: initialData.shiftEnd,
+      dayOff: initialData.dayOff,
+      status: initialData.status,
+    },
   });
 
-  const onSubmit = async (data: CreateEmployeeFormData) => {
-    const employeeId = `${data.firstName[0]}${
-      data.lastName[0]
-    }${generateEmployeeId()}`;
-    const result = await createEmployee({ ...data, employeeId });
+  const onSubmit = async (data: EditEmployeeFormData) => {
+    const result = await editEmployee({ ...data, employeeId });
 
     if (result.success) {
-      toast.success('Employé enregistré avec succès');
+      toast.success('Employé modifié avec succès');
       reset();
-      router.push('/dashboard/employees/new');
+      router.push('/dashboard/employees');
     }
 
     if (result.errors) {
@@ -67,7 +75,7 @@ export default function EmployeeRegistrationForm() {
       <Input type='text' {...register('employeeId')} className='sr-only' />
       <div className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {InputFields.map(({ label, name, type, placeholder }) => (
+          {EditEmployeeInputFields.map(({ label, name, type, placeholder }) => (
             <div className='space-y-2' key={name}>
               <Label htmlFor={name} className='text-sm font-medium'>
                 {label}
@@ -75,18 +83,19 @@ export default function EmployeeRegistrationForm() {
               <Input
                 id={name}
                 type={type}
-                {...register(name as keyof CreateEmployeeFormData)}
+                {...register(name as keyof EditEmployeeFormData)}
                 placeholder={placeholder}
+                defaultValue={initialData[name as keyof EditEmployeeFormData]}
                 className='border-[0.1px] h-10 shadow-none bg-black rounded-md p-2 focus:border-blue-500 focus:outline-none  focus:ring-blue-600 focus:ring-2 transition duration-300'
               />
-              {errors[name as keyof CreateEmployeeFormData] && (
+              {errors[name as keyof EditEmployeeFormData] && (
                 <p className='text-xs text-red-500 animate-pulse'>
-                  {errors[name as keyof CreateEmployeeFormData]?.message}
+                  {errors[name as keyof EditEmployeeFormData]?.message}
                 </p>
               )}
-              {serverErrors[name as keyof CreateEmployeeFormData] && (
+              {serverErrors[name as keyof EditEmployeeFormData] && (
                 <p className='text-xs text-red-500 animate-pulse'>
-                  {serverErrors[name as keyof CreateEmployeeFormData]?.[0]}
+                  {serverErrors[name as keyof EditEmployeeFormData]?.[0]}
                 </p>
               )}
             </div>
@@ -129,43 +138,6 @@ export default function EmployeeRegistrationForm() {
             )}
           </div>
 
-          <div className='space-y-2 mt-3'>
-            <Label className='font-medium'>Genre</Label>
-            <Controller
-              name='gender'
-              control={control}
-              render={({ field }) => (
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className='flex space-x-4'
-                >
-                  {genderOptionList.map((gender) => (
-                    <div className='flex items-center space-x-2' key={gender}>
-                      <RadioGroupItem
-                        value={gender}
-                        id={gender}
-                        className='h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500'
-                      />
-                      <Label htmlFor={gender} className='font-medium'>
-                        {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
-            />
-            {errors.gender && (
-              <p className='text-xs text-red-500 animate-pulse'>
-                {errors.gender.message}
-              </p>
-            )}
-            {serverErrors.gender && (
-              <p className='text-xs text-red-500 animate-pulse'>
-                {serverErrors.gender[0]}
-              </p>
-            )}
-          </div>
           <div className='space-y-2'>
             <Label htmlFor='status' className='font-medium'>
               Statut
@@ -216,14 +188,10 @@ export default function EmployeeRegistrationForm() {
             {isSubmitting ? (
               <p className='flex items-center gap-2'>
                 <Loader className='animate-spin' size={20} strokeWidth={0.75} />
-                <span className='text-muted-foreground'>
-                  Création d'un nouvel employé
-                </span>
+                <span className='text-muted-foreground'>Modifier</span>
               </p>
             ) : (
-              <p className='flex items-center gap-2 '>
-                Créer un nouvel employé
-              </p>
+              <p className='flex items-center gap-2 '>Modifier</p>
             )}
           </Button>
         </div>

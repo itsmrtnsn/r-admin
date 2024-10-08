@@ -1,4 +1,5 @@
 import { Checkbox } from '@/components/ui/checkbox';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -9,9 +10,6 @@ import {
 } from '@/components/ui/table';
 import UserAvatar from '@/components/user-avatar';
 import { Employee } from '@prisma/client';
-import EmployeeStatusBadge from './employee-status-badge';
-import { format } from 'date-fns';
-import { Ellipsis } from 'lucide-react';
 
 const tableHeaders = [
   { label: 'Identifiant', value: 'employee_id' },
@@ -20,14 +18,13 @@ const tableHeaders = [
   { label: 'Téléphone', value: 'phone_number' },
   { label: 'Poste', value: 'position' },
   { label: 'Shift', value: 'shift' },
-  { label: 'Actions', value: 'actions' },
 ];
 
 interface Props {
   employees: Employee[];
 }
 
-const EmployeeTable = ({ employees }: Props) => {
+const EmployeeTableSkeleton = () => {
   return (
     <div>
       <Table>
@@ -42,40 +39,42 @@ const EmployeeTable = ({ employees }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {employees.map((employee) => (
-            <TableRow key={employee.id} className='h-14  border-b-[0.1px]'>
+          {[1, 2, 3, 4, 5].map((employee, index) => (
+            <TableRow key={index} className='h-14  border-b-[0.1px]'>
               <TableCell className=''>
                 <Checkbox />
               </TableCell>
-              <TableCell className=''>{employee.id}</TableCell>
+              <TableCell className=''>{index}</TableCell>
               <TableCell className=''>
                 <div className='flex  items-center gap-2'>
-                  {/* <UserAvatar
-                    fallback={employee.firstName[0] + employee.lastName[0]}
-                  /> */}
+                  <UserAvatar fallback={'' + ''} />
                   <div className=''>
                     <p className='font-medium flex items-center gap-2'>
-                      <span>{employee.firstName}</span>
-                      <span>{employee.lastName}</span>
+                      <span>
+                        <Skeleton className='w-4 h-4' />
+                      </span>
+                      <span>
+                        <Skeleton className='w-4 h-4' />
+                      </span>
                     </p>
                     <p className='text-xs text-muted-foreground'>
-                      {employee.email}
+                      <Skeleton className='w-4 h-4' />
                     </p>
                   </div>
                 </div>
               </TableCell>
               <TableCell className=''>
-                <EmployeeStatusBadge status={employee.status} />
+                <Skeleton className='w-4 h-4' />
               </TableCell>
-              <TableCell className=''>{employee.phone}</TableCell>
+              <TableCell className=''>
+                <Skeleton className='w-4 h-4' />
+              </TableCell>
 
-              <TableCell className=''>{employee.position}</TableCell>
               <TableCell className=''>
-                {format(employee.shiftStart, 'HH:mm')} -
-                {format(employee.shiftEnd, 'HH:mm')}
+                <Skeleton className='w-4 h-4' />
               </TableCell>
               <TableCell className=''>
-                <Ellipsis className='cursor-pointer text-muted-foreground' />
+                <Skeleton className='w-4 h-4' />
               </TableCell>
             </TableRow>
           ))}
@@ -85,4 +84,4 @@ const EmployeeTable = ({ employees }: Props) => {
   );
 };
 
-export default EmployeeTable;
+export default EmployeeTableSkeleton;
