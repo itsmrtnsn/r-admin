@@ -37,7 +37,7 @@ const EmployeeSummaryCard = () => {
       {summaryCards.map((card) => (
         <Card
           key={card.title}
-          className='border-[0.1px] shadow-none bg-gradient-to-br from-[#0c0a09] to-[#0a0a0a] '
+          className='border-[0.1px] shadow-none bg-[#0a0a0a] '
         >
           <CardHeader>
             <CardTitle className='text-sm font-medium flex items-center gap-2 justify-between'>

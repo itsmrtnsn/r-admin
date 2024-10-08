@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
@@ -9,6 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import UserAvatar from '@/components/user-avatar';
+import { Employee } from '@prisma/client';
 import EmployeeStatusBadge from './employee-status-badge';
 
 const tableHeaders = [
@@ -19,17 +19,6 @@ const tableHeaders = [
   { label: 'Poste', value: 'position' },
   { label: 'Shift', value: 'shift' },
 ];
-
-type Employee = {
-  employee_id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  position: string;
-  shift: string;
-  status: string;
-};
 
 interface Props {
   employees: Employee[];
@@ -55,16 +44,16 @@ const EmployeeTable = ({ employees }: Props) => {
               <TableCell className=''>
                 <Checkbox />
               </TableCell>
-              <TableCell className=''>{employee.employee_id}</TableCell>
+              <TableCell className=''>{employee.id}</TableCell>
               <TableCell className=''>
                 <div className='flex  items-center gap-2'>
                   <UserAvatar
-                    fallback={employee.first_name[0] + employee.last_name[0]}
+                    fallback={employee.firstName[0] + employee.lastName[0]}
                   />
                   <div className=''>
                     <p className='font-medium flex items-center gap-2'>
-                      <span>{employee.first_name}</span>
-                      <span>{employee.last_name}</span>
+                      <span>{employee.firstName}</span>
+                      <span>{employee.lastName}</span>
                     </p>
                     <p className='text-xs text-muted-foreground'>
                       {employee.email}
@@ -75,10 +64,13 @@ const EmployeeTable = ({ employees }: Props) => {
               <TableCell className=''>
                 <EmployeeStatusBadge status={employee.status} />
               </TableCell>
-              <TableCell className=''>{employee.phone_number}</TableCell>
+              <TableCell className=''>{employee.phone}</TableCell>
 
               <TableCell className=''>{employee.position}</TableCell>
-              <TableCell className=''>{employee.shift}</TableCell>
+              <TableCell className=''>
+                {employee.shiftStart.toTimeString()} -{' '}
+                {employee.shiftEnd.toTimeString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

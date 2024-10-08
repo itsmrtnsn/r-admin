@@ -9,9 +9,24 @@ export const dayOff = [
   'dimanche',
 ] as const;
 
-export const gender = ['masculin', 'féminin'] as const;
+export const gender = ['homme', 'femme'] as const;
+
+export const employeeStatus = [
+  'active',
+  'inactive',
+  'pending',
+  'on_leave',
+  'terminated',
+  'fired',
+  'retired',
+  'resigned',
+] as const;
 
 export const employeeSchema = z.object({
+  employeeId: z.string({
+    required_error: "Le ID de l'employé est requis",
+    invalid_type_error: "Le ID de l'employé doit être une chaîne de caractères",
+  }),
   firstName: z
     .string({
       required_error: 'Le prénom est requis',
@@ -38,7 +53,10 @@ export const employeeSchema = z.object({
       required_error: 'Le numéro de téléphone est requis',
     })
     .regex(/^\+?[1-9]\d{1,14}$/, 'Numéro de téléphone invalide'),
-  // department: z.enum(['engineering', 'marketing', 'sales', 'hr', 'finance']),
+  status: z.enum(['active', 'inactive', 'pending', 'on_leave', 'terminated'], {
+    required_error: 'Le status est requis',
+    invalid_type_error: 'Le status doit être une chaîne de caractères',
+  }),
   position: z
     .string({
       invalid_type_error: 'le position doit être une chaîne de caractères',
@@ -52,9 +70,14 @@ export const employeeSchema = z.object({
   shiftEnd: z
     .string()
     .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Format de temps invalide'),
-  dayOff: z.enum(dayOff, {
-    required_error: 'Le jour de repos est requis',
-  }),
+  dayOff: z
+    .enum(dayOff)
+    .optional()
+    .refine((value) => value === undefined || dayOff.includes(value), {
+      message:
+        "Le jour de repos doit être l'un des jours suivants: " +
+        dayOff.join(', '),
+    }),
 
   gender: z.enum(gender, {
     required_error: 'Le genre est requis',

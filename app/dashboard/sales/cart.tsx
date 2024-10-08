@@ -52,7 +52,7 @@ const Cart = () => {
         {/* summary */}
         <div className='space-y-4 mt-auto p-4 pb-2'>
           <div className='flex justify-between text-base font-semibold'>
-            <span>Subtotal</span>
+            <span>Sous-total</span>
             <span>${isClient ? subtotal.toFixed(2) : '0.00'}</span>
           </div>
           <div className='flex items-center space-x-2'>
@@ -66,21 +66,23 @@ const Cart = () => {
                 <SelectValue placeholder='Discount Type' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='percentage'>Percentage</SelectItem>
-                <SelectItem value='amount'>Amount</SelectItem>
+                <SelectItem value='percentage'>Pourcentage</SelectItem>
+                <SelectItem value='amount'>Montant fixe</SelectItem>
               </SelectContent>
             </Select>
             <Input
               value={discountValue}
               onChange={(e) => setDiscountValue(e.target.value)}
               placeholder={
-                discountType === 'percentage' ? 'Enter %' : 'Enter amount'
+                discountType === 'percentage'
+                  ? 'Entrez le %'
+                  : 'Entrez le montant'
               }
               className='w-1/2 rounded-r-full'
             />
           </div>
           <div className='flex justify-between text-base font-semibold text-green-600'>
-            <span>Discount</span>
+            <span>Rabais</span>
             <span>-${discount.toFixed(2)}</span>
           </div>
           <div className='flex justify-between text-base font-bold text-primary'>

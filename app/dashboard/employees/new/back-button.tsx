@@ -7,7 +7,12 @@ import { useRouter } from 'next/navigation';
 const BackButton = () => {
   const router = useRouter();
   return (
-    <Button onClick={() => router.back()} variant='outline' size='icon'>
+    <Button
+      onClick={() => router.back()}
+      variant='outline'
+      size='icon'
+      className='bg-[#0a0a0a] border-[0.1px]'
+    >
       <ChevronsLeft className='w-4 h-4' />
     </Button>
   );

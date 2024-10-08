@@ -7,100 +7,13 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url  	    = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 
 }
-
-model Category {
-  id String @id @default(cuid())
-  name String @unique @db.VarChar(150)
-  slug String @unique @db.VarChar(150)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([name])
-  Product Product[]
-}
-
-model Product {
-  id String @id @default(cuid())
-  name String @unique @db.VarChar(150)
-  price Int
-  quantityInStock Int
-  threshold Int
-  category Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  status ProductStatus @default(draft)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([name])
-  SaleItem SaleItem[]
-}
-
-
-
-
-model Sale {
-  id String @id @default(cuid())
-  reference String @unique @db.VarChar(12)
-  paymentMethod PaymentMethod @default(cash)
-  cashier String @db.VarChar(100)
-  amountReceived Int
-  change Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  SaleItem SaleItem[]
-  @@index([reference])
-}
-
-enum PaymentMethod {
-  cash
-  credit_card
-  mobile_payment
-  check
-}
-
-model SaleItem {
-  id String @id @default(cuid())
-  product Product @relation(fields: [productId], references: [id])
-  sale Sale @relation(fields: [saleId], references: [id])
-  productId String
-  saleId String
-  quantity Int
-  unitPrice Int
-  totalPrice Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([productId])
-}
-
-enum ProductStatus {
-  draft
-  active
-  archived
-}
-
-
-model Employee {
-  id String @id 
-  firstName String @db.VarChar(100)
-  lastName String @db.VarChar(100)
-  email String @unique @db.VarChar(150)
-  phone String @db.VarChar(15)
-  position String @db.VarChar(100)
-  shiftStart DateTime @db.Time
-  shiftEnd DateTime @db.Time
-  dayOff DayOff?
-  gender Gender
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([email])
-  @@index([phone])
-
-}
-
 
 enum Gender {
-  male
-  female
+  homme
+  femme
 }
 
 enum DayOff {
@@ -112,4 +25,105 @@ enum DayOff {
   samedi
   dimanche
 }
+
+
+enum EmployeeStatus {
+  active
+  inactive
+  on_leave
+  fired
+  retired
+  resigned
+  pending
+}
+
+
+model Employee {
+  id String @id  @unique
+  firstName String @db.VarChar(50)
+  lastName String @db.VarChar(50)
+  email String @unique @db.VarChar(100)
+  phone String @db.VarChar(15)
+  position String @db.VarChar(100)
+  shiftStart DateTime @db.Time()
+  shiftEnd DateTime @db.Time()
+  dayOff DayOff?
+  gender Gender 
+  status EmployeeStatus @default(pending)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([email])
+  @@index([phone])
+
+}
+
+
+
+// model Category {
+//   id String @id @default(cuid())
+//   name String @unique @db.VarChar(150)
+//   slug String @unique @db.VarChar(150)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   @@index([name])
+//   Product Product[]
+// }
+
+// model Product {
+//   id String @id @default(cuid())
+//   name String @unique @db.VarChar(150)
+//   price Int
+//   quantityInStock Int
+//   threshold Int
+//   category Category @relation(fields: [categoryId], references: [id])
+//   categoryId String
+//   status ProductStatus @default(draft)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   @@index([name])
+//   SaleItem SaleItem[]
+// }
+
+
+
+
+// model Sale {
+//   id String @id @default(cuid())
+//   reference String @unique @db.VarChar(12)
+//   paymentMethod PaymentMethod @default(cash)
+//   cashier String @db.VarChar(100)
+//   amountReceived Int
+//   change Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   SaleItem SaleItem[]
+//   @@index([reference])
+// }
+
+// enum PaymentMethod {
+//   cash
+//   credit_card
+//   mobile_payment
+//   check
+// }
+
+// model SaleItem {
+//   id String @id @default(cuid())
+//   product Product @relation(fields: [productId], references: [id])
+//   sale Sale @relation(fields: [saleId], references: [id])
+//   productId String
+//   saleId String
+//   quantity Int
+//   unitPrice Int
+//   totalPrice Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   @@index([productId])
+// }
+
+// enum ProductStatus {
+//   draft
+//   active
+//   archived
+// }
 

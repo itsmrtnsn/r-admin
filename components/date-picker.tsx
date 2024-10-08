@@ -23,7 +23,7 @@ export function DatePicker() {
           <Button
             variant={'outline'}
             className={cn(
-              'w-[200px] justify-start text-left font-normal h-10 shadow-none border-[0.1px] bg-background',
+              'w-[200px] justify-start text-left font-normal h-10 shadow-none border-[0.1px] bg-[#0a0a0a]',
               !date && 'text-muted-foreground'
             )}
           >
@@ -32,8 +32,8 @@ export function DatePicker() {
           </Button>
           <Button
             disabled={!date}
-            variant={'secondary'}
-            className='font-normal'
+            variant={'outline'}
+            className='font-normal bg-blue-700'
           >
             Sumettre
           </Button>

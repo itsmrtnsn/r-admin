@@ -10,7 +10,7 @@ interface LayoutProps {
 const layout = ({ children, params }: LayoutProps) => {
   return (
     <section>
-      <div className='min-h-screen  p-4 flex gap-4 bg-[#0c0a09]'>
+      <div className='min-h-screen  p-4 flex gap-4 bg-[#09090b]'>
         {/* Sidebar */}
         <StoreSidebar />
         {/* Main Content */}

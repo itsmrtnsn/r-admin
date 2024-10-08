@@ -46,7 +46,7 @@ const StoreSidebar = () => {
           initial={false}
           animate={{ width: isSidebarOpen ? '16rem' : '5rem' }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className='h-full bg-[#000000] flex-shrink-0 overflow-hidden'
+          className='h-full bg-[#0a0a0a] flex-shrink-0 overflow-hidden'
         >
           <div className='p-4 h-full flex flex-col'>
             <div className='flex items-center justify-between mb-6'>

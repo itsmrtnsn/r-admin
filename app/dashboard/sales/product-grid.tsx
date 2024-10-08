@@ -37,6 +37,7 @@ const ProductCardComponent = ({ product }: CardProps) => {
 
   const currentQuantityInCart =
     items.find((item) => item.product.id === product.id)?.quantity || 0;
+
   const isMaxQuantityReached = currentQuantityInCart >= product.quantityInStock;
 
   return (

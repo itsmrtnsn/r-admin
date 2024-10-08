@@ -16,7 +16,7 @@ interface EmployeeBadgeProps {
   companyLogo: string;
 }
 
-const EmployeeBadge: React.FC<EmployeeBadgeProps> = ({
+export const EmployeeBadge: React.FC<EmployeeBadgeProps> = ({
   name,
   position,
   department,
@@ -25,7 +25,7 @@ const EmployeeBadge: React.FC<EmployeeBadgeProps> = ({
   companyLogo,
 }) => {
   return (
-    <Card className='w-64 h-96 m-4 flex flex-col overflow-hidden'>
+    <Card className='w-64 h-96 m-4 bg-[#0a0a0a] flex flex-col overflow-hidden'>
       <div className='bg-primary h-24 flex items-center justify-center'>
         <Image
           src={companyLogo}
@@ -65,42 +65,3 @@ const EmployeeBadge: React.FC<EmployeeBadgeProps> = ({
     </Card>
   );
 };
-
-export default function EmployeeCards() {
-  return (
-    <div className='flex flex-wrap justify-center items-center min-h-screen bg-gray-50'>
-      <EmployeeBadge
-        name='John Doe'
-        position='Senior Developer'
-        department='Engineering'
-        employeeId='EMP001'
-        avatarUrl='/placeholder.svg'
-        companyLogo='/placeholder.svg'
-      />
-      <EmployeeBadge
-        name='Jane Smith'
-        position='Product Manager'
-        department='Product'
-        employeeId='EMP002'
-        avatarUrl='/placeholder.svg'
-        companyLogo='/placeholder.svg'
-      />
-      <EmployeeBadge
-        name='Mike Johnson'
-        position='UX Designer'
-        department='Design'
-        employeeId='EMP003'
-        avatarUrl='/placeholder.svg'
-        companyLogo='/placeholder.svg'
-      />
-      <EmployeeBadge
-        name='Jane Smith'
-        position='Product Manager'
-        department='Product'
-        employeeId='EMP002'
-        avatarUrl='/placeholder.svg'
-        companyLogo='/placeholder.svg'
-      />
-    </div>
-  );
-}

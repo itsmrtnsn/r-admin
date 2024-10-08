@@ -2,6 +2,7 @@ import { GiMoneyStack } from 'react-icons/gi';
 import { IoSettings } from 'react-icons/io5';
 import { MdDashboardCustomize } from 'react-icons/md';
 import { SiGooglemarketingplatform, SiSimpleanalytics } from 'react-icons/si';
+import { FaStoreAlt } from 'react-icons/fa';
 
 const sidebarItems: {
   icon: React.ElementType;
@@ -18,8 +19,8 @@ const sidebarItems: {
   }[];
 }[] = [
   {
-    icon: MdDashboardCustomize,
-    name: 'Dashboard',
+    icon: FaStoreAlt,
+    name: 'Store',
     subitems: [
       {
         name: 'Make a Sale',
@@ -27,17 +28,27 @@ const sidebarItems: {
         path: '/dashboard/sales',
       },
       {
-        name: 'Overview',
+        name: 'Aperçu',
         icon: MdDashboardCustomize,
         path: '/overview',
       },
       {
-        name: 'Analytics',
+        name: 'Clients',
+        icon: MdDashboardCustomize,
+        path: '/clients',
+      },
+      {
+        name: 'Performance des produits',
+        icon: MdDashboardCustomize,
+        path: '/product-performance',
+      },
+      {
+        name: 'Analytique',
         icon: MdDashboardCustomize,
         path: '/analytics',
       },
       {
-        name: 'Reports',
+        name: 'Rapports',
         icon: MdDashboardCustomize,
         path: '/reports',
       },
@@ -45,20 +56,20 @@ const sidebarItems: {
   },
   {
     icon: SiGooglemarketingplatform,
-    name: 'Management',
+    name: 'Gestion des employés',
     subitems: [
       {
-        name: 'Employees',
+        name: 'Employés',
         icon: MdDashboardCustomize,
         path: '/dashboard/employees',
       },
       {
-        name: 'Attendance',
+        name: 'Présence',
         icon: MdDashboardCustomize,
         path: '/dashboard/attendance',
       },
       {
-        name: 'Attendance Report',
+        name: 'Rapport de présence',
         icon: MdDashboardCustomize,
         path: '/dashboard/attendance-report',
       },
@@ -66,37 +77,16 @@ const sidebarItems: {
   },
 
   {
-    icon: SiSimpleanalytics,
-    name: 'Analytics',
-    subitems: [
-      {
-        name: 'Sales Report',
-        icon: MdDashboardCustomize,
-        path: 'sales-report',
-      },
-      {
-        name: 'Customer Insights',
-        icon: MdDashboardCustomize,
-        path: '/analytics/customer-insights',
-      },
-      {
-        name: 'Product Performance',
-        icon: MdDashboardCustomize,
-        path: '/product-performance',
-      },
-    ],
-  },
-  {
     icon: GiMoneyStack,
     name: 'Finances',
     subitems: [
       {
-        name: 'Income',
+        name: 'Revenu',
         icon: MdDashboardCustomize,
         path: '/finances/income',
       },
       {
-        name: 'Expenses',
+        name: 'Dépenses',
         icon: MdDashboardCustomize,
         path: '/finances/expenses',
       },
@@ -104,10 +94,10 @@ const sidebarItems: {
   },
   {
     icon: IoSettings,
-    name: 'Settings',
+    name: 'Paramètres',
     subitems: [
       {
-        name: 'Account',
+        name: 'Compte',
         icon: MdDashboardCustomize,
         path: '/settings/account',
       },
@@ -119,7 +109,7 @@ const sidebarItems: {
       },
 
       {
-        name: 'Preferences',
+        name: 'Préférences',
         icon: MdDashboardCustomize,
         path: '/settings/preferences',
       },

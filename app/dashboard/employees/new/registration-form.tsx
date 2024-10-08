@@ -11,11 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { toast } from '@/hooks/use-toast';
+
+import employeeStatus from '@/lib/employee-status';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { registerEmployee } from './actions';
+import EmployeeBadgeDialog from './employee-badge-dialog';
 import {
   dayOff,
   EmployeeFormData,
@@ -23,11 +27,17 @@ import {
   gender,
 } from './employee-schema';
 import { InputFields } from './input-fields';
+import { generateEmployeeId } from '@/lib/generate-employee-id';
 
 export default function EmployeeRegistrationForm() {
   const [serverErrors, setServerErrors] = useState<
     Partial<Record<keyof EmployeeFormData, string[]>>
   >({});
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [employeeData, setEmployeeData] = useState<EmployeeFormData | null>(
+    null
+  );
+
   const {
     register,
     handleSubmit,
@@ -39,26 +49,25 @@ export default function EmployeeRegistrationForm() {
   });
 
   const onSubmit = async (data: EmployeeFormData) => {
-    const result = await registerEmployee(data);
+    const employeeId = `${data.firstName[0]}${
+      data.lastName[0]
+    }${generateEmployeeId()}`;
+    const result = await registerEmployee({ ...data, employeeId });
     if (result.success) {
-      toast({
-        title: 'Employee Registered',
-        description: 'The employee has been successfully registered.',
-      });
-      reset();
+      toast.success('Employé enregistré avec succès');
+      reset(); // Resetting the form fields
       setServerErrors({});
+      setEmployeeData({ ...data, employeeId }); // Store employee data for the badge
+      setIsDialogOpen(true);
     } else {
       setServerErrors(result.errors || {});
-      toast({
-        title: 'Registration Failed',
-        description: 'Please check the form for errors.',
-        variant: 'destructive',
-      });
+      toast.error("Erreur lors de l'enregistrement");
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='p-4'>
+      <Input type='text' {...register('employeeId')} className='sr-only' />
       <div className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {InputFields.map(({ label, name, type, placeholder }) => (
@@ -85,44 +94,7 @@ export default function EmployeeRegistrationForm() {
               )}
             </div>
           ))}
-          {/* <div className='space-y-2'>
-            <Label htmlFor='department' className='font-medium'>
-              Department
-            </Label>
-            <Controller
-              name='department'
-              control={control}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
-                    <SelectValue placeholder='Sélectionnez un département' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {['engineering', 'marketing', 'sales', 'hr', 'finance'].map(
-                      (dept) => (
-                        <SelectItem key={dept} value={dept}>
-                          {dept.charAt(0).toUpperCase() + dept.slice(1)}
-                        </SelectItem>
-                      )
-                    )}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.department && (
-              <p className='text-xs text-red-500 animate-pulse'>
-                {errors.department?.message}
-              </p>
-            )}
-            {serverErrors.department && (
-              <p className='text-xs text-red-500 animate-pulse'>
-                {serverErrors.department?.[0]}
-              </p>
-            )}
-          </div> */}
+
           <div className='space-y-2'>
             <Label htmlFor='dayOff' className='font-medium'>
               Jour de repos
@@ -133,7 +105,7 @@ export default function EmployeeRegistrationForm() {
               render={({ field }) => (
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
                 >
                   <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un jour de repos' />
@@ -159,6 +131,8 @@ export default function EmployeeRegistrationForm() {
               </p>
             )}
           </div>
+
+          {/*  */}
           <div className='space-y-2 mt-3'>
             <Label className='font-medium'>Genre</Label>
             <Controller
@@ -167,7 +141,7 @@ export default function EmployeeRegistrationForm() {
               render={({ field }) => (
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
                   className='flex space-x-4'
                 >
                   {gender.map((gender) => (
@@ -196,13 +170,64 @@ export default function EmployeeRegistrationForm() {
               </p>
             )}
           </div>
+          <div className='space-y-2'>
+            <Label htmlFor='status' className='font-medium'>
+              Statut
+            </Label>
+            <Controller
+              name='status'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  // defaultValue={field.value}
+                >
+                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                    <SelectValue placeholder='Sélectionnez un statut' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {employeeStatus.map((status) => (
+                      <SelectItem key={status.id} value={status.value}>
+                        {status.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.status && (
+              <p className='text-xs text-red-500 animate-pulse'>
+                {errors.status?.message}
+              </p>
+            )}
+            {serverErrors.status && (
+              <p className='text-xs text-red-500 animate-pulse'>
+                {serverErrors.status?.[0]}
+              </p>
+            )}
+          </div>
         </div>
-
+        {isDialogOpen && employeeData && (
+          <EmployeeBadgeDialog
+            isDialogOpen={isDialogOpen}
+            setIsDialogOpen={setIsDialogOpen}
+            firstName={employeeData.firstName}
+            lastName={employeeData.lastName}
+            position={employeeData.position}
+            department={'R.Communication'}
+            employeeId={`${employeeData.firstName[0]}${
+              employeeData.lastName[0]
+            }${generateEmployeeId()}`}
+            avatarUrl={''}
+            companyLogo={''}
+          />
+        )}
+        {/* Show the dialog if open */}
         <div className='flex justify-end'>
           <Button
             type='submit'
             size='lg'
-            className='h-10 w-[230px] text-base font-normal bg-blue-700 text-white rounded-md p-2 hover:bg-blue-800 transition duration-200'
+            className='h-10 w-[220px] text-base font-normal bg-blue-700 text-white rounded-md p-2 hover:bg-blue-800 transition duration-200'
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Registering...' : 'Register Employee'}

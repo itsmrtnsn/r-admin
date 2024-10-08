@@ -89,7 +89,7 @@ export function CheckoutDialog({
           disabled={!getTotal()}
           className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'
         >
-          Proceed to Checkout
+          Checkout
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[450px]  rounded-2xl border-[0.1px]'>
@@ -106,14 +106,14 @@ export function CheckoutDialog({
                 htmlFor='payment-method'
                 className='text-right font-medium text-muted-foreground'
               >
-                Payment Method
+                Mode de paiement
               </Label>
               <Select
                 defaultValue='cash'
                 onValueChange={(option) => setSelectedPaymentOption(option)}
               >
                 <SelectTrigger className='col-span-3 border-[0.1px]'>
-                  <SelectValue placeholder='Select payment method' />
+                  <SelectValue placeholder='Sélectionnez le mode de paiement' />
                 </SelectTrigger>
                 <SelectContent className='bg-[#0a0a0a] border-[0.1px]'>
                   {paymentOptions.map((option) => (
@@ -142,13 +142,13 @@ export function CheckoutDialog({
                   htmlFor='cash-received'
                   className='text-right font-medium text-muted-foreground'
                 >
-                  Cash Received
+                  Cash reçue
                 </Label>
                 <Input
                   id='cash-received'
                   value={cashReceived}
                   onChange={(e) => setCashReceived(parseFloat(e.target.value))}
-                  placeholder='Enter amount'
+                  placeholder='Entrer le montant'
                   className='col-span-3 border-[0.1px]'
                   type='number'
                   step='0.01'
@@ -164,7 +164,7 @@ export function CheckoutDialog({
                   setShowRoomChargeOptions(checked);
                 }}
               />
-              <Label htmlFor='room-charge'>Charge to Room</Label>
+              <Label htmlFor='room-charge'>Facture à la chambre</Label>
             </div>
             {showRoomChargeOptions && (
               <motion.div
@@ -177,13 +177,13 @@ export function CheckoutDialog({
                   htmlFor='room-number'
                   className='text-right font-medium text-gray-700'
                 >
-                  Room Number
+                  Numéro de chambre
                 </Label>
                 <Input
                   id='room-number'
                   value={roomNumber}
                   onChange={(e) => setRoomNumber(e.target.value)}
-                  placeholder='Enter room number'
+                  placeholder='Entrez le numéro de chambre'
                   className='col-span-3 border-[0.1px]'
                 />
               </motion.div>
@@ -191,7 +191,7 @@ export function CheckoutDialog({
             <Separator className='bg-muted' />
             <div className='space-y-2'>
               <div className='flex justify-between text-lg text-gray-700'>
-                <span>Subtotal</span>
+                <span>Sous-total</span>
                 <span>${subTotal.toFixed(2)}</span>
               </div>
               <div className='flex justify-between text-lg text-green-600'>
@@ -211,7 +211,7 @@ export function CheckoutDialog({
                 transition={{ duration: 0.3 }}
                 className='flex justify-between text-lg font-semibold'
               >
-                <span>Change</span>
+                <span>Monnaie</span>
                 <span>${Math.max(cashReceived - total, 0).toFixed(2)}</span>
               </motion.div>
             )}
@@ -231,10 +231,10 @@ export function CheckoutDialog({
                 {isLoading ? (
                   <p className='flex items-center justify-center gap-4'>
                     <FaSpinner className='animate-spin' />
-                    <span>Processing...</span>
+                    <span>En cours...</span>
                   </p>
                 ) : (
-                  'Complete Payment'
+                  'Valider le paiement'
                 )}
               </Button>
             )}
