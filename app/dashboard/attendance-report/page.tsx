@@ -7,13 +7,14 @@ import Pagination from '@/components/pagination';
 import Search from '@/components/search';
 import { ReportCharts } from './report-charts';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { DateRangePicker } from '@/components/data-range-picker';
 
 const AttendanceReport = () => {
   return (
     <div className='p-4 space-y-8'>
       <div className='flex justify-between items-center'>
         <CurrentPath />
-        <DatePicker />
+        <DateRangePicker />
       </div>
       <AttendanceReportSummary />
       <ScrollArea className='w-full h-[60vh] pb-4'>

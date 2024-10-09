@@ -1,6 +1,7 @@
 import MotionProvider from '@/components/motion-provider';
 import StoreSidebar from '@/components/side-bar';
 import { Card, CardContent } from '@/components/ui/card';
+import { Toaster } from '@/components/ui/sonner';
 
 interface LayoutProps {
   params: { store_identifier: string };
@@ -19,6 +20,7 @@ const layout = ({ children, params }: LayoutProps) => {
             {/* <Header /> */}
             <MotionProvider>{children}</MotionProvider>
           </CardContent>
+          <Toaster />
         </Card>
       </div>
     </section>

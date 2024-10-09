@@ -23,6 +23,7 @@ import { dayOffOptionList } from '@/app/dashboard/_types/day-off-option';
 import { EditEmployeeFormData } from '@/app/dashboard/_types/edit-employee-form-data';
 import { employeeStatusOptionList } from '@/app/dashboard/_types/employee-status-option';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { EditEmployeeInputFields } from './edit-employee-input-fields';
 
@@ -49,8 +50,8 @@ export default function EditEmployeeForm({ employeeId, initialData }: Props) {
       email: initialData.email,
       phone: initialData.phone,
       position: initialData.position,
-      shiftStart: initialData.shiftStart,
-      shiftEnd: initialData.shiftEnd,
+      shiftStart: format(initialData.shiftStart, 'HH:mm'),
+      shiftEnd: format(initialData.shiftEnd, 'HH:mm'),
       dayOff: initialData.dayOff,
       status: initialData.status,
     },
@@ -85,7 +86,9 @@ export default function EditEmployeeForm({ employeeId, initialData }: Props) {
                 type={type}
                 {...register(name as keyof EditEmployeeFormData)}
                 placeholder={placeholder}
-                defaultValue={initialData[name as keyof EditEmployeeFormData]}
+                defaultValue={
+                  initialData[name as keyof EditEmployeeFormData] || ''
+                }
                 className='border-[0.1px] h-10 shadow-none bg-black rounded-md p-2 focus:border-blue-500 focus:outline-none  focus:ring-blue-600 focus:ring-2 transition duration-300'
               />
               {errors[name as keyof EditEmployeeFormData] && (
@@ -111,7 +114,7 @@ export default function EditEmployeeForm({ employeeId, initialData }: Props) {
               render={({ field }) => (
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={field.value || ''}
                 >
                   <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un jour de repos' />

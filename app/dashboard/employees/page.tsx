@@ -13,6 +13,7 @@ import EmployeeSummaryCard from './employee-summary-cards';
 import EmployeeTable from './employee-table';
 import EmptyEmployee from './empty-employee';
 import EmployeeTableSkeleton from './employee-table-skeleton';
+import { SonnerDemo } from '@/components/toast-button';
 
 const Employees = async () => {
   const employees = await getEmployees();
@@ -33,6 +34,7 @@ const Employees = async () => {
               <div className='flex items-center gap-2 justify-between'>
                 <Search />
                 <AddEmployee />
+                <SonnerDemo />
               </div>
             </CardHeader>
             <CardContent>

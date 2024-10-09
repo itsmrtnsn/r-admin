@@ -29,13 +29,13 @@ const editEmployeeFormSchema = z.object({
     .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Format de temps invalide'),
   dayOff: z
     .string()
-    .optional()
+    .nullable() // Allow null values
+    .optional() // Allow undefined values
     .refine(
       (dayOff) => {
+        if (dayOff === null) return true; // Accept null
         const validDaysOff = [...dayOffOptionList];
-        return (
-          dayOff === undefined || validDaysOff.includes(dayOff as DayOffOption)
-        );
+        return validDaysOff.includes(dayOff as DayOffOption); // Check against valid days
       },
       {
         message:

@@ -5,7 +5,6 @@ import { revalidatePath } from 'next/cache';
 import { EditEmployeeFormData } from '../_types/edit-employee-form-data';
 import editEmployeeFormSchema from '../_schema/edit-employee-form-schema';
 import DayOffOption from '../_types/day-off-option';
-
 export async function editEmployee(data: EditEmployeeFormData) {
   const result = editEmployeeFormSchema.safeParse(data);
 
@@ -54,8 +53,14 @@ export async function editEmployee(data: EditEmployeeFormData) {
     shiftStart: shiftStart,
     shiftEnd: shiftEnd,
     status: result.data.status,
-    dayOff: (result.data.dayOff as DayOffOption) || null,
+    dayOff: result.data.dayOff || null, // Handle undefined or null dayOff correctly
   };
+
+  if (result.data.dayOff !== existingEmployee.dayOff) {
+    updateData.dayOff = result.data.dayOff
+      ? (result.data.dayOff as DayOffOption)
+      : null;
+  }
 
   // Only update email and phone if they have new values
   if (result.data.email !== existingEmployee.email) {

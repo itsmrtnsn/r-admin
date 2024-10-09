@@ -12,6 +12,7 @@ import { Employee } from '@prisma/client';
 import EmployeeStatusBadge from './employee-status-badge';
 import { format } from 'date-fns';
 import { Ellipsis } from 'lucide-react';
+import TableAction from './table-action';
 
 const tableHeaders = [
   { label: 'Identifiant', value: 'employee_id' },
@@ -75,7 +76,7 @@ const EmployeeTable = ({ employees }: Props) => {
                 {format(employee.shiftEnd, 'HH:mm')}
               </TableCell>
               <TableCell className=''>
-                <Ellipsis className='cursor-pointer text-muted-foreground' />
+                <TableAction employeeId={employee.id} />
               </TableCell>
             </TableRow>
           ))}

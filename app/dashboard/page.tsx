@@ -1,3 +1,4 @@
+import { SonnerDemo } from '@/components/toast-button';
 import { Card, CardContent } from '@/components/ui/card';
 
 const DashboardPage = () => {
@@ -5,7 +6,9 @@ const DashboardPage = () => {
     <div className='h-[80vh] flex items-center justify-center w-full'>
       <div className=''>
         <Card>
-          <CardContent></CardContent>
+          <CardContent>
+            <SonnerDemo />
+          </CardContent>
         </Card>
       </div>
     </div>

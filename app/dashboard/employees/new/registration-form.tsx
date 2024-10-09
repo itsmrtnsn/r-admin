@@ -16,8 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { createEmployee } from '../../_actions/create-employee';
 import createEmployeeSchema from '../../_schema/create-employee-schema';
 import { CreateEmployeeFormData } from '../../_types/create-employee-form-data';
@@ -28,6 +27,7 @@ import { dayOffOptionList } from '../../_types/day-off-option';
 import { employeeStatusOptionList } from '../../_types/employee-status-option';
 import { genderOptionList } from '../../_types/gender-option';
 import { InputFields } from './input-fields';
+import { toast } from 'sonner';
 
 export default function EmployeeRegistrationForm() {
   const router = useRouter();
@@ -52,9 +52,9 @@ export default function EmployeeRegistrationForm() {
     const result = await createEmployee({ ...data, employeeId });
 
     if (result.success) {
-      toast.success('Employé enregistré avec succès');
+      toast.success(result.message);
       reset();
-      router.push('/dashboard/employees/new');
+      router.push('/dashboard/employees');
     }
 
     if (result.errors) {

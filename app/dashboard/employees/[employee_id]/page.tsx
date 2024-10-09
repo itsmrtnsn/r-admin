@@ -1,4 +1,5 @@
 import { getEmployeeById } from '../../_actions/get-employee-by-id';
+import { DeleteEmployee } from '../delete-employee';
 
 interface EmployeeInfoPageProps {
   params: {
@@ -12,10 +13,12 @@ const EmployeeInfoPage = async ({
   const { employee, success, message } = await getEmployeeById(employee_id);
 
   return (
-    <div>
+    <div className='h-[calc(100vh-10rem)] flex items-center justify-center flex-col'>
       <h1>
         {employee?.firstName} {employee?.lastName}
       </h1>
+
+      <DeleteEmployee employeeId={employee_id} />
     </div>
   );
 };
