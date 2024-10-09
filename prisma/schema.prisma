@@ -56,9 +56,40 @@ model Employee {
   @@index([email])
   @@index([phone])
 
+  Attendance Attendance[]
+}
+enum AttendanceCheckInStatus {
+  on_time
+  late
 }
 
+enum AttendanceCheckOutStatus {
+  early
+  on_time
+}
 
+enum AttendanceStatus {
+  present
+  absent
+  day_off
+  on_vacation
+  remote_work  // optional, for remote work
+  sick_leave   // optional, for sick leave
+}
+
+model Attendance {
+  id              Int                     @id @default(autoincrement())
+  employee        Employee                @relation(fields: [employeeId], references: [id])
+  attendanceStatus AttendanceStatus       @default(present)
+  employeeId      String
+  date            DateTime                @db.Date()
+  checkInStatus   AttendanceCheckInStatus?
+  checkInTime     DateTime?               @db.Time()
+  checkOutStatus  AttendanceCheckOutStatus?
+  checkOutTime    DateTime?               @db.Time()
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+}
 
 // model Category {
 //   id String @id @default(cuid())

@@ -1,5 +1,7 @@
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { getEmployeeById } from '../../_actions/get-employee-by-id';
 import { DeleteEmployee } from '../delete-employee';
+import EmployeeAttendanceInsights from './employee-insight';
 
 interface EmployeeInfoPageProps {
   params: {
@@ -13,12 +15,10 @@ const EmployeeInfoPage = async ({
   const { employee, success, message } = await getEmployeeById(employee_id);
 
   return (
-    <div className='h-[calc(100vh-10rem)] flex items-center justify-center flex-col'>
-      <h1>
-        {employee?.firstName} {employee?.lastName}
-      </h1>
-
-      <DeleteEmployee employeeId={employee_id} />
+    <div>
+      <ScrollArea className='h-[95vh]'>
+        <EmployeeAttendanceInsights />
+      </ScrollArea>
     </div>
   );
 };

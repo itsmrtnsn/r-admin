@@ -20,7 +20,7 @@ const layout = ({ children, params }: LayoutProps) => {
             {/* <Header /> */}
             <MotionProvider>{children}</MotionProvider>
           </CardContent>
-          <Toaster />
+          <Toaster position='top-right' richColors />
         </Card>
       </div>
     </section>

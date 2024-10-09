@@ -14,13 +14,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { deleteEmployee } from '../_actions/delete-employee';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function DeleteEmployee({ employeeId }: { employeeId: string }) {
   const router = useRouter();
   const handleDelete = async () => {
     const response = await deleteEmployee(employeeId);
+
     if (response.success) {
       router.push('/dashboard/employees');
+      toast.success(response.message);
     }
   };
 
@@ -29,7 +32,7 @@ export function DeleteEmployee({ employeeId }: { employeeId: string }) {
       <AlertDialogTrigger asChild>
         <Button variant='destructive'>Supprimer</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className='bg-red-800'>
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Êtes-vous sûr de vouloir supprimer cet employé ?

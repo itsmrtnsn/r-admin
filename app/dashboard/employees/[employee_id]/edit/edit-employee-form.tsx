@@ -14,8 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'sonner';
 
 import { editEmployee } from '@/app/dashboard/_actions/edit-employee';
 import editEmployeeFormSchema from '@/app/dashboard/_schema/edit-employee-form-schema';
@@ -61,9 +60,9 @@ export default function EditEmployeeForm({ employeeId, initialData }: Props) {
     const result = await editEmployee({ ...data, employeeId });
 
     if (result.success) {
-      toast.success('Employé modifié avec succès');
       reset();
       router.push('/dashboard/employees');
+      toast.success('Employé modifié avec succès');
     }
 
     if (result.errors) {

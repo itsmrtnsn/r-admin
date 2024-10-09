@@ -81,7 +81,7 @@ const StoreSidebar = () => {
                           <Button
                             variant='ghost'
                             className={cn(
-                              'w-full justify-between  font-normal transition-all duration-300 ease-in-out',
+                              'w-full justify-between  font- transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
                                 'bg-blue-700 text-white',

@@ -14,17 +14,21 @@ interface EmployeeInfoPageProps {
 const EditEmployee = async ({
   params: { employee_id },
 }: EmployeeInfoPageProps) => {
-  const { employee, success } = await getEmployeeById(employee_id);
-  if (!success) {
-    return <div>Error</div>;
+  const { employee } = await getEmployeeById(employee_id);
+
+  if (!employee) {
+    return <div>Employee not found</div>;
   }
+
   return (
     <div className='p-8'>
       <div className='mb-4 space-y-2.5'>
         <div className='flex  gap-2'>
           <BackButton />
           <div className=''>
-            <h1 className='text-3xl font-medium'>Mortensen Ulysse</h1>
+            <h1 className='text-3xl font-medium'>
+              {employee.firstName} {employee.lastName}
+            </h1>
             <p className='text-sm text-muted-foreground'>
               Veuillez modifier les informations de l'employé ci-dessous.
               {employee_id}

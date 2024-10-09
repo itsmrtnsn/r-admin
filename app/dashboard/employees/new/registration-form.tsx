@@ -52,7 +52,7 @@ export default function EmployeeRegistrationForm() {
     const result = await createEmployee({ ...data, employeeId });
 
     if (result.success) {
-      toast.success(result.message);
+      toast.success('Employé créé avec succès');
       reset();
       router.push('/dashboard/employees');
     }
