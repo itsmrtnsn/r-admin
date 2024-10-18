@@ -1,44 +1,45 @@
-'use client';
-
-import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import ProductStatusBadge from '../components/product-status-badge';
-import ProductInfoForm from './product-info';
-import { ToastContainer, toast } from 'react-toastify';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import 'react-toastify/dist/ReactToastify.css';
-const NewProductPage = () => {
-  const router = useRouter();
+import getCategory from '../../_actions/get-category';
+import CreateProductForm from './create-product-form';
+
+const NewProductPage = async () => {
+  const result = await getCategory();
+
+  // Ensure categories are properly formatted for the form
+  const categories =
+    Array.isArray(result) && result.length > 0
+      ? result
+      : [{ name: 'Aucune catégorie disponible', slug: 'none', id: '-' }];
 
   return (
-    <div>
-      <div className='flex items-center gap-4 mb-10'>
-        <Button
-          variant='outline'
-          size='icon'
-          className='h-7 w-7 bg-card/30'
-          onClick={() => router.back()}
-        >
-          <ChevronLeft className='h-4 w-4 ' />
-          <span className='sr-only'>Back</span>
-        </Button>
-        <h1 className='flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0'>
-          Créer un Article
-        </h1>
-        <ProductStatusBadge status='published' />
-        <div className='hidden items-center gap-2 md:ml-auto md:flex'>
-          <Button size='sm' variant='destructive'>
-            Annuler
-          </Button>
-        </div>
-      </div>
-      <ProductInfoForm
-        onSubmit={(data) => {
-          toast.success('Product created successfully');
-        }}
-      />
-      <ToastContainer />
-    </div>
+    <Card className='border-[0.1px] bg-zinc-900'>
+      <CardHeader>
+        <CardTitle className='text-3xl font-bold'>
+          Enregistrement d'article
+        </CardTitle>
+        <CardDescription>
+          Veuillez saisir les informations du nouveau produit ci-dessous.
+        </CardDescription>
+      </CardHeader>
+      <ScrollArea className='h-[80vh]'>
+        <CardContent className='border-[0.1px] border-zinc-800 rounded-lg m-8 mt-4 p-8'>
+          <CreateProductForm
+            categories={categories.map((category) => ({
+              ...category,
+              slug: category.slug || 'none',
+            }))}
+          />
+        </CardContent>
+      </ScrollArea>
+    </Card>
   );
 };
 

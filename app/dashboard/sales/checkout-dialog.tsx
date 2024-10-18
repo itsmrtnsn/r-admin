@@ -49,7 +49,7 @@ export function CheckoutDialog({
 
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<string>('cash');
-  const [cashReceived, setCashReceived] = useState<number>();
+  const [cashReceived, setCashReceived] = useState<number>(0);
   const [showReceipt, setShowReceipt] = useState(false);
   const [isRoomCharge, setIsRoomCharge] = useState(false);
   const [roomNumber, setRoomNumber] = useState('');
@@ -57,7 +57,9 @@ export function CheckoutDialog({
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
 
-  const customerChange = (cashReceived || 0) - total;
+  const customerChange = () => {
+    return cashReceived - total;
+  };
 
   const handleCompletePayment = async () => {
     if (isRoomCharge && !roomNumber) {
@@ -212,7 +214,8 @@ export function CheckoutDialog({
                 className='flex justify-between text-lg font-semibold'
               >
                 <span>Monnaie</span>
-                <span>${Math.max(cashReceived - total, 0).toFixed(2)}</span>
+                {/* <span>${Math.max(cashReceived - total, 0).toFixed(2)}</span> */}
+                <span>$ {customerChange()}</span>
               </motion.div>
             )}
           </CardContent>
@@ -242,48 +245,6 @@ export function CheckoutDialog({
           </CardFooter>
         </Card>
       </DialogContent>
-
-      {/* Receipt Dialog */}
-      {/* <Dialog open={showReceiptDialog} onOpenChange={setShowReceiptDialog}>
-        <DialogContent className='sm:max-w-[400px] bg-[#0a0a0a] rounded-2xl border-[0.1px]'>
-          <DialogHeader>
-            <DialogTitle className='text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800'>
-              Receipt
-            </DialogTitle>
-          </DialogHeader>
-          <div className='space-y-4'>
-            <p>Transaction ID: {transactionId}</p>
-            <p>Cashier: {cashier}</p>
-            <p>Total: ${total.toFixed(2)}</p>
-            <p>Change: ${Math.max(cashReceived ?? 0 - total, 0).toFixed(2)}</p>
-            <BarReceipt
-              transactionId={''}
-              cashier={''}
-              items={[]}
-              subtotal={0}
-              discount={0}
-              total={0}
-              amountReceived={0}
-              change={0}
-              paymentMethod={''}
-            />
-          </div>
-          <CardFooter>
-            <Button
-              className='w-full rounded-full py-6 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'
-              onClick={handlePrintReceipt}
-            >
-              Print Receipt
-            </Button>
-            <Button
-              className='w-full rounded-full py-6 text-lg font-semibold text-gray-500 bg-gray-200 hover:bg-gray-300 transition-all duration-300'
-              onClick={handleCancelReceipt}
-            >
-              Cancel
-            </Button>
-          </CardFooter>
-        </DialogContent>
-      </Dialog> */}
     </Dialog>
   );
 }

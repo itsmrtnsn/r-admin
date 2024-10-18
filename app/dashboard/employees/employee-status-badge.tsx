@@ -56,7 +56,7 @@ const EmployeeStatusBadge = ({ status }: Props) => {
   return (
     <Badge
       variant='outline'
-      className={`px-2 py-1 text-xs font-medium ${className}`}
+      className={`px-2 py-1 text-xs font-medium text-nowrap1 ${className}`}
     >
       {label}
     </Badge>

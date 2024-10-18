@@ -77,7 +77,7 @@ export default function EmployeeRegistrationForm() {
                 type={type}
                 {...register(name as keyof CreateEmployeeFormData)}
                 placeholder={placeholder}
-                className='border-[0.1px] h-10 shadow-none bg-black rounded-md p-2 focus:border-blue-500 focus:outline-none  focus:ring-blue-600 focus:ring-2 transition duration-300'
+                className='border-[0.1px] h-10 shadow-none bg-muted\50 rounded-md p-2 focus:border-blue-500 focus:outline-none  focus:ring-blue-600 focus:ring-2 transition duration-300'
               />
               {errors[name as keyof CreateEmployeeFormData] && (
                 <p className='text-xs text-red-500 animate-pulse'>
@@ -104,7 +104,7 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'>
+                  <SelectTrigger className='border-[0.1px] h-10 bg-muted/50 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un jour de repos' />
                   </SelectTrigger>
                   <SelectContent>
@@ -178,7 +178,7 @@ export default function EmployeeRegistrationForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className='border-[0.1px] h-10 bg-black shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
+                  <SelectTrigger className='border-[0.1px] h-10 bg-muted/50 shadow-none  rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200'>
                     <SelectValue placeholder='Sélectionnez un statut' />
                   </SelectTrigger>
                   <SelectContent>

@@ -11,13 +11,12 @@ interface LayoutProps {
 const layout = ({ children, params }: LayoutProps) => {
   return (
     <section>
-      <div className='min-h-screen  p-4 flex gap-4 bg-[#09090b]'>
+      <div className='min-h-screen  p-4 flex gap-4'>
         {/* Sidebar */}
         <StoreSidebar />
         {/* Main Content */}
-        <Card className='flex-1 h-[calc(100vh-2rem)] bg-black overflow-hidden shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] border-[0.1px]'>
-          <CardContent className='p-0 h-full flex flex-col'>
-            {/* <Header /> */}
+        <Card className='flex-1 h-[calc(100vh-2rem) overflow-hidden border-[0.1px]'>
+          <CardContent className='p-0 h-full flex flex-col bg-zinc-900'>
             <MotionProvider>{children}</MotionProvider>
           </CardContent>
           <Toaster position='top-right' richColors />

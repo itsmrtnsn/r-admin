@@ -68,10 +68,10 @@ const EmployeeTable = ({ employees }: Props) => {
               <TableCell className=''>
                 <EmployeeStatusBadge status={employee.status} />
               </TableCell>
-              <TableCell className=''>{employee.phone}</TableCell>
+              <TableCell className='text-nowrap'>{employee.phone}</TableCell>
 
               <TableCell className=''>{employee.position}</TableCell>
-              <TableCell className=''>
+              <TableCell className='text-nowrap'>
                 {format(employee.shiftStart, 'HH:mm')} -
                 {format(employee.shiftEnd, 'HH:mm')}
               </TableCell>

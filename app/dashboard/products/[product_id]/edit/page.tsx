@@ -1,7 +1,5 @@
-import React from 'react';
-
 const ProductEditPage = () => {
-  return <div>Product</div>;
+  return <div>Product edit</div>;
 };
 
 export default ProductEditPage;

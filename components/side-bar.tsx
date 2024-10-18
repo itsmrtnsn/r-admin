@@ -40,13 +40,13 @@ const StoreSidebar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-2rem)] overflow-hidden shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]  border-[0.1px] '>
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden   border-[0.1px] bg-zinc-900 '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}
-          animate={{ width: isSidebarOpen ? '16rem' : '5rem' }}
+          animate={{ width: isSidebarOpen ? '17rem' : '5rem' }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className='h-full bg-[#0a0a0a] flex-shrink-0 overflow-hidden'
+          className='h-full flex-shrink-0 overflow-hidden'
         >
           <div className='p-4 h-full flex flex-col'>
             <div className='flex items-center justify-between mb-6'>
@@ -81,7 +81,7 @@ const StoreSidebar = () => {
                           <Button
                             variant='ghost'
                             className={cn(
-                              'w-full justify-between  font- transition-all duration-300 ease-in-out',
+                              'w-full justify-between  font-semibold transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
                                 'bg-blue-700 text-white',

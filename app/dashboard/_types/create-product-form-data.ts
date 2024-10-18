@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import createProductSchema from '../_schema/create-product-chema';
+import createProductFormSchema from '../_schema/create-product-form-schema';
 
-type CreateProductFormData = z.infer<typeof createProductSchema>;
+type CreateProductFormData = z.infer<typeof createProductFormSchema>;
 export default CreateProductFormData;

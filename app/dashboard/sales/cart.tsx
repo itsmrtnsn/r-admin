@@ -40,7 +40,7 @@ const Cart = () => {
   const total = Math.max(subtotal - discount, 0);
 
   return (
-    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] border-none'>
+    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0  border-none shadow-none bg-zinc-900'>
       <CardContent className='p-0 flex flex-col h-full pb-2'>
         <div className='flex-grow overflow-auto mb-0  px-4 pt-3'>
           {items.map((item) => (

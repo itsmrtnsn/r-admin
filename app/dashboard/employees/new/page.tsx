@@ -2,7 +2,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import BackButton from './back-button';
 import EmployeeRegistrationForm from './registration-form';
-import { ToastContainer } from 'react-toastify';
 
 const NewEmployee = () => {
   return (
@@ -17,14 +16,13 @@ const NewEmployee = () => {
           employé.
         </p>
       </div>
-      <Card className='shadow-none border-[0.1px] bg-[#0a0a0a] '>
+      <Card className='shadow-none border-[0.1px] bg-zinc-900 '>
         <CardContent className='pt-4'>
           <ScrollArea className='h-[67vh]'>
             <EmployeeRegistrationForm />
           </ScrollArea>
         </CardContent>
       </Card>
-      <ToastContainer />
     </div>
   );
 };

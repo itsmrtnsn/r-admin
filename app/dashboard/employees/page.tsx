@@ -11,9 +11,8 @@ import { getEmployees } from '../_actions/get-employees';
 import EmployeeSummaryCardSkeleton from './employee-summary-card-loading';
 import EmployeeSummaryCard from './employee-summary-cards';
 import EmployeeTable from './employee-table';
-import EmptyEmployee from './empty-employee';
 import EmployeeTableSkeleton from './employee-table-skeleton';
-import { SonnerDemo } from '@/components/toast-button';
+import EmptyEmployee from './empty-employee';
 
 const Employees = async () => {
   const employees = await getEmployees();
@@ -29,12 +28,11 @@ const Employees = async () => {
           <Suspense fallback={<EmployeeSummaryCardSkeleton />}>
             <EmployeeSummaryCard />
           </Suspense>
-          <Card className='border-[0.1px] bg-[#0a0a0a] shadow-none flex-1 overflow-hidden'>
+          <Card className='border-[0.1px] bg-zinc-900 shadow-none flex-1 overflow-hidden'>
             <CardHeader>
               <div className='flex items-center gap-2 justify-between'>
                 <Search />
                 <AddEmployee />
-                <SonnerDemo />
               </div>
             </CardHeader>
             <CardContent>

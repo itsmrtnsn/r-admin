@@ -91,30 +91,37 @@ model Attendance {
   updatedAt       DateTime                @updatedAt
 }
 
-// model Category {
-//   id String @id @default(cuid())
-//   name String @unique @db.VarChar(150)
-//   slug String @unique @db.VarChar(150)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   @@index([name])
-//   Product Product[]
-// }
+model Category {
+  id String @id @default(cuid())
+  name String @unique @db.VarChar(150)
+  slug String @unique @db.VarChar(150)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([name])
+  Product Product[]
+}
+enum ProductStatus {
+  draft
+  active
+  archived
+}
 
-// model Product {
-//   id String @id @default(cuid())
-//   name String @unique @db.VarChar(150)
-//   price Int
-//   quantityInStock Int
-//   threshold Int
-//   category Category @relation(fields: [categoryId], references: [id])
-//   categoryId String
-//   status ProductStatus @default(draft)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   @@index([name])
-//   SaleItem SaleItem[]
-// }
+
+model Product {
+  id String @id @default(cuid())
+  name String @unique @db.VarChar(150)
+  price Int
+  quantityInStock Int
+  threshold Int
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  status ProductStatus @default(draft)
+  expirationDate DateTime @db.Date() @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([name])
+
+}
 
 
 
@@ -151,11 +158,5 @@ model Attendance {
 //   createdAt DateTime @default(now())
 //   updatedAt DateTime @updatedAt
 //   @@index([productId])
-// }
-
-// enum ProductStatus {
-//   draft
-//   active
-//   archived
 // }
 

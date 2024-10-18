@@ -28,6 +28,11 @@ const sidebarItems: {
         path: '/dashboard/sales',
       },
       {
+        name: 'Articles',
+        path: '/dashboard/products',
+        icon: MdDashboardCustomize,
+      },
+      {
         name: 'Aperçu',
         icon: MdDashboardCustomize,
         path: '/overview',
