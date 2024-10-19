@@ -3,9 +3,9 @@ import { DatePicker } from '@/components/date-picker';
 import Search from '@/components/search';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { getProducts } from '../_actions/get-products';
 import AddNewProducts from './components/add-new-products';
 import ProductTable from './components/product-table';
-import { getProducts } from '../_actions/get-products';
 
 interface Props {
   searchParams: {
@@ -20,17 +20,7 @@ interface Props {
   };
 }
 
-const ProductsPage = async ({ searchParams }: Props) => {
-  const itemsPerPage = 10;
-  const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
-  // const { products, pagination } = await getProducts(
-  //   searchParams.product_status,
-  //   currentPage,
-  //   itemsPerPage
-  // );
-
-  // products.length === 0 && <EmptyProductTable />;
-
+const ProductsPage = async () => {
   const products = await getProducts();
 
   return (
@@ -39,9 +29,9 @@ const ProductsPage = async ({ searchParams }: Props) => {
         <CurrentPath />
         <DatePicker />
       </div>
-      <ScrollArea className='h-[80vh]'>
-        <div className='space-y-10'>
-          <Card className='border-[0.1px]  bg-zinc-900 shadow-none flex-1 overflow-hidden'>
+      <ScrollArea className='h-[80vh] overflow-hidden'>
+        {products.length >= 1 ? (
+          <Card className='border-[0.1px] bg-zinc-900 shadow-none flex-1 overflow-hidden'>
             <CardHeader>
               <div className='flex items-center gap-2 justify-between'>
                 <Search />
@@ -52,10 +42,21 @@ const ProductsPage = async ({ searchParams }: Props) => {
               <ProductTable products={products} />
             </CardContent>
           </Card>
-        </div>
+        ) : (
+          <EmptyProducts />
+        )}
       </ScrollArea>
     </div>
   );
 };
 
 export default ProductsPage;
+
+const EmptyProducts = () => {
+  return (
+    <div className='border border-dashed flex items-center justify-center flex-col rounded-lg overflow-hidden p-2  h-[32rem] mt-10 space-y-4'>
+      <h1 className='text-2xl font-semibold'>Aucun produit trouvé</h1>
+      <AddNewProducts />
+    </div>
+  );
+};

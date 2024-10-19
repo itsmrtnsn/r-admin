@@ -1,7 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import React from 'react';
-import { ProductStatus } from '../../types/product';
+
 import { cn } from '@/lib/utils';
+import { ProductStatus } from '@prisma/client';
 
 interface Props {
   status: ProductStatus;
@@ -9,17 +10,17 @@ interface Props {
 
 const ProductStatusBadge = ({ status }: Props) => {
   const statusText: Record<ProductStatus, string> = {
-    published: 'Published',
-    draft: 'Draft',
-    archived: 'Archived',
+    active: 'Actif',
+    draft: 'Brouillon',
+    archived: 'Archivé',
   };
   return (
     <Badge
       variant='outline'
-      className={cn({
-        'bg-green-100 text-green-500 border-green-300': status === 'published',
-        'bg-gray-100 text-gray-500 border-gray-300': status === 'draft',
-        'bg-red-100 text-red-500 border-red-300': status === 'archived',
+      className={cn('rounded-sm', {
+        'bg-green-500 text-white border-transparent': status === 'active',
+        'bg-yellow-500 text-white border-transparent': status === 'draft',
+        'bg-red-500 text-white border-transparent': status === 'archived',
       })}
     >
       {statusText[status]}

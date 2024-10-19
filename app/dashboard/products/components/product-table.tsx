@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/table';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { Ellipsis } from 'lucide-react';
 import { ProductType } from '../../_actions/get-products';
 import InventoryStatusBadge from './inventory-status-badge';
 import TableAction from './table-action';
+import ProductStatusBadge from './product-status-badge';
 
 interface Props {
   products: ProductType[];
@@ -23,8 +23,8 @@ const tableHeads = [
   'Article',
   'Prix',
   'Categorie',
-  'Niveau de stock',
   'Statut',
+  'Niveau de stock',
   'Action',
 ];
 
@@ -45,23 +45,23 @@ export default function ProductTable({ products }: Props) {
       </TableHeader>
       <TableBody>
         {products.map((product) => (
-          <TableRow key={product.id} className='cursor-pointer text-sm'>
+          <TableRow
+            key={product.id}
+            className='cursor-pointer text-normal h-14'
+          >
             <TableCell>
               <Checkbox />
             </TableCell>
-            <TableCell className='py-3.5'>{product.name}</TableCell>
+            <TableCell>{product.name}</TableCell>
 
-            <TableCell className=''>{product.price}</TableCell>
+            <TableCell>{product.price}</TableCell>
 
-            <TableCell className=''>{product.category}</TableCell>
-            <TableCell className=''>{product.quantityInStock}</TableCell>
+            <TableCell>{product.category}</TableCell>
             <TableCell>
-              <InventoryStatusBadge
-                status={product.status}
-                quantityInStock={product.quantityInStock}
-                threshold={product.threshold}
-              />
+              <ProductStatusBadge status={product.status} />
             </TableCell>
+            <TableCell>{product.quantityInStock}</TableCell>
+
             <TableCell>
               <TableAction productId={product.id} />
             </TableCell>

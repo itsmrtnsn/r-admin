@@ -6,7 +6,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import 'react-toastify/dist/ReactToastify.css';
 import getCategory from '../../_actions/get-category';
 import CreateProductForm from './create-product-form';
 

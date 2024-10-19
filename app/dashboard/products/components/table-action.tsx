@@ -18,7 +18,7 @@ const TableAction = ({ productId }: { productId: string }) => {
           <Ellipsis className='cursor-pointer text-muted-foreground' />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className='bg-zinc-600'>
         <DropdownMenuLabel>Passez à l'action</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

@@ -1,8 +1,9 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { ProductStatus } from '@prisma/client';
 
 interface Props {
-  status: 'active' | 'draft' | 'archived';
+  status: ProductStatus;
   quantityInStock: number;
   threshold: number;
 }
@@ -25,8 +26,8 @@ export default function InventoryStatusBadge({
   return (
     <Badge
       variant='outline'
-      className={cn('shadow-none rounded-full font-normal', {
-        'bg-gray-100 text-gray-600 border-gray-300':
+      className={cn('shadow-none rounded-sm ', {
+        'bg-gray-100/20 text-gray-600 border-gray-300':
           inventoryStatus === 'archived',
         'bg-yellow-100 text-yellow-600 border-yellow-300':
           inventoryStatus === 'draft',
@@ -34,7 +35,7 @@ export default function InventoryStatusBadge({
           inventoryStatus === 'out_of_stock',
         'bg-green-100 text-green-600 border-green-300':
           inventoryStatus === 'stock_ok',
-        'bg-blue-100 text-blue-600 border-blue-300':
+        'bg-blue-50 text-blue-600 border-blue-300':
           inventoryStatus === 'low_stock',
       })}
     >
