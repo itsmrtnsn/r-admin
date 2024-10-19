@@ -8,6 +8,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import getCategory from '../../_actions/get-category';
 import CreateProductForm from './create-product-form';
+import BackButton from '../../employees/new/back-button';
 
 const NewProductPage = async () => {
   const result = await getCategory();
@@ -22,7 +23,10 @@ const NewProductPage = async () => {
     <Card className='border-[0.1px] bg-zinc-900'>
       <CardHeader>
         <CardTitle className='text-3xl font-bold'>
-          Enregistrement d'article
+          <div className='flex items-center gap-2'>
+            <BackButton />
+            <span> Enregistrement d'article</span>
+          </div>
         </CardTitle>
         <CardDescription>
           Veuillez saisir les informations du nouveau produit ci-dessous.

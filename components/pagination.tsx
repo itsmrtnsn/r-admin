@@ -25,7 +25,7 @@ const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
         <Button
           variant='outline'
           size='icon'
-          className='w-8 h-8 rounded-full'
+          className='w-8 h-8 bg-[#1f1f1f]'
           onClick={() => handlePageQuery((currentPage - 1).toString())}
           disabled={currentPage === 1}
         >
@@ -37,7 +37,7 @@ const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
         <Button
           variant='outline'
           size='icon'
-          className='w-8 h-8 rounded-full'
+          className='w-8 h-8 bg-[#1f1f1f] '
           disabled={currentPage === totalPages}
           onClick={() => handlePageQuery((currentPage + 1).toString())}
         >
