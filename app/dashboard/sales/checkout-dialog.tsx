@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { FaSpinner } from 'react-icons/fa';
@@ -22,11 +24,12 @@ import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import paymentOptions from '@/lib/payment-option';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Data } from './types/product';
+import createSale from '../_actions/create-sale';
 import { useCartStore } from './cart-store';
-import BarReceipt from './_receipt/bar-receipt';
-import PrintReceipt from './print-receipt';
+import { Data } from './types/product';
+
 // Assuming you have a Spinner component
 
 type CheckoutDialogProps = {
@@ -45,17 +48,18 @@ export function CheckoutDialog({
   transactionId,
   cashier,
 }: CheckoutDialogProps) {
-  const { clearCart, getTotal } = useCartStore();
+  const router = useRouter();
+  const { clearCart, getTotal, items } = useCartStore();
 
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<string>('cash');
   const [cashReceived, setCashReceived] = useState<number>(0);
-  const [showReceipt, setShowReceipt] = useState(false);
   const [isRoomCharge, setIsRoomCharge] = useState(false);
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, SetCompleted] = useState<boolean>(false);
 
   const customerChange = () => {
     return cashReceived - total;
@@ -67,28 +71,36 @@ export function CheckoutDialog({
       return;
     }
 
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false); // Hide spinner
-    clearCart();
+    setIsLoading(true); // Set loading to true before creating the sale
 
-    setShowReceiptDialog(true);
-  };
-
-  const handlePrintReceipt = () => {
-    setShowReceiptDialog(false);
-    setShowReceipt(true);
-  };
-
-  const handleCancelReceipt = () => {
-    setShowReceiptDialog(false);
+    try {
+      const { success, data } = await createSale({
+        paymentMethod: 'credit_card', // Use the selected payment option
+        salesType: 'raw_product',
+        amountReceived: cashReceived,
+        customerChange: customerChange(),
+        saleAmount: getTotal(),
+        cashier: cashier, // Use the cashier prop
+      });
+      // Clear the cart only upon successful sale creation
+      clearCart();
+      router.refresh();
+      if (success) {
+        SetCompleted(true);
+      }
+      // setShowReceiptDialog(true);
+    } catch (error) {
+      console.error('Error creating sale:', error);
+    } finally {
+      setIsLoading(false); // Hide spinner after the operation
+    }
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          disabled={!getTotal()}
+          disabled={items.length <= 0}
           className='w-full rounded-full py-6 font-normal text-lg text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl'
         >
           Checkout
@@ -214,13 +226,14 @@ export function CheckoutDialog({
                 className='flex justify-between text-lg font-semibold'
               >
                 <span>Monnaie</span>
-                {/* <span>${Math.max(cashReceived - total, 0).toFixed(2)}</span> */}
-                <span>$ {customerChange()}</span>
+                <span>${customerChange()}</span>
               </motion.div>
             )}
           </CardContent>
           <CardFooter>
-            {!showReceiptDialog && (
+            {isCompleted ? (
+              <ReceiptButton />
+            ) : (
               <Button
                 className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
                 disabled={
@@ -241,10 +254,31 @@ export function CheckoutDialog({
                 )}
               </Button>
             )}
-            {showReceiptDialog && <PrintReceipt />}
           </CardFooter>
         </Card>
       </DialogContent>
     </Dialog>
   );
 }
+
+const ReceiptButton = () => {
+  const router = useRouter();
+  return (
+    <div className='flex justify-between items-center gap-4 w-full'>
+      <Button
+        variant={'outline'}
+        size='lg'
+        className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r  transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
+        onClick={() => {
+          router.refresh();
+          router.replace('/dashboard/sales');
+        }}
+      >
+        Cancel
+      </Button>
+      <Button className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'>
+        Print Receipt
+      </Button>
+    </div>
+  );
+};

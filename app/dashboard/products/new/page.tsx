@@ -33,7 +33,7 @@ const NewProductPage = async () => {
         </CardDescription>
       </CardHeader>
       <ScrollArea className='h-[80vh]'>
-        <CardContent className='border-[0.1px] border-zinc-800 rounded-lg m-8 mt-4 p-8'>
+        <CardContent className='border-[0.1px] border-zinc-800 bg-accent/50 rounded-lg m-8 mt-4 p-8'>
           <CreateProductForm
             categories={categories.map((category) => ({
               ...category,

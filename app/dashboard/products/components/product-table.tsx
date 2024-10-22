@@ -11,9 +11,8 @@ import {
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { ProductType } from '../../_actions/get-products';
-import InventoryStatusBadge from './inventory-status-badge';
-import TableAction from './table-action';
 import ProductStatusBadge from './product-status-badge';
+import TableAction from './table-action';
 
 interface Props {
   products: ProductType[];

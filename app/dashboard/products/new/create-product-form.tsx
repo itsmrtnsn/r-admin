@@ -64,7 +64,7 @@ export default function CreateProductForm({ categories }: Props) {
             id='name'
             {...register('name')}
             placeholder={`Nom de l'article`}
-            className='bg-black/50'
+            className='bg-black/50 border-zinc-600'
           />
           {errors.name && (
             <p className='text-red-600 text-xs animate-pulse'>
@@ -85,7 +85,7 @@ export default function CreateProductForm({ categories }: Props) {
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className='bg-black/50'>
+                <SelectTrigger className='bg-black/50 border-zinc-600'>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,7 +115,7 @@ export default function CreateProductForm({ categories }: Props) {
             id='price'
             type='number'
             step='0.01'
-            className='bg-black/50'
+            className='bg-black/50 border-zinc-600'
             {...register('price', { valueAsNumber: true })}
             placeholder='0.00'
           />
@@ -137,7 +137,7 @@ export default function CreateProductForm({ categories }: Props) {
             type='number'
             {...register('quantity', { valueAsNumber: true })}
             placeholder='0'
-            className='bg-black/50'
+            className='bg-black/50 border-zinc-600'
           />
           {errors.quantity && (
             <p className='text-red-600 text-xs animate-pulse'>
@@ -157,7 +157,7 @@ export default function CreateProductForm({ categories }: Props) {
             type='number'
             {...register('threshold', { valueAsNumber: true })}
             placeholder='1'
-            className='bg-black/50'
+            className='bg-black/50 border-zinc-600'
           />
           {errors.threshold && (
             <p className='text-red-600 text-xs animate-pulse'>
@@ -177,7 +177,7 @@ export default function CreateProductForm({ categories }: Props) {
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className='bg-black/50'>
+                <SelectTrigger className='bg-black/50 border-zinc-600'>
                   <SelectValue placeholder='Sélectionnez un statut' />
                 </SelectTrigger>
                 <SelectContent>
@@ -210,7 +210,7 @@ export default function CreateProductForm({ categories }: Props) {
             {...register('expirationDate')}
             placeholder={`Date d'expiration`}
             type='date'
-            className='bg-black/50'
+            className='bg-black/50 border-zinc-600'
           />
           {errors.expirationDate && (
             <p className='text-red-600 text-xs animate-pulse'>

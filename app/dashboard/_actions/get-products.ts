@@ -16,7 +16,7 @@ export interface ProductType {
 export const getProducts = async (
   searchQuery?: string,
   page: number = 1,
-  itemsPerPage: number = 1
+  itemsPerPage: number = 10
 ): Promise<{ products: ProductType[]; totalPages: number }> => {
   try {
     const [products, totalCount] = await prisma.$transaction([

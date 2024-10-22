@@ -18,7 +18,7 @@ const Search = ({ placeholder }: Props) => {
         placeholder={placeholder ? placeholder : 'Rechercher'}
         // value={query || ''}
         onChange={(e) => handleQuery(e.target.value)}
-        className='pl-8 w-full text-sm md:w-[350px]    border-zinc-700 bg-black focus:border-none foucus-visible:outline-blue-600'
+        className='pl-8 w-full text-sm md:w-[350px]   bg-black/50  border-zinc-700 focus:border-none foucus-visible:outline-blue-600'
       />
     </div>
   );

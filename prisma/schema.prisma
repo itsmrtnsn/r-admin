@@ -121,42 +121,52 @@ model Product {
   updatedAt DateTime @updatedAt
   @@index([name])
 
+  SaleItem SaleItem[]
 }
 
 
 
+enum PaymentMethod {
+  cash
+  credit_card
+  moncash
+  mobile_payment
+  check
+}
 
-// model Sale {
-//   id String @id @default(cuid())
-//   reference String @unique @db.VarChar(12)
-//   paymentMethod PaymentMethod @default(cash)
-//   cashier String @db.VarChar(100)
-//   amountReceived Int
-//   change Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   SaleItem SaleItem[]
-//   @@index([reference])
-// }
+enum SalesType {
+  room
+  services
+  raw_product
+}
 
-// enum PaymentMethod {
-//   cash
-//   credit_card
-//   mobile_payment
-//   check
-// }
+model Sale {
+  id String @id @default(cuid())
+  reference String @unique @db.VarChar(12)
+  cashier String @db.VarChar(100)
+  saleAmount Float @default(0)
+  amountReceived Float
+  customerChange Float @default(0)
+  paymentMethod PaymentMethod @default(cash)
+  salesType SalesType @default(raw_product)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  SaleItem SaleItem[]
+  @@index([reference])
+}
 
-// model SaleItem {
-//   id String @id @default(cuid())
-//   product Product @relation(fields: [productId], references: [id])
-//   sale Sale @relation(fields: [saleId], references: [id])
-//   productId String
-//   saleId String
-//   quantity Int
-//   unitPrice Int
-//   totalPrice Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   @@index([productId])
-// }
+
+model SaleItem {
+  id String @id @default(cuid())
+  product Product @relation(fields: [productId], references: [id])
+  sale Sale @relation(fields: [saleId], references: [id])
+  productId String
+  saleId String
+  quantity Int
+  unitPrice Int
+  totalPrice Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([productId])
+}
 
