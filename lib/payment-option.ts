@@ -1,3 +1,4 @@
+import { PaymentMethod } from '@prisma/client';
 import { AiFillCreditCard } from 'react-icons/ai';
 import { FaFileAlt, FaMobile } from 'react-icons/fa';
 import { FaMoneyCheckDollar } from 'react-icons/fa6';
@@ -7,7 +8,7 @@ import { IconType } from 'react-icons/lib';
 type PaymentOption = {
   id: number;
   name: string;
-  value: string;
+  value: PaymentMethod;
   icon: IconType;
 };
 

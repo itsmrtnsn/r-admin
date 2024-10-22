@@ -1,9 +1,8 @@
 'use client';
 
+import useCheckoutModal from '@/app/hooks/use-checkout-modal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { FaSpinner } from 'react-icons/fa';
-
 import {
   Dialog,
   DialogContent,
@@ -26,9 +25,13 @@ import paymentOptions from '@/lib/payment-option';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import createSale from '../_actions/create-sale';
 import { useCartStore } from './cart-store';
+import BarReceipt from './receipt/bar-receipt';
 import { Data } from './types/product';
+import { PaymentMethod } from '@prisma/client';
+import { CircleX } from 'lucide-react';
 
 // Assuming you have a Spinner component
 
@@ -39,27 +42,33 @@ type CheckoutDialogProps = {
   transactionId: string;
   cashier: string;
   products: Data[];
+  onOpen: () => void;
 };
 
 export function CheckoutDialog({
   subTotal,
   discount,
   total,
-  transactionId,
   cashier,
+  onOpen,
 }: CheckoutDialogProps) {
   const router = useRouter();
   const { clearCart, getTotal, items } = useCartStore();
 
+  const { isOpen, closeModal } = useCheckoutModal();
+
   const [selectedPaymentOption, setSelectedPaymentOption] =
-    useState<string>('cash');
+    useState<PaymentMethod>('cash');
   const [cashReceived, setCashReceived] = useState<number>(0);
   const [isRoomCharge, setIsRoomCharge] = useState(false);
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
-  const [showReceiptDialog, setShowReceiptDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, SetCompleted] = useState<boolean>(false);
+  const [receiptData, setReceiptData] = useState<{
+    transactionId: string;
+    cashier: string;
+  }>();
 
   const customerChange = () => {
     return cashReceived - total;
@@ -75,20 +84,22 @@ export function CheckoutDialog({
 
     try {
       const { success, data } = await createSale({
-        paymentMethod: 'credit_card', // Use the selected payment option
+        paymentMethod: selectedPaymentOption,
         salesType: 'raw_product',
         amountReceived: cashReceived,
         customerChange: customerChange(),
         saleAmount: getTotal(),
-        cashier: cashier, // Use the cashier prop
+        cashier: cashier,
       });
-      // Clear the cart only upon successful sale creation
-      clearCart();
+      clearCart(); // Clear the cart only upon successful sale creation
       router.refresh();
       if (success) {
+        setReceiptData({
+          transactionId: data?.reference!,
+          cashier: data?.cashier!,
+        });
         SetCompleted(true);
       }
-      // setShowReceiptDialog(true);
     } catch (error) {
       console.error('Error creating sale:', error);
     } finally {
@@ -96,8 +107,19 @@ export function CheckoutDialog({
     }
   };
 
+  const handleCancel = () => {
+    setSelectedPaymentOption('cash');
+    setCashReceived(0);
+    setIsRoomCharge(false);
+    setRoomNumber('');
+    setShowRoomChargeOptions(false);
+    setIsLoading(false);
+    SetCompleted(false);
+    router.refresh();
+    closeModal();
+  };
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={onOpen}>
       <DialogTrigger asChild>
         <Button
           disabled={items.length <= 0}
@@ -108,8 +130,13 @@ export function CheckoutDialog({
       </DialogTrigger>
       <DialogContent className='sm:max-w-[450px]  rounded-2xl border-[0.1px]'>
         <DialogHeader>
-          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800'>
-            Checkout
+          <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800 flex items-center justify-between'>
+            <span>Checkout</span>
+            <CircleX
+              onClick={handleCancel}
+              className='text-white cursor-pointer'
+              strokeWidth={1}
+            />
           </DialogTitle>
         </DialogHeader>
 
@@ -124,7 +151,9 @@ export function CheckoutDialog({
               </Label>
               <Select
                 defaultValue='cash'
-                onValueChange={(option) => setSelectedPaymentOption(option)}
+                onValueChange={(option) =>
+                  setSelectedPaymentOption(option as unknown as PaymentMethod)
+                }
               >
                 <SelectTrigger className='col-span-3 border-[0.1px]'>
                   <SelectValue placeholder='Sélectionnez le mode de paiement' />
@@ -232,7 +261,11 @@ export function CheckoutDialog({
           </CardContent>
           <CardFooter>
             {isCompleted ? (
-              <ReceiptButton />
+              <ReceiptButton
+                onCancel={handleCancel}
+                transactionId={receiptData?.transactionId!}
+                cashier={receiptData?.cashier!}
+              />
             ) : (
               <Button
                 className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
@@ -247,10 +280,10 @@ export function CheckoutDialog({
                 {isLoading ? (
                   <p className='flex items-center justify-center gap-4'>
                     <FaSpinner className='animate-spin' />
-                    <span>En cours...</span>
+                    <span>Processing...</span>
                   </p>
                 ) : (
-                  'Valider le paiement'
+                  'Complete Payment'
                 )}
               </Button>
             )}
@@ -261,24 +294,34 @@ export function CheckoutDialog({
   );
 }
 
-const ReceiptButton = () => {
-  const router = useRouter();
+interface Props {
+  onCancel: () => void;
+  transactionId: string;
+  cashier: string;
+}
+
+const ReceiptButton = ({ onCancel, transactionId, cashier }: Props) => {
   return (
     <div className='flex justify-between items-center gap-4 w-full'>
       <Button
         variant={'outline'}
         size='lg'
         className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r  transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
-        onClick={() => {
-          router.refresh();
-          router.replace('/dashboard/sales');
-        }}
+        onClick={onCancel}
       >
-        Cancel
+        Annuler
       </Button>
-      <Button className='w-full rounded-full py-6 text-lg  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'>
-        Print Receipt
-      </Button>
+      <BarReceipt
+        transactionId={transactionId}
+        cashier={cashier}
+        items={[]}
+        subtotal={0}
+        discount={0}
+        total={0}
+        amountReceived={0}
+        change={0}
+        paymentMethod={''}
+      />
     </div>
   );
 };

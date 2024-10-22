@@ -1,5 +1,6 @@
 'use client';
 
+import useCheckoutModal from '@/app/hooks/use-checkout-modal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,6 +16,7 @@ import { useCartStore } from './cart-store';
 import { CheckoutDialog } from './checkout-dialog';
 
 const Cart = () => {
+  const { openModal } = useCheckoutModal();
   const { items, getTotal } = useCartStore();
   const [discountType, setDiscountType] = useState<'percentage' | 'amount'>(
     'percentage'
@@ -49,6 +51,7 @@ const Cart = () => {
             </div>
           ))}
         </div>
+
         {/* summary */}
         <div className='space-y-4 mt-auto p-4 pb-2'>
           <div className='flex justify-between text-base font-semibold'>
@@ -90,6 +93,7 @@ const Cart = () => {
             <span>${isClient ? total.toFixed(2) : '0.00'}</span>
           </div>
           <CheckoutDialog
+            onOpen={openModal}
             subTotal={subtotal}
             discount={discount}
             total={total}
