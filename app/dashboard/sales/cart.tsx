@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Discount } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import CartItem from './cart-item';
 import { useCartStore } from './cart-store';
@@ -18,9 +19,7 @@ import { CheckoutDialog } from './checkout-dialog';
 const Cart = () => {
   const { openModal } = useCheckoutModal();
   const { items, getTotal } = useCartStore();
-  const [discountType, setDiscountType] = useState<'percentage' | 'amount'>(
-    'percentage'
-  );
+  const [discountType, setDiscountType] = useState<Discount>('FIXED');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -35,14 +34,14 @@ const Cart = () => {
     if (!discountValue) return 0;
     const value = parseFloat(discountValue);
     if (isNaN(value)) return 0;
-    return discountType === 'percentage' ? (subtotal * value) / 100 : value;
+    return discountType === 'PERCENTAGE' ? (subtotal * value) / 100 : value;
   };
 
   const discount = calculateDiscount();
   const total = Math.max(subtotal - discount, 0);
 
   return (
-    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0  border-none shadow-none bg-zinc-900'>
+    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0  border-none shadow-none '>
       <CardContent className='p-0 flex flex-col h-full pb-2'>
         <div className='flex-grow overflow-auto mb-0  px-4 pt-3'>
           {items.map((item) => (
@@ -61,27 +60,25 @@ const Cart = () => {
           <div className='flex items-center space-x-2'>
             <Select
               value={discountType}
-              onValueChange={(value: 'percentage' | 'amount') =>
-                setDiscountType(value)
-              }
+              onValueChange={(value: Discount) => setDiscountType(value)}
             >
-              <SelectTrigger className='w-1/2 rounded-l-full'>
+              <SelectTrigger className='w-1/2 rounded-l-full shadow-none border-[0.1px]'>
                 <SelectValue placeholder='Discount Type' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='percentage'>Pourcentage</SelectItem>
-                <SelectItem value='amount'>Montant fixe</SelectItem>
+                <SelectItem value='PERCENTAGE'>Pourcentage</SelectItem>
+                <SelectItem value='FIXED'>Montant fixe</SelectItem>
               </SelectContent>
             </Select>
             <Input
               value={discountValue}
               onChange={(e) => setDiscountValue(e.target.value)}
               placeholder={
-                discountType === 'percentage'
+                discountType === 'PERCENTAGE'
                   ? 'Entrez le %'
                   : 'Entrez le montant'
               }
-              className='w-1/2 rounded-r-full'
+              className='w-1/2 rounded-r-full shadow-none border-[0.1px]'
             />
           </div>
           <div className='flex justify-between text-base font-semibold text-green-600'>

@@ -53,14 +53,13 @@ export default async function POSSingleProductAnalytics({
           <BackButton />
           <h1 className='text-3xl font-bold'>{response.product?.name}</h1>
         </div>
-        {/* <Button variant='destructive'>Delete Product</Button> */}
         <DeleteProductConfirmation id={product_id} />
       </div>
 
       <ScrollArea className='h-[75vh] overflow-hidden mt-6'>
         <div className='space-y-10'>
           <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
-            <Card className='bg-muted/50'>
+            <Card className='bg-slate-50 shadow-none border-[0.1px]'>
               <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
                 <CardTitle className='text-sm font-medium'>
                   Total Revenue
@@ -74,7 +73,7 @@ export default async function POSSingleProductAnalytics({
                 </p>
               </CardContent>
             </Card>
-            <Card className='bg-muted/50'>
+            <Card className='bg-slate-50 shadow-none border-[0.1px]'>
               <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
                 <CardTitle className='text-sm font-medium'>
                   Total Sales
@@ -88,7 +87,7 @@ export default async function POSSingleProductAnalytics({
                 </p>
               </CardContent>
             </Card>
-            <Card className='bg-muted/50'>
+            <Card className='bg-slate-50 shadow-none border-[0.1px]'>
               <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
                 <CardTitle className='text-sm font-medium'>
                   Average Transaction Value
@@ -102,7 +101,7 @@ export default async function POSSingleProductAnalytics({
                 </p>
               </CardContent>
             </Card>
-            <Card className='bg-muted/50'>
+            <Card className='bg-slate-50 shadow-none border-[0.1px]'>
               <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
                 <CardTitle className='text-sm font-medium'>
                   Current Stock
@@ -120,7 +119,7 @@ export default async function POSSingleProductAnalytics({
 
           <ProductAnaliticsChart />
 
-          <Card className='bg-muted/50'>
+          <Card className='bg-slate-50 shadow-none border-[0.1px]'>
             <CardHeader>
               <CardTitle>Product Performance Metrics</CardTitle>
               <CardDescription>
@@ -136,19 +135,19 @@ export default async function POSSingleProductAnalytics({
                 </TabsList>
                 <TabsContent value='overview' className='space-y-4'>
                   <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-                    <div className='bg-muted p-4 rounded-lg'>
+                    <div className='bg-white border-[0.1px] p-4 rounded-lg'>
                       <h3 className='font-semibold'>Profit Margin</h3>
                       <p className='text-2xl font-bold'>32%</p>
                     </div>
-                    <div className='bg-muted p-4 rounded-lg'>
+                    <div className='p-4 rounded-lg bg-white border-[0.1px]'>
                       <h3 className='font-semibold'>Avg. Transaction Value</h3>
                       <p className='text-2xl font-bold'>$30</p>
                     </div>
-                    <div className='bg-muted p-4 rounded-lg'>
+                    <div className='p-4 rounded-lg bg-white border-[0.1px]'>
                       <h3 className='font-semibold'>Stock Turnover Rate</h3>
                       <p className='text-2xl font-bold'>4.2x/month</p>
                     </div>
-                    <div className='bg-muted p-4 rounded-lg'>
+                    <div className='bg-white border-[0.1px] p-4 rounded-lg'>
                       <h3 className='font-semibold'>
                         Contribution to Total Sales
                       </h3>

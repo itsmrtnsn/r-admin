@@ -2,15 +2,19 @@
 
 import prisma from '@/prisma/client';
 import SaleReference from '../_libs/order-reference';
-import { PaymentMethod, SalesType } from '@prisma/client';
+import { Discount, PaymentMethod, SalesType } from '@prisma/client';
 
 export type SaleData = {
   cashier: string;
   salesType: SalesType;
   paymentMethod: PaymentMethod;
-  saleAmount: number;
+  subTotal: number;
   amountReceived: number;
   customerChange: number;
+  discountType?: Discount;
+  discountValue?: number;
+  total: number;
+  tax?: number;
 };
 
 const createSale = async (data: SaleData) => {
@@ -20,10 +24,15 @@ const createSale = async (data: SaleData) => {
       data: {
         reference: reference!,
         cashier: data.cashier,
+        salesType: data.salesType,
         paymentMethod: data.paymentMethod,
-        saleAmount: data.saleAmount,
         amountReceived: data.amountReceived,
         customerChange: data.customerChange,
+        discountType: data.discountType,
+        discountValue: data.discountValue,
+        tax: data.tax,
+        subTotal: data.subTotal,
+        total: data.total,
       },
     });
     return { success: true, data: newSale }; // Add success result

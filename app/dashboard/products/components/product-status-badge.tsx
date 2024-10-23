@@ -17,10 +17,10 @@ const ProductStatusBadge = ({ status }: Props) => {
   return (
     <Badge
       variant='outline'
-      className={cn('rounded-sm', {
-        'bg-green-500 text-white border-transparent': status === 'active',
-        'bg-yellow-500 text-white border-transparent': status === 'draft',
-        'bg-red-500 text-white border-transparent': status === 'archived',
+      className={cn('rounded-md border-[0.1px]', {
+        'bg-green-50 text-green-500 border-green-200': status === 'active',
+        'bg-yellow-50 text-yellow-500 border-yellow-200': status === 'draft',
+        'bg-red-50 text-red-500 border-red-300': status === 'archived',
       })}
     >
       {statusText[status]}

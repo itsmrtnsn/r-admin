@@ -12,30 +12,30 @@ const CartItem = ({ item }: CartItemProps) => {
   return (
     <div
       key={item.product.id}
-      className='border-[0.1px] rounded-lg  bg-muted/50  p-4 mb-2 transition-all duration-300 '
+      className='border-[0.1px] rounded-lg  bg-slate-50  p-3 mb-2 transition-all duration-300 '
     >
       <div className='flex items-center justify-between'>
-        <h4 className='font-medium  text-sm truncate max-w-[60%]'>
+        <h4 className='font-medium text-black  text-xs truncate max-w-[60%]'>
           {item.product.name}
         </h4>
         <p
-          className='font-medium text-xs text-red-500 ml-2 cursor-pointer hover:text-red-800'
+          className='font-medium text-xs text-destructive ml-2 cursor-pointer hover:text-red-800'
           onClick={() => removeItem(item.product.id)}
         >
-          <Delete strokeWidth={0.5} />
+          <Delete strokeWidth={1} />
         </p>
       </div>
       <div className='flex items-center justify-between mt-3'>
-        <div className='flex items-center font-semibold text-sm text-blue-600'>
+        <div className='flex items-center font-medium text-sm text-primary'>
           <p> {item.product.price}</p> <span className='mx-1'>x</span>{' '}
           <p>{item.quantity}</p>
         </div>
 
-        <div className='flex items-center space-x-1 border-[0.1px] bg-black rounded-full px-1 py-0.5'>
+        <div className='flex items-center space-x-1 border-[0.1px] bg-white rounded-full px-1 py-0.5'>
           <Button
             size='icon'
-            variant='ghost'
-            className='rounded-full h-6 w-6 hover:bg-gray-600'
+            variant='outline'
+            className='rounded-full h-6 w-6 bg-slate-500  hover:bg-slate-700'
             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
           >
             <Minus className='h-3 w-3 text-white' />
@@ -45,8 +45,8 @@ const CartItem = ({ item }: CartItemProps) => {
           </span>
           <Button
             size='icon'
-            variant='ghost'
-            className='rounded-full h-6 w-6 hover:bg-gray-600'
+            variant='outline'
+            className='rounded-full h-6 w-6 bg-slate-500 hover:bg-slate-700'
             disabled={item.quantity >= item.product.quantityInStock}
             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
           >

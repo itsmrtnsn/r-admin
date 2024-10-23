@@ -32,7 +32,7 @@ const NewProductPage = async ({ params: { product_id } }: Props) => {
       : [{ name: 'Aucune catégorie disponible', slug: 'none', id: '-' }];
 
   return (
-    <Card className='border-[0.1px] bg-zinc-900'>
+    <Card className='border-[0.1px]'>
       <CardHeader>
         <CardTitle className='text-3xl font-bold'>
           <div className='flex items-center gap-2'>
@@ -45,7 +45,7 @@ const NewProductPage = async ({ params: { product_id } }: Props) => {
         </CardDescription>
       </CardHeader>
       <ScrollArea className='h-[80vh]'>
-        <CardContent className='border-[0.1px] border-zinc-800 rounded-lg m-8 mt-4 p-8'>
+        <CardContent className='border-[0.1px] bg-slate-50 rounded-lg m-8 mt-4 p-8'>
           <EditProductForm
             categories={categories.map((category) => ({
               ...category,

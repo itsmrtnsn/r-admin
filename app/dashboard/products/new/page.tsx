@@ -20,7 +20,7 @@ const NewProductPage = async () => {
       : [{ name: 'Aucune catégorie disponible', slug: 'none', id: '-' }];
 
   return (
-    <Card className='border-[0.1px] bg-zinc-900'>
+    <Card className='border-[0.1px] shadow-none'>
       <CardHeader>
         <CardTitle className='text-3xl font-bold'>
           <div className='flex items-center gap-2'>
@@ -33,7 +33,7 @@ const NewProductPage = async () => {
         </CardDescription>
       </CardHeader>
       <ScrollArea className='h-[80vh]'>
-        <CardContent className='border-[0.1px] border-zinc-800 bg-accent/50 rounded-lg m-8 mt-4 p-8'>
+        <CardContent className='border-[0.1px] bg-muted/50  rounded-lg m-8 mt-4 p-8'>
           <CreateProductForm
             categories={categories.map((category) => ({
               ...category,

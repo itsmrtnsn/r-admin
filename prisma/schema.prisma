@@ -1,14 +1,11 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   directUrl = env("DATABASE_URL_UNPOOLED")
-
 }
 
 enum Gender {
@@ -26,7 +23,6 @@ enum DayOff {
   dimanche
 }
 
-
 enum EmployeeStatus {
   actif
   inactif
@@ -37,27 +33,27 @@ enum EmployeeStatus {
   demissionne
 }
 
-
-
 model Employee {
-  id String @id  @unique
-  firstName String @db.VarChar(50)
-  lastName String @db.VarChar(50)
-  email String @unique @db.VarChar(100)
-  phone String @db.VarChar(15)
-  position String @db.VarChar(100)
-  shiftStart DateTime @db.Time()
-  shiftEnd DateTime @db.Time()
-  dayOff DayOff?
-  gender Gender
-  status EmployeeStatus @default(en_attente)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([email])
-  @@index([phone])
+  id         String         @id @unique
+  firstName  String         @db.VarChar(50)
+  lastName   String         @db.VarChar(50)
+  email      String         @unique @db.VarChar(100)
+  phone      String         @db.VarChar(15)
+  position   String         @db.VarChar(100)
+  shiftStart DateTime       @db.Time()
+  shiftEnd   DateTime       @db.Time()
+  dayOff     DayOff?
+  gender     Gender
+  status     EmployeeStatus @default(en_attente)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 
   Attendance Attendance[]
+
+  @@index([email])
+  @@index([phone])
 }
+
 enum AttendanceCheckInStatus {
   on_time
   late
@@ -73,58 +69,58 @@ enum AttendanceStatus {
   absent
   day_off
   on_vacation
-  remote_work  // optional, for remote work
-  sick_leave   // optional, for sick leave
+  remote_work // optional, for remote work
+  sick_leave // optional, for sick leave
 }
 
 model Attendance {
-  id              Int                     @id @default(autoincrement())
-  employee        Employee                @relation(fields: [employeeId], references: [id])
-  attendanceStatus AttendanceStatus       @default(present)
-  employeeId      String
-  date            DateTime                @db.Date()
-  checkInStatus   AttendanceCheckInStatus?
-  checkInTime     DateTime?               @db.Time()
-  checkOutStatus  AttendanceCheckOutStatus?
-  checkOutTime    DateTime?               @db.Time()
-  createdAt       DateTime                @default(now())
-  updatedAt       DateTime                @updatedAt
+  id               Int                       @id @default(autoincrement())
+  employee         Employee                  @relation(fields: [employeeId], references: [id])
+  attendanceStatus AttendanceStatus          @default(present)
+  employeeId       String
+  date             DateTime                  @db.Date()
+  checkInStatus    AttendanceCheckInStatus?
+  checkInTime      DateTime?                 @db.Time()
+  checkOutStatus   AttendanceCheckOutStatus?
+  checkOutTime     DateTime?                 @db.Time()
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
 }
 
 model Category {
-  id String @id @default(cuid())
-  name String @unique @db.VarChar(150)
-  slug String @unique @db.VarChar(150)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(cuid())
+  name      String    @unique @db.VarChar(150)
+  slug      String    @unique @db.VarChar(150)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+
   @@index([name])
-  Product Product[]
 }
+
 enum ProductStatus {
   draft
   active
   archived
 }
 
-
 model Product {
-  id String @id @default(cuid())
-  name String @unique @db.VarChar(150)
-  price Int
+  id              String        @id @default(cuid())
+  name            String        @unique @db.VarChar(150)
+  price           Int
   quantityInStock Int
-  threshold Int
-  category Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  status ProductStatus @default(draft)
-  expirationDate DateTime @db.Date() @default(now())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([name])
+  threshold       Int
+  category        Category      @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  status          ProductStatus @default(draft)
+  expirationDate  DateTime      @default(now()) @db.Date()
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
   SaleItem SaleItem[]
+
+  @@index([name])
 }
-
-
 
 enum PaymentMethod {
   cash
@@ -140,33 +136,42 @@ enum SalesType {
   raw_product
 }
 
+enum Discount {
+  FIXED
+  PERCENTAGE
+}
+
 model Sale {
-  id String @id @default(cuid())
-  reference String @unique @db.VarChar(12)
-  cashier String @db.VarChar(100)
-  saleAmount Float @default(0)
+  id             String        @id @default(cuid())
+  reference      String        @unique @db.VarChar(10)
+  cashier        String        @db.VarChar(100)
+  paymentMethod  PaymentMethod @default(cash)
+  salesType      SalesType     @default(raw_product)
+  discountType   Discount?
+  discountValue  Float?
+  subTotal       Float         @default(0)
+  tax            Float         @default(0)
+  total          Float         @default(0)
   amountReceived Float
-  customerChange Float @default(0)
-  paymentMethod PaymentMethod @default(cash)
-  salesType SalesType @default(raw_product)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  SaleItem SaleItem[]
+  customerChange Float         @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  SaleItem       SaleItem[]
+
   @@index([reference])
 }
 
-
 model SaleItem {
-  id String @id @default(cuid())
-  product Product @relation(fields: [productId], references: [id])
-  sale Sale @relation(fields: [saleId], references: [id])
-  productId String
-  saleId String
-  quantity Int
-  unitPrice Int
+  id         String   @id @default(cuid())
+  product    Product  @relation(fields: [productId], references: [id])
+  sale       Sale     @relation(fields: [saleId], references: [id])
+  productId  String
+  saleId     String
+  quantity   Int
+  unitPrice  Int
   totalPrice Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
   @@index([productId])
 }
-

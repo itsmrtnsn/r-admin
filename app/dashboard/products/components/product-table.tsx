@@ -29,44 +29,46 @@ const tableHeads = [
 
 export default function ProductTable({ products }: Props) {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>
-            <Checkbox></Checkbox>
-          </TableHead>
-          {tableHeads.map((head) => (
-            <TableHead key={head} className='text-sm font-medium'>
-              {head}
+    <div className='border-[0.1px] px-8 py-6 bg-white rounded-lg'>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>
+              <Checkbox className='border-[0.1px] rounded-md shadow-none'></Checkbox>
             </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {products.map((product) => (
-          <TableRow
-            key={product.id}
-            className='cursor-pointer text-normal h-14'
-          >
-            <TableCell>
-              <Checkbox />
-            </TableCell>
-            <TableCell>{product.name}</TableCell>
-
-            <TableCell>{product.price}</TableCell>
-
-            <TableCell>{product.category}</TableCell>
-            <TableCell>
-              <ProductStatusBadge status={product.status} />
-            </TableCell>
-            <TableCell>{product.quantityInStock}</TableCell>
-
-            <TableCell>
-              <TableAction productId={product.id} />
-            </TableCell>
+            {tableHeads.map((head) => (
+              <TableHead key={head} className='text-sm font-medium'>
+                {head}
+              </TableHead>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {products.map((product) => (
+            <TableRow
+              key={product.id}
+              className='cursor-pointer text-normal h-12'
+            >
+              <TableCell>
+                <Checkbox className='border-[0.1px] rounded-md shadow-none' />
+              </TableCell>
+              <TableCell>{product.name}</TableCell>
+
+              <TableCell>{product.price}</TableCell>
+
+              <TableCell>{product.category}</TableCell>
+              <TableCell>
+                <ProductStatusBadge status={product.status} />
+              </TableCell>
+              <TableCell>{product.quantityInStock}</TableCell>
+
+              <TableCell>
+                <TableAction productId={product.id} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

@@ -13,15 +13,19 @@ import Link from 'next/link';
 const TableAction = ({ productId }: { productId: string }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size='icon' variant='ghost'>
+      <DropdownMenuTrigger asChild className='shadow-none'>
+        <Button
+          size='icon'
+          variant='ghost'
+          className='bordr-[0.1px] shadow-none'
+        >
           <Ellipsis className='cursor-pointer text-muted-foreground' />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='bg-zinc-600'>
+      <DropdownMenuContent className='border-[0.1px] shadow-none'>
         <DropdownMenuLabel>Passez à l'action</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className=''>
           <Link href={`/dashboard/products/${productId}`}>Aperçu</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>

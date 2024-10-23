@@ -45,7 +45,7 @@ export default function CreateProductForm({ categories }: Props) {
     const result = await cretaeProduct(data);
 
     if (result.success) {
-      toast.success('Employé créé avec succès');
+      toast.success('Le nouveau produit a été créé avec succès');
       router.push('/dashboard/products');
       reset();
     }
@@ -64,15 +64,15 @@ export default function CreateProductForm({ categories }: Props) {
             id='name'
             {...register('name')}
             placeholder={`Nom de l'article`}
-            className='bg-black/50 border-zinc-600'
+            className='bg-white border-[0.1px] shadow-none outline-none'
           />
           {errors.name && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.name.message}
             </p>
           )}
           {serverErrors.name && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.name[0]}
             </p>
           )}
@@ -85,10 +85,10 @@ export default function CreateProductForm({ categories }: Props) {
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className='bg-black/50 border-zinc-600'>
+                <SelectTrigger className='bg-white border-[0.1px] shadow-none outline-none'>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='shadow-none border-[0.1px]'>
                   {categories?.map((category) => (
                     <SelectItem value={category.id} key={category.id}>
                       {category.name}
@@ -99,12 +99,12 @@ export default function CreateProductForm({ categories }: Props) {
             )}
           />
           {errors.category && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.category.message}
             </p>
           )}
           {serverErrors.category && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.category[0]}
             </p>
           )}
@@ -115,17 +115,17 @@ export default function CreateProductForm({ categories }: Props) {
             id='price'
             type='number'
             step='0.01'
-            className='bg-black/50 border-zinc-600'
+            className='bg-white border-[0.1px] shadow-none outline-none'
             {...register('price', { valueAsNumber: true })}
             placeholder='0.00'
           />
           {errors.price && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.price.message}
             </p>
           )}
           {serverErrors.price && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.price[0]}
             </p>
           )}
@@ -137,15 +137,15 @@ export default function CreateProductForm({ categories }: Props) {
             type='number'
             {...register('quantity', { valueAsNumber: true })}
             placeholder='0'
-            className='bg-black/50 border-zinc-600'
+            className='bg-white border-[0.1px] shadow-none outline-none'
           />
           {errors.quantity && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.quantity.message}
             </p>
           )}
           {serverErrors.quantity && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.quantity[0]}
             </p>
           )}
@@ -157,15 +157,15 @@ export default function CreateProductForm({ categories }: Props) {
             type='number'
             {...register('threshold', { valueAsNumber: true })}
             placeholder='1'
-            className='bg-black/50 border-zinc-600'
+            className='bg-white border-[0.1px] shadow-none outline-none'
           />
           {errors.threshold && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.threshold.message}
             </p>
           )}
           {serverErrors.quantity && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.quantity[0]}
             </p>
           )}
@@ -177,10 +177,10 @@ export default function CreateProductForm({ categories }: Props) {
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className='bg-black/50 border-zinc-600'>
+                <SelectTrigger className='bg-white border-[0.1px] shadow-none outline-none'>
                   <SelectValue placeholder='Sélectionnez un statut' />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='shadow-none border-[0.1px]'>
                   {productStatusOptionList.map((status) => (
                     <SelectItem value={status}>
                       {status === 'active' && 'Actif'}
@@ -193,12 +193,12 @@ export default function CreateProductForm({ categories }: Props) {
             )}
           />
           {errors.status && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.status.message}
             </p>
           )}
           {serverErrors.status && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.status[0]}
             </p>
           )}
@@ -210,15 +210,15 @@ export default function CreateProductForm({ categories }: Props) {
             {...register('expirationDate')}
             placeholder={`Date d'expiration`}
             type='date'
-            className='bg-black/50 border-zinc-600'
+            className='bg-white border-[0.1px] shadow-none outline-none'
           />
           {errors.expirationDate && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.expirationDate.message}
             </p>
           )}
           {serverErrors.expirationDate && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.expirationDate[0]}
             </p>
           )}
@@ -227,7 +227,6 @@ export default function CreateProductForm({ categories }: Props) {
       <div className='flex justify-end'>
         <Button
           type='submit'
-          variant='outline'
           className='bg-blue-700 text-white hover:bg-blue-800 transition-colors ease-linear duration-300 font-normal'
           disabled={isSubmitting}
         >

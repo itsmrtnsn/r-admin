@@ -89,9 +89,9 @@ export default function BarReceipt(props: ReceiptProps) {
 
       <Button
         onClick={handlePrint}
-        className='w-full rounded-full py-6 text-base  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
+        className='w-full rounded-full py-6 text-base  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 ease-linear font-normal'
       >
-        <Printer className='mr-2 h-4 w-4' /> Imprimer le reçu
+        <Printer strokeWidth={1} className='mr-2 h-5 w-5' /> Imprimer le reçu
       </Button>
     </div>
   );

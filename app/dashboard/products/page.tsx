@@ -47,7 +47,7 @@ const ProductsPage = async ({ searchParams: { searchQuery, page } }: Props) => {
               draft={totalDraftProducts}
             />
           </Suspense>
-          <Card className='bg-accent/50 shadow-none flex-1 overflow-hidden'>
+          <Card className='bg-slate-50 shadow-none flex-1 overflow-hidden border-[0.1px]'>
             <CardHeader>
               <div className='flex items-center gap-2 justify-between'>
                 <Search />
@@ -78,8 +78,8 @@ export default ProductsPage;
 
 const EmptyProducts = () => {
   return (
-    <div className='border border-dashed flex items-center justify-center flex-col rounded-lg overflow-hidden p-2  h-[25rem] mt-10 space-y-4 m-6'>
-      <h1 className='text-2xl font-semibold'>Aucun produit trouvé</h1>
+    <div className='border-[0.1px] bg-white flex items-center justify-center flex-col rounded-xl overflow-hidden p-2  h-[18rem] m-6  space-y-4 '>
+      <h1 className='text-3xl '>Aucun produit trouvé</h1>
       <AddNewProducts />
     </div>
   );

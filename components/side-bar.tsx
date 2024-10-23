@@ -40,7 +40,7 @@ const StoreSidebar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-2rem)] overflow-hidden   border-[0.1px] bg-zinc-900 '>
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden  border-[0.1px]  bg-white '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}
@@ -81,10 +81,10 @@ const StoreSidebar = () => {
                           <Button
                             variant='ghost'
                             className={cn(
-                              'w-full justify-between  font-semibold transition-all duration-300 ease-in-out',
+                              'w-full justify-between outline-none  font-semibold transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
-                                'bg-blue-700 text-white',
+                                'bg-blue-600 text-white hover:text-blue-600',
                               activeMenu === item.name && 'rounded-lg'
                             )}
                             onClick={() => {
@@ -120,9 +120,10 @@ const StoreSidebar = () => {
                               >
                                 {/* {item.icon} */}
                                 <item.icon
-                                  className={cn('h-5 w-5  text-blue-700', {
+                                  className={cn('h-5 w-5  text-blue-600', {
                                     'ml-1.5 w-4 h-4': !isSidebarOpen,
-                                    'text-white': activeMenu === item.name,
+                                    'text-white hover:text-blue-600':
+                                      activeMenu === item.name,
                                   })}
                                 />
                               </motion.div>
@@ -199,7 +200,7 @@ const StoreSidebar = () => {
 
             <Card
               className={cn(
-                'mt-4 bg-background  text-white transition-all duration-300',
+                'mt-4 bg-slate-50  border-none transition-all duration-300',
                 isSidebarOpen ? 'p-4' : 'p-2'
               )}
             >

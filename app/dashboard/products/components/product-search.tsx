@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import useQueryParameter from '@/app/hooks/use-query-parameter';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 
 export default function ProductSearch() {
   const [isFocused, setIsFocused] = useState(false);

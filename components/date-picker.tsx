@@ -30,7 +30,7 @@ export function DatePicker() {
             <Button
               variant={'outline'}
               className={cn(
-                'w-[200px] justify-start text-left font-normal h-10 shadow-none border-[0.1px] bg-[#0a0a0a]',
+                'w-[200px] rounded-lg justify-start text-left font-normal h-10 shadow-none border-[0.1px]',
                 !date && 'text-muted-foreground'
               )}
             >
@@ -39,7 +39,7 @@ export function DatePicker() {
             </Button>
           </div>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0'>
+        <PopoverContent className='w-auto p-0 shadow-none border-[0.1px]'>
           <Calendar
             mode='single'
             selected={date}
@@ -50,7 +50,11 @@ export function DatePicker() {
           />
         </PopoverContent>
       </Popover>
-      <Button disabled={!date} className='font-normal' onClick={handleDate}>
+      <Button
+        disabled={!date}
+        className='font-normal rounded-lg'
+        onClick={handleDate}
+      >
         Sumettre
       </Button>
     </div>

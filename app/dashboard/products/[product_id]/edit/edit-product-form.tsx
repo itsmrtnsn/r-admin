@@ -64,7 +64,7 @@ export default function EditProductForm({
     const result = await editProduct(data);
 
     if (result.success) {
-      toast.success('Employé créé avec succès');
+      toast.success('Le produit est modifié avec succès');
       router.push('/dashboard/products');
       reset();
     }
@@ -84,15 +84,15 @@ export default function EditProductForm({
             id='name'
             {...register('name')}
             placeholder={`Nom de l'article`}
-            className='bg-black/50'
+            className='bg-white shadow-none border-[0.1px]'
           />
           {errors.name && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.name.message}
             </p>
           )}
           {serverErrors.name && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.name[0]}
             </p>
           )}
@@ -105,10 +105,10 @@ export default function EditProductForm({
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger>
+                <SelectTrigger className='bg-white border-[0.1px] shadow-none'>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='border-[0.1px] shadow-none'>
                   {categories?.map((categoryId) => (
                     <SelectItem value={categoryId.id} key={categoryId.id}>
                       {categoryId.name}
@@ -119,12 +119,12 @@ export default function EditProductForm({
             )}
           />
           {errors.categoryId && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.categoryId.message}
             </p>
           )}
           {serverErrors.categoryId && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.categoryId[0]}
             </p>
           )}
@@ -135,17 +135,17 @@ export default function EditProductForm({
             id='price'
             type='number'
             step='0.01'
-            className='bg-black/50'
+            className='bg-white shadow-none border-[0.1px]'
             {...register('price', { valueAsNumber: true })}
             placeholder='0.00'
           />
           {errors.price && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.price.message}
             </p>
           )}
           {serverErrors.price && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.price[0]}
             </p>
           )}
@@ -157,15 +157,15 @@ export default function EditProductForm({
             type='number'
             {...register('quantityInStock', { valueAsNumber: true })}
             placeholder='0'
-            className='bg-black/50'
+            className='bg-white shadow-none border-[0.1px]'
           />
           {errors.quantityInStock && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.quantityInStock.message}
             </p>
           )}
           {serverErrors.quantityInStock && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.quantityInStock[0]}
             </p>
           )}
@@ -177,15 +177,15 @@ export default function EditProductForm({
             type='number'
             {...register('threshold', { valueAsNumber: true })}
             placeholder='1'
-            className='bg-black/50'
+            className='bg-white shadow-none border-[0.1px]'
           />
           {errors.threshold && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.threshold.message}
             </p>
           )}
           {serverErrors.quantityInStock && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.quantityInStock[0]}
             </p>
           )}
@@ -197,10 +197,10 @@ export default function EditProductForm({
             control={control}
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className='bg-black/50'>
+                <SelectTrigger className='bg-white shadow-none border-[0.1px]'>
                   <SelectValue placeholder='Sélectionnez un statut' />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='border-[0.1px] shadow-none'>
                   {productStatusOptionList.map((status) => (
                     <SelectItem value={status}>
                       {status === 'active' && 'Actif'}
@@ -213,12 +213,12 @@ export default function EditProductForm({
             )}
           />
           {errors.status && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.status.message}
             </p>
           )}
           {serverErrors.status && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.status[0]}
             </p>
           )}
@@ -230,15 +230,15 @@ export default function EditProductForm({
             {...register('expirationDate')}
             placeholder={`Date d'expiration`}
             type='date'
-            className='bg-black/50'
+            className='bg-white shadow-none border-[0.1px]'
           />
           {errors.expirationDate && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {errors.expirationDate.message}
             </p>
           )}
           {serverErrors.expirationDate && (
-            <p className='text-red-600 text-xs animate-pulse'>
+            <p className='text-destructive text-xs animate-pulse'>
               {serverErrors.expirationDate[0]}
             </p>
           )}

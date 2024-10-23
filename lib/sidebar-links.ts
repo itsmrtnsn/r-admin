@@ -43,16 +43,6 @@ const sidebarItems: {
         path: '/clients',
       },
       {
-        name: 'Performance des produits',
-        icon: MdDashboardCustomize,
-        path: '/product-performance',
-      },
-      {
-        name: 'Analytique',
-        icon: MdDashboardCustomize,
-        path: '/analytics',
-      },
-      {
         name: 'Rapports',
         icon: MdDashboardCustomize,
         path: '/reports',

@@ -41,18 +41,18 @@ const ProductCardComponent = ({ product }: CardProps) => {
   const isMaxQuantityReached = currentQuantityInCart >= product.quantityInStock;
 
   return (
-    <Card className='overflow-hidden border-[0.1px] bg-muted/50 shadow-none transition-all duration-300 hover:shadow-md '>
+    <Card className='overflow-hidden border-[0.1px] bg-slate-50 shadow-none transition-all duration-300 hover:shadow-md '>
       <CardContent className='p-4'>
         <div className='flex flex-col h-full'>
-          <h2 className='text-sm font-bold mb-2  line-clamp-1'>
+          <h2 className='text-sm font-medium mb-2  line-clamp-1 text-black'>
             {product.name}
           </h2>
           <p className='text-muted-foreground text-sm mb-2 font-medium'>
             {product.category}
           </p>
           <div className='flex justify-between items-center mt-auto'>
-            <p className='text-base font-bold text-blue-600'>
-              {product.price} <span className='font-semibold text-sm'>GDS</span>
+            <p className='text-sm font-bold text-primary'>
+              {product.price} <span className='font-semibold text-xs'>GDS</span>
             </p>
             <Button
               variant={'outline'}

@@ -47,7 +47,7 @@ const ProductSummaryCards = ({ total, active, archieved, draft }: Props) => {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
       {cards.map((card) => (
-        <Card className='bg-accent/50' key={card.id}>
+        <Card className='bg-slate-50 shadow-none border-[0.1px]' key={card.id}>
           <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
             <CardTitle className='text-sm font-medium'>{card.title}</CardTitle>
             <card.icon

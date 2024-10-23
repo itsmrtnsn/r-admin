@@ -10,12 +10,12 @@ interface Props {
   searchParams: { product_search: string };
 }
 
-const SalesPage = async ({ searchParams: { product_search } }: Props) => {
+const SalesPage = async ({}: Props) => {
   const products = await getSellableProducts();
 
   return (
     <div className='grid grid-cols-[1fr_auto] gap-4 overflow-hidden  rounded-lg p-4'>
-      <Card className=' border-[0.1px]  bg-zinc-900'>
+      <Card className=' border-[0.1px] shadow-none rounded-xl'>
         <CardContent>
           <div className='mt-4 mb-8 flex items-center justify-between'>
             <ProductSearch />
@@ -27,7 +27,7 @@ const SalesPage = async ({ searchParams: { product_search } }: Props) => {
           </ScrollArea>
         </CardContent>
       </Card>
-      <div className='w-[22rem] border-[0.1px] rounded-lg '>
+      <div className='w-[22rem] border-[0.1px] rounded-xl '>
         <Cart />
       </div>
     </div>
