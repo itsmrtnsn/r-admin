@@ -45,7 +45,7 @@ const sidebarItems: {
       {
         name: 'Rapports',
         icon: MdDashboardCustomize,
-        path: '/reports',
+        path: '/dashboard/reports',
       },
     ],
   },

@@ -15,11 +15,14 @@ export type SaleData = {
   discountValue?: number;
   total: number;
   tax?: number;
+  saleItems: { productId: string; quantity: number; price: number }[]; // Sale items
 };
 
 const createSale = async (data: SaleData) => {
   try {
     const reference = await SaleReference();
+
+    // Create the sale record
     const newSale = await prisma.sale.create({
       data: {
         reference: reference!,
@@ -33,11 +36,23 @@ const createSale = async (data: SaleData) => {
         tax: data.tax,
         subTotal: data.subTotal,
         total: data.total,
+        SaleItem: {
+          create: data.saleItems.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            unitPrice: item.price,
+            totalPrice: item.price * item.quantity,
+          })),
+        },
+      },
+      include: {
+        SaleItem: true, // Include related sale items in the response
       },
     });
-    return { success: true, data: newSale }; // Add success result
+
+    return { success: true, data: newSale }; // Return the new sale with the related items
   } catch (error) {
-    return { success: false, error: 'error' }; // Handle error
+    return { success: false, error: 'error' }; // Handle errors
   }
 };
 

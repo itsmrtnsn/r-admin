@@ -1,7 +1,7 @@
-type Data = { id: string; name: string; quantity: number; price: number };
+import { SalesItem } from '../../_types/salesItem';
 
 interface Props {
-  data: Data[];
+  data: SalesItem[];
 }
 
 const ItemsList = ({ data }: Props) => {
@@ -25,7 +25,7 @@ const ItemsList = ({ data }: Props) => {
             {product.name} x{product.quantity}
           </span>
           <span className='w-1/3 text-right'>
-            {(product.price * product.quantity).toLocaleString('fr-FR')} G
+            {(product.unitPrice * product.quantity).toLocaleString('fr-FR')} G
           </span>
         </div>
       ))}

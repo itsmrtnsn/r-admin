@@ -22,7 +22,9 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import paymentOptions from '@/lib/payment-option';
+import { Discount, PaymentMethod } from '@prisma/client';
 import { motion } from 'framer-motion';
+import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaSpinner } from 'react-icons/fa';
@@ -30,16 +32,12 @@ import createSale from '../_actions/create-sale';
 import { useCartStore } from './cart-store';
 import BarReceipt from './receipt/bar-receipt';
 import { Data } from './types/product';
-import { PaymentMethod } from '@prisma/client';
-import { CircleX } from 'lucide-react';
-
-// Assuming you have a Spinner component
 
 type CheckoutDialogProps = {
   subTotal: number;
-  discount: number;
+  discount?: number;
+  discountType?: Discount;
   total: number;
-  transactionId: string;
   cashier: string;
   products: Data[];
   onOpen: () => void;
@@ -50,16 +48,15 @@ export function CheckoutDialog({
   discount,
   total,
   cashier,
+  discountType,
   onOpen,
 }: CheckoutDialogProps) {
   const router = useRouter();
   const { clearCart, getTotal, items } = useCartStore();
-
   const { isOpen, closeModal } = useCheckoutModal();
-
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<PaymentMethod>('cash');
-  const [cashReceived, setCashReceived] = useState<number>(0);
+  const [cashReceived, setCashReceived] = useState<number>();
   const [isRoomCharge, setIsRoomCharge] = useState(false);
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
@@ -68,10 +65,15 @@ export function CheckoutDialog({
   const [receiptData, setReceiptData] = useState<{
     transactionId: string;
     cashier: string;
+    subTotal: number;
+    total: number;
+    discount: number;
+    amountReceieved: number;
+    customerChange: number;
   }>();
 
   const customerChange = () => {
-    return cashReceived - total;
+    return cashReceived! - total;
   };
 
   const handleCompletePayment = async () => {
@@ -87,10 +89,13 @@ export function CheckoutDialog({
         cashier: cashier,
         salesType: 'raw_product',
         paymentMethod: selectedPaymentOption,
-        amountReceived: cashReceived,
+        amountReceived: cashReceived!,
         customerChange: customerChange(),
         subTotal: getTotal(),
-        total: 0,
+        total: discount ? getTotal() - discount : getTotal(),
+        discountValue: discount,
+        discountType: discountType,
+        saleItems: [{ productId: 'Grest', quantity: 1, price: 10 }],
       });
       clearCart(); // Clear the cart only upon successful sale creation
       router.refresh();
@@ -98,6 +103,11 @@ export function CheckoutDialog({
         setReceiptData({
           transactionId: data?.reference!,
           cashier: data?.cashier!,
+          subTotal: data?.subTotal!,
+          total: data?.total!,
+          amountReceieved: data?.amountReceived!,
+          customerChange: data?.customerChange!,
+          discount: data?.discountValue!,
         });
         SetCompleted(true);
       }
@@ -186,12 +196,10 @@ export function CheckoutDialog({
                 </Label>
                 <Input
                   id='cash-received'
-                  value={cashReceived}
                   onChange={(e) => setCashReceived(Number(e.target.value))}
                   placeholder='Entrer le montant'
                   className='col-span-3 border-[0.1px] shadow-none'
                   type='number'
-                  step='0.01'
                 />
               </motion.div>
             )}
@@ -236,7 +244,7 @@ export function CheckoutDialog({
               </div>
               <div className='flex justify-between text-lg text-green-600'>
                 <span>Discount</span>
-                <span>-${discount.toFixed(2)}</span>
+                <span>-${discount ? discount.toFixed(2) : 0}</span>
               </div>
               <div className='flex text-base justify-between  text-gray-700'>
                 <span>TCA</span>
@@ -266,13 +274,19 @@ export function CheckoutDialog({
                 onCancel={handleCancel}
                 transactionId={receiptData?.transactionId!}
                 cashier={receiptData?.cashier!}
+                subTotal={receiptData?.subTotal!}
+                total={receiptData?.total!}
+                discount={receiptData?.discount!}
+                amountReceived={receiptData?.amountReceieved!}
+                customerChange={receiptData?.customerChange!}
+                paymentMethod={selectedPaymentOption}
               />
             ) : (
               <Button
                 className='w-full rounded-full py-6 text-base  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
                 disabled={
                   !selectedPaymentOption ||
-                  (selectedPaymentOption === 'cash' && cashReceived < total) ||
+                  (selectedPaymentOption === 'cash' && cashReceived! < total) ||
                   (isRoomCharge && !roomNumber)
                 }
                 onClick={handleCompletePayment}
@@ -298,9 +312,25 @@ interface Props {
   onCancel: () => void;
   transactionId: string;
   cashier: string;
+  subTotal: number;
+  discount: number;
+  total: number;
+  amountReceived: number;
+  customerChange: number;
+  paymentMethod: PaymentMethod;
 }
 
-const ReceiptButton = ({ onCancel, transactionId, cashier }: Props) => {
+const ReceiptButton = ({
+  onCancel,
+  transactionId,
+  cashier,
+  subTotal,
+  discount,
+  total,
+  amountReceived,
+  customerChange,
+  paymentMethod,
+}: Props) => {
   return (
     <div className='flex justify-between items-center gap-4 w-full'>
       <Button
@@ -316,12 +346,12 @@ const ReceiptButton = ({ onCancel, transactionId, cashier }: Props) => {
         transactionId={transactionId}
         cashier={cashier}
         items={[]}
-        subtotal={0}
-        discount={0}
-        total={0}
-        amountReceived={0}
-        change={0}
-        paymentMethod={''}
+        subtotal={subTotal}
+        discount={discount}
+        total={total}
+        amountReceived={amountReceived}
+        change={customerChange}
+        paymentMethod={paymentMethod}
       />
     </div>
   );

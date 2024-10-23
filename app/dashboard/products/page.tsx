@@ -56,7 +56,7 @@ const ProductsPage = async ({ searchParams: { searchQuery, page } }: Props) => {
             </CardHeader>
 
             {products.length >= 1 ? (
-              <CardContent className='mt-6'>
+              <CardContent>
                 <ProductTable products={products} />
                 <Pagination
                   totalPages={totalPages}
@@ -78,7 +78,7 @@ export default ProductsPage;
 
 const EmptyProducts = () => {
   return (
-    <div className='border-[0.1px] bg-white flex items-center justify-center flex-col rounded-xl overflow-hidden p-2  h-[18rem] m-6  space-y-4 '>
+    <div className='border-[0.1px] bg-white flex items-center justify-center flex-col rounded-xl overflow-hidden p-2  h-[20rem] mx-6 mb-6 space-y-4 '>
       <h1 className='text-3xl '>Aucun produit trouvé</h1>
       <AddNewProducts />
     </div>

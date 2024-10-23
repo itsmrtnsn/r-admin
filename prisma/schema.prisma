@@ -172,6 +172,5 @@ model SaleItem {
   totalPrice Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
   @@index([productId])
 }

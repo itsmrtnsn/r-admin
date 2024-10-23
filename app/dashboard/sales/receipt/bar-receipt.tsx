@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+
 import { Printer } from 'lucide-react';
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { Data } from '../types/product';
+import { SalesItem } from '../../_types/salesItem';
 import BarCode from './bar-code';
 import ContactInfo from './contact-info';
 import Header from './header';
@@ -17,7 +18,7 @@ import TransactionInfo from './transaction-info';
 interface ReceiptProps {
   transactionId: string;
   cashier: string;
-  items: Data[];
+  items: SalesItem[];
   subtotal: number;
   discount: number;
   total: number;

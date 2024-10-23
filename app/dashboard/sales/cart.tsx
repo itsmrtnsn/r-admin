@@ -19,20 +19,20 @@ import { CheckoutDialog } from './checkout-dialog';
 const Cart = () => {
   const { openModal } = useCheckoutModal();
   const { items, getTotal } = useCartStore();
-  const [discountType, setDiscountType] = useState<Discount>('FIXED');
+  const [discountType, setDiscountType] = useState<Discount>();
+  const [discountValue, setDiscountValue] = useState<number>();
+
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const [discountValue, setDiscountValue] = useState('');
-
   const subtotal = getTotal();
 
   const calculateDiscount = () => {
     if (!discountValue) return 0;
-    const value = parseFloat(discountValue);
+    const value = discountValue;
     if (isNaN(value)) return 0;
     return discountType === 'PERCENTAGE' ? (subtotal * value) / 100 : value;
   };
@@ -63,7 +63,7 @@ const Cart = () => {
               onValueChange={(value: Discount) => setDiscountType(value)}
             >
               <SelectTrigger className='w-1/2 rounded-l-full shadow-none border-[0.1px]'>
-                <SelectValue placeholder='Discount Type' />
+                <SelectValue placeholder='Discount' />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='PERCENTAGE'>Pourcentage</SelectItem>
@@ -71,8 +71,10 @@ const Cart = () => {
               </SelectContent>
             </Select>
             <Input
-              value={discountValue}
-              onChange={(e) => setDiscountValue(e.target.value)}
+              type='number'
+              onChange={(e) =>
+                setDiscountValue(parseFloat(e.currentTarget.value))
+              }
               placeholder={
                 discountType === 'PERCENTAGE'
                   ? 'Entrez le %'
@@ -92,11 +94,11 @@ const Cart = () => {
           <CheckoutDialog
             onOpen={openModal}
             subTotal={subtotal}
-            discount={discount}
+            discount={discountValue}
             total={total}
-            transactionId={''}
             cashier={'Mortensen Ulysse'}
             products={[]}
+            discountType={discountType}
           />
         </div>
       </CardContent>
