@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider  = "mysql"
   url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 enum Gender {
@@ -113,7 +113,7 @@ model Product {
   category        Category      @relation(fields: [categoryId], references: [id])
   categoryId      String
   status          ProductStatus @default(draft)
-  expirationDate  DateTime      @default(now()) @db.Date()
+  expirationDate  DateTime       @db.Date()
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
@@ -130,11 +130,7 @@ enum PaymentMethod {
   check
 }
 
-enum SalesType {
-  room
-  services
-  raw_product
-}
+
 
 enum Discount {
   FIXED
@@ -146,7 +142,6 @@ model Sale {
   reference      String        @unique @db.VarChar(10)
   cashier        String        @db.VarChar(100)
   paymentMethod  PaymentMethod @default(cash)
-  salesType      SalesType     @default(raw_product)
   discountType   Discount?
   discountValue  Float?
   subTotal       Float         @default(0)
@@ -169,7 +164,8 @@ model SaleItem {
   saleId     String
   quantity   Int
   unitPrice  Int
-  totalPrice Int
+  sellingPrice Float
+  totalCost Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   @@index([productId])

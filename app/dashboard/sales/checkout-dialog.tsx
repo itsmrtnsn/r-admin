@@ -1,6 +1,7 @@
 'use client';
 
 import useCheckoutModal from '@/app/hooks/use-checkout-modal';
+import useDiscount from '@/app/hooks/use-discount'; // Import the useDiscount hook
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import {
@@ -22,99 +23,129 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import paymentOptions from '@/lib/payment-option';
-import { Discount, PaymentMethod } from '@prisma/client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PaymentMethod } from '@prisma/client';
 import { motion } from 'framer-motion';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FaSpinner } from 'react-icons/fa';
+import { toast } from 'sonner';
 import createSale from '../_actions/create-sale';
+import { discountFormSchema } from '../_schema/discount-form-schema';
+import { DiscountFormData } from '../_types/discount-form-data';
+import { SalesItem } from '../_types/salesItem';
 import { useCartStore } from './cart-store';
 import BarReceipt from './receipt/bar-receipt';
-import { Data } from './types/product';
 
 type CheckoutDialogProps = {
   subTotal: number;
-  discount?: number;
-  discountType?: Discount;
   total: number;
   cashier: string;
-  products: Data[];
   onOpen: () => void;
 };
 
 export function CheckoutDialog({
   subTotal,
-  discount,
   total,
   cashier,
-  discountType,
   onOpen,
 }: CheckoutDialogProps) {
   const router = useRouter();
   const { clearCart, getTotal, items } = useCartStore();
   const { isOpen, closeModal } = useCheckoutModal();
+  const { calculateDiscount, discountType, resetDiscount } = useDiscount();
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<PaymentMethod>('cash');
-  const [cashReceived, setCashReceived] = useState<number>();
+  const [cashReceived, setCashReceived] = useState<number>(0);
   const [isRoomCharge, setIsRoomCharge] = useState(false);
   const [roomNumber, setRoomNumber] = useState('');
   const [showRoomChargeOptions, setShowRoomChargeOptions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isCompleted, SetCompleted] = useState<boolean>(false);
+  const [isCompleted, setCompleted] = useState<boolean>(false);
   const [receiptData, setReceiptData] = useState<{
     transactionId: string;
     cashier: string;
     subTotal: number;
     total: number;
     discount: number;
-    amountReceieved: number;
+    amountReceived: number;
     customerChange: number;
-  }>();
+    items: SalesItem[];
+  } | null>(null);
 
-  const customerChange = () => {
-    return cashReceived! - total;
-  };
+  const customerChange = () => cashReceived - total;
+  const discountValue = calculateDiscount(subTotal);
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   control,
+  //   reset,
+  //   formState: { errors, isSubmitting },
+  // } = useForm<DiscountFormData>({
+  //   resolver: zodResolver(discountFormSchema),
+  // });
 
   const handleCompletePayment = async () => {
     if (isRoomCharge && !roomNumber) {
-      alert('Please enter a room number');
-      return;
+      return alert('Veuillez entrer le numéro de la chambre');
     }
 
-    setIsLoading(true); // Set loading to true before creating the sale
-
+    setIsLoading(true);
     try {
-      const { success, data } = await createSale({
-        cashier: cashier,
-        salesType: 'raw_product',
-        paymentMethod: selectedPaymentOption,
-        amountReceived: cashReceived!,
-        customerChange: customerChange(),
-        subTotal: getTotal(),
-        total: discount ? getTotal() - discount : getTotal(),
-        discountValue: discount,
-        discountType: discountType,
-        saleItems: [{ productId: 'Grest', quantity: 1, price: 10 }],
-      });
-      clearCart(); // Clear the cart only upon successful sale creation
-      router.refresh();
+      const { success, saleData, saleItemData, message } = await createSale(
+        {
+          cashier,
+          paymentMethod: selectedPaymentOption,
+          amountReceived: cashReceived,
+          customerChange: customerChange(),
+          subTotal: getTotal(),
+          total: getTotal() - discountValue, // Use the discount value
+          discountValue: discountValue,
+          discountType,
+        },
+        items.map(({ product, quantity }) => ({
+          productId: product.id,
+          quantity,
+          unitPrice: product.price,
+          sellingPrice: product.price - discountValue, // Use the discount value
+          totalCost: quantity * product.price,
+        }))
+      );
+
       if (success) {
+        clearCart();
+        router.refresh();
         setReceiptData({
-          transactionId: data?.reference!,
-          cashier: data?.cashier!,
-          subTotal: data?.subTotal!,
-          total: data?.total!,
-          amountReceieved: data?.amountReceived!,
-          customerChange: data?.customerChange!,
-          discount: data?.discountValue!,
+          transactionId: saleData?.reference!,
+          cashier: saleData?.cashier!,
+          subTotal: saleData?.subTotal!,
+          total: saleData?.total!,
+          amountReceived: saleData?.amountReceived!,
+          customerChange: saleData?.customerChange!,
+          discount: saleData?.discountValue!,
+          items:
+            saleItemData?.map(
+              ({ productId, product, quantity, unitPrice, sellingPrice }) => ({
+                productId,
+                name: product.name,
+                quantity,
+                unitPrice,
+                sellingPrice,
+                totalCost: quantity * sellingPrice,
+              })
+            ) || [],
         });
-        SetCompleted(true);
+        setCompleted(true);
+      } else {
+        toast.error(message);
       }
     } catch (error) {
       console.error('Error creating sale:', error);
     } finally {
-      setIsLoading(false); // Hide spinner after the operation
+      setIsLoading(false);
     }
   };
 
@@ -125,21 +156,25 @@ export function CheckoutDialog({
     setRoomNumber('');
     setShowRoomChargeOptions(false);
     setIsLoading(false);
-    SetCompleted(false);
+    setCompleted(false);
     router.refresh();
+    // location.reload();
+    resetDiscount();
     closeModal();
+    // reset();
   };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpen}>
       <DialogTrigger asChild>
         <Button
-          disabled={items.length <= 0}
-          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 '
+          disabled={items.length === 0}
+          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300'
         >
           Passer à la caisse
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[500px]  rounded-2xl border-[0.1px]'>
+      <DialogContent className='sm:max-w-[500px] rounded-2xl border-[0.1px]'>
         <DialogHeader>
           <DialogTitle className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-800 flex items-center justify-between'>
             <span>Caisse</span>
@@ -162,8 +197,8 @@ export function CheckoutDialog({
               </Label>
               <Select
                 defaultValue='cash'
-                onValueChange={(option) =>
-                  setSelectedPaymentOption(option as unknown as PaymentMethod)
+                onValueChange={(value: PaymentMethod) =>
+                  setSelectedPaymentOption(value)
                 }
               >
                 <SelectTrigger className='col-span-3 shadow-none border-[0.1px]'>
@@ -173,7 +208,7 @@ export function CheckoutDialog({
                   {paymentOptions.map((option) => (
                     <SelectItem key={option.id} value={option.value}>
                       <div className='flex items-center'>
-                        <option.icon className='mr-2 h-4 w-4' />
+                        <option.icon className='mr-2 h-4 w-4 text-primary' />
                         {option.name}
                       </div>
                     </SelectItem>
@@ -238,25 +273,25 @@ export function CheckoutDialog({
             )}
             <Separator className='bg-muted' />
             <div className='space-y-3'>
-              <div className='flex justify-between  text-gray-700'>
+              <div className='flex justify-between text-gray-700'>
                 <span>Sous-total</span>
                 <span>${subTotal.toFixed(2)}</span>
               </div>
               <div className='flex justify-between text-lg text-green-600'>
-                <span>Discount</span>
-                <span>-${discount ? discount.toFixed(2) : 0}</span>
+                <span>Rabais</span>
+                <span>-${discountValue}</span>
               </div>
-              <div className='flex text-base justify-between  text-gray-700'>
+              <div className='flex text-base justify-between text-gray-700'>
                 <span>TCA</span>
                 <span>$0</span>
               </div>
               <Separator />
               <div className='flex justify-between text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500'>
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${total}</span>
               </div>
             </div>
-            {selectedPaymentOption === 'cash' && cashReceived && (
+            {selectedPaymentOption === 'cash' && cashReceived > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -277,17 +312,19 @@ export function CheckoutDialog({
                 subTotal={receiptData?.subTotal!}
                 total={receiptData?.total!}
                 discount={receiptData?.discount!}
-                amountReceived={receiptData?.amountReceieved!}
+                amountReceived={receiptData?.amountReceived!}
                 customerChange={receiptData?.customerChange!}
                 paymentMethod={selectedPaymentOption}
+                salesItems={receiptData?.items!}
               />
             ) : (
               <Button
-                className='w-full rounded-full py-6 text-base  text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
+                className='w-full rounded-full py-6 text-base text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-normal'
                 disabled={
                   !selectedPaymentOption ||
-                  (selectedPaymentOption === 'cash' && cashReceived! < total) ||
-                  (isRoomCharge && !roomNumber)
+                  (selectedPaymentOption === 'cash' && cashReceived < total) ||
+                  (isRoomCharge && !roomNumber) ||
+                  isLoading
                 }
                 onClick={handleCompletePayment}
               >
@@ -318,6 +355,7 @@ interface Props {
   amountReceived: number;
   customerChange: number;
   paymentMethod: PaymentMethod;
+  salesItems: SalesItem[];
 }
 
 const ReceiptButton = ({
@@ -330,13 +368,14 @@ const ReceiptButton = ({
   amountReceived,
   customerChange,
   paymentMethod,
+  salesItems,
 }: Props) => {
   return (
     <div className='flex justify-between items-center gap-4 w-full'>
       <Button
-        variant={'outline'}
+        variant='outline'
         size='lg'
-        className='w-full rounded-full py-6 text-base font-normal   transition-all duration-300 shadow-none border-[0.1px]'
+        className='w-full rounded-full py-6 text-base font-normal transition-all duration-300 shadow-none border-[0.1px]'
         onClick={onCancel}
       >
         <CircleX className='mr-2 w-5 h-5' strokeWidth={1} />
@@ -345,7 +384,7 @@ const ReceiptButton = ({
       <BarReceipt
         transactionId={transactionId}
         cashier={cashier}
-        items={[]}
+        items={salesItems}
         subtotal={subTotal}
         discount={discount}
         total={total}

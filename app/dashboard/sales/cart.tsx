@@ -1,6 +1,7 @@
 'use client';
 
 import useCheckoutModal from '@/app/hooks/use-checkout-modal';
+import useDiscount from '@/app/hooks/use-discount';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,30 +16,41 @@ import { useEffect, useState } from 'react';
 import CartItem from './cart-item';
 import { useCartStore } from './cart-store';
 import { CheckoutDialog } from './checkout-dialog';
+import { Controller, useForm } from 'react-hook-form';
+import { DiscountFormData } from '../_types/discount-form-data';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { discountFormSchema } from '../_schema/discount-form-schema';
 
 const Cart = () => {
   const { openModal } = useCheckoutModal();
   const { items, getTotal } = useCartStore();
-  const [discountType, setDiscountType] = useState<Discount>();
-  const [discountValue, setDiscountValue] = useState<number>();
 
   const [isClient, setIsClient] = useState(false);
+  const {
+    discountType,
+    discountValue,
+    setDiscountType,
+    setDiscountValue,
+    calculateDiscount,
+  } = useDiscount();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const subtotal = getTotal();
-
-  const calculateDiscount = () => {
-    if (!discountValue) return 0;
-    const value = discountValue;
-    if (isNaN(value)) return 0;
-    return discountType === 'PERCENTAGE' ? (subtotal * value) / 100 : value;
-  };
-
-  const discount = calculateDiscount();
+  const discount = calculateDiscount(subtotal);
   const total = Math.max(subtotal - discount, 0);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<DiscountFormData>({
+    resolver: zodResolver(discountFormSchema),
+  });
 
   return (
     <Card className='h-[calc(100vh-4rem)] flex flex-col p-0  border-none shadow-none '>
@@ -70,8 +82,29 @@ const Cart = () => {
                 <SelectItem value='FIXED'>Montant fixe</SelectItem>
               </SelectContent>
             </Select>
+
+            {/* <Controller
+              name='discountType'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className='w-1/2 rounded-l-full shadow-none border-[0.1px]'>
+                    <SelectValue placeholder='Rabais' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='PERCENTAGE'>Pourcentage</SelectItem>
+                    <SelectItem value='FIXED'>Montant fixe</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            /> */}
             <Input
               type='number'
+              {...register('discountValue', { valueAsNumber: true })}
+              // value={discountValue}
               onChange={(e) =>
                 setDiscountValue(parseFloat(e.currentTarget.value))
               }
@@ -82,6 +115,18 @@ const Cart = () => {
               }
               className='w-1/2 rounded-r-full shadow-none border-[0.1px]'
             />
+            <div className=''>
+              {errors.discountValue && (
+                <p className='text-xs text-destructive animate-pulse'>
+                  {errors.discountValue?.message}
+                </p>
+              )}
+              {errors.discountType && (
+                <p className='text-xs text-destructive animate-pulse'>
+                  {errors.discountType?.message}
+                </p>
+              )}
+            </div>
           </div>
           <div className='flex justify-between text-base font-semibold text-green-600'>
             <span>Rabais</span>
@@ -94,11 +139,8 @@ const Cart = () => {
           <CheckoutDialog
             onOpen={openModal}
             subTotal={subtotal}
-            discount={discountValue}
             total={total}
             cashier={'Mortensen Ulysse'}
-            products={[]}
-            discountType={discountType}
           />
         </div>
       </CardContent>

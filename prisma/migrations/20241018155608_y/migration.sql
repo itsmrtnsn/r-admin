@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Product" ADD COLUMN     "expirationDate" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;

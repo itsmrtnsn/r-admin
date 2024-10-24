@@ -1,7 +1,3 @@
-import { Percent } from 'lucide-react';
-import React from 'react';
-import { receiptData } from './data';
-
 interface Prop {
   subTotal: number;
   discount: number;
@@ -17,10 +13,7 @@ const TotalSection = ({ subTotal, discount, tax, total }: Prop) => {
         <span>{subTotal} G</span>
       </div>
       <div className='flex justify-between'>
-        <span className='flex items-center'>
-          <Percent className='w-3 h-3 mr-1 text-gray-900' />
-          discount:
-        </span>
+        <span className='flex items-center'>discount:</span>
         <span>-{discount}G</span>
       </div>
       <div className='flex justify-between'>

@@ -9,9 +9,12 @@ const getCategory = async () => {
     });
     return categories.length > 0
       ? categories
-      : [{ name: 'No categories available', slug: 'none', id: '-' }];
+      : [{ name: 'Aucune catégorie disponible', slug: 'aucun', id: '-' }];
   } catch (error) {
-    return { error: 'Failed to fetch categories. Please try again later.' };
+    return {
+      error:
+        'Impossible de récupérer les catégories. Veuillez réessayer ultérieurement.',
+    };
   }
 };
 

@@ -1,4 +1,4 @@
-import { Banknote } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
   amountReceived: number;
@@ -8,11 +8,9 @@ interface Props {
 const PaymentInfo = ({ amountReceived, change }: Props) => {
   return (
     <div className='mt-4 space-y-1 text-xs text-gray-600'>
+      <Separator />
       <div className='flex justify-between'>
-        <span className='flex items-center'>
-          <Banknote className='w-3 h-3 mr-1 text-gray-400' />
-          Reçu:
-        </span>
+        <span className='flex items-center'>Reçu:</span>
         <span>{amountReceived} G</span>
       </div>
       <div className='flex justify-between'>
