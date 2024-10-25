@@ -158,10 +158,21 @@ export function CheckoutDialog({
     setIsLoading(false);
     setCompleted(false);
     router.refresh();
-    // location.reload();
     resetDiscount();
     closeModal();
-    // reset();
+  };
+
+  const handleAfterPrint = () => {
+    setSelectedPaymentOption('cash');
+    setCashReceived(0);
+    setIsRoomCharge(false);
+    setRoomNumber('');
+    setShowRoomChargeOptions(false);
+    setIsLoading(false);
+    setCompleted(false);
+    router.refresh();
+    resetDiscount();
+    closeModal();
   };
 
   return (
@@ -247,7 +258,7 @@ export function CheckoutDialog({
                   setShowRoomChargeOptions(checked);
                 }}
               />
-              <Label htmlFor='room-charge'>Facture à la chambre</Label>
+              <Label htmlFor='room-charge'>Chambre</Label>
             </div>
             {showRoomChargeOptions && (
               <motion.div
@@ -267,7 +278,7 @@ export function CheckoutDialog({
                   value={roomNumber}
                   onChange={(e) => setRoomNumber(e.target.value)}
                   placeholder='Entrez le numéro de chambre'
-                  className='col-span-3 border-[0.1px]'
+                  className='col-span-3 border-[0.1px] shadow-none'
                 />
               </motion.div>
             )}
@@ -316,6 +327,7 @@ export function CheckoutDialog({
                 customerChange={receiptData?.customerChange!}
                 paymentMethod={selectedPaymentOption}
                 salesItems={receiptData?.items!}
+                onAfterPrint={handleAfterPrint}
               />
             ) : (
               <Button
@@ -356,6 +368,7 @@ interface Props {
   customerChange: number;
   paymentMethod: PaymentMethod;
   salesItems: SalesItem[];
+  onAfterPrint: () => void;
 }
 
 const ReceiptButton = ({
@@ -369,6 +382,7 @@ const ReceiptButton = ({
   customerChange,
   paymentMethod,
   salesItems,
+  onAfterPrint,
 }: Props) => {
   return (
     <div className='flex justify-between items-center gap-4 w-full'>
@@ -391,6 +405,7 @@ const ReceiptButton = ({
         amountReceived={amountReceived}
         change={customerChange}
         paymentMethod={paymentMethod}
+        onAfterPrint={onAfterPrint}
       />
     </div>
   );

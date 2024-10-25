@@ -11,15 +11,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Discount } from '@prisma/client';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { discountFormSchema } from '../_schema/discount-form-schema';
+import { DiscountFormData } from '../_types/discount-form-data';
 import CartItem from './cart-item';
 import { useCartStore } from './cart-store';
 import { CheckoutDialog } from './checkout-dialog';
-import { Controller, useForm } from 'react-hook-form';
-import { DiscountFormData } from '../_types/discount-form-data';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { discountFormSchema } from '../_schema/discount-form-schema';
+import Link from 'next/link';
 
 const Cart = () => {
   const { openModal } = useCheckoutModal();
@@ -53,7 +54,7 @@ const Cart = () => {
   });
 
   return (
-    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0  border-none shadow-none '>
+    <Card className='h-[calc(100vh-4rem)] flex flex-col p-0   border-none shadow-none '>
       <CardContent className='p-0 flex flex-col h-full pb-2'>
         <div className='flex-grow overflow-auto mb-0  px-4 pt-3'>
           {items.map((item) => (
@@ -62,8 +63,7 @@ const Cart = () => {
             </div>
           ))}
         </div>
-
-        {/* summary */}
+        2{/* summary */}
         <div className='space-y-4 mt-auto p-4 pb-2'>
           <div className='flex justify-between text-base font-semibold'>
             <span>Sous-total</span>
@@ -143,6 +143,7 @@ const Cart = () => {
             cashier={'Mortensen Ulysse'}
           />
         </div>
+        <Link href='/dashboard/sales/checkout'>Checkout</Link>
       </CardContent>
     </Card>
   );

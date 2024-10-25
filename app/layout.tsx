@@ -17,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={cn('antialiased bg-slate-50', geistSans.className)}
+        className={cn(
+          'antialiased bg-gray-50 max-h-screen',
+          geistSans.className
+        )}
         suppressHydrationWarning
       >
         <ThemeProvider attribute='class' defaultTheme='light'>

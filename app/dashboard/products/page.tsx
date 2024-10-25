@@ -18,6 +18,7 @@ interface Props {
 const ProductsPage = async ({ searchParams: { searchQuery, page } }: Props) => {
   const currentPage = page ? parseInt(page) : 1;
   const itemsPerPage = 10;
+
   const { products, totalPages } = await getProducts(
     searchQuery,
     currentPage,

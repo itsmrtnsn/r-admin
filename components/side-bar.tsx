@@ -40,7 +40,7 @@ const StoreSidebar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-2rem)] overflow-hidden  border-[0.1px]  bg-white '>
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden border-[0.1px]  shadow-none  bg-white '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}

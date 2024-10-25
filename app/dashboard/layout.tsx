@@ -10,11 +10,11 @@ interface LayoutProps {
 const layout = ({ children }: LayoutProps) => {
   return (
     <section>
-      <div className='min-h-screen  p-4 flex gap-4'>
+      <div className='max-h-screen p-4 flex gap-4'>
         {/* Sidebar */}
         <StoreSidebar />
         {/* Main Content */}
-        <Card className='flex-1 h-[calc(100vh-2rem) overflow-hidden border-[0.1px]'>
+        <Card className='flex-1 h-[calc(100vh-2rem) border-[0.1px] overflow-hidden shadow-none'>
           <CardContent className='p-0 h-full flex flex-col bg-white'>
             <MotionProvider>{children}</MotionProvider>
           </CardContent>

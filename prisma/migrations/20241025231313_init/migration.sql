@@ -106,6 +106,23 @@ CREATE TABLE `SaleItem` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `Customer` (
+    `id` VARCHAR(191) NOT NULL,
+    `firstName` VARCHAR(50) NOT NULL,
+    `lastName` VARCHAR(50) NOT NULL,
+    `phoneNumber` VARCHAR(20) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    `idType` ENUM('passport', 'drivers_license', 'goverment_issued_id', 'student_id') NOT NULL,
+    `idNumber` VARCHAR(20) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `Customer_phoneNumber_key`(`phoneNumber`),
+    UNIQUE INDEX `Customer_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_employeeId_fkey` FOREIGN KEY (`employeeId`) REFERENCES `Employee`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 

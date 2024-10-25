@@ -25,6 +25,7 @@ interface ReceiptProps {
   amountReceived: number;
   change: number;
   paymentMethod: string;
+  onAfterPrint: () => void;
 }
 
 type ReceiptSize = '80mm' | '58mm';
@@ -76,6 +77,7 @@ export default function BarReceipt(props: ReceiptProps) {
     content: () => receiptRef.current,
     documentTitle: `PauseInnBar_Reçu_${props.transactionId}`,
     removeAfterPrint: true,
+    onAfterPrint: props.onAfterPrint,
   });
 
   return (
