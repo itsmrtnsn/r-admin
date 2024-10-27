@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { SaleCategory } from '@prisma/client';
 
 const saleTableHeader = [
   'Transaction ID',
@@ -20,7 +21,7 @@ type Sale = {
   cashier: string;
   createdAt: Date;
   total: number;
-  //   category: string;
+  category: SaleCategory;
 };
 interface Props {
   sales: Sale[];
@@ -43,7 +44,7 @@ const SalesTable = ({ sales }: Props) => {
             <TableCell>{sale.cashier}</TableCell>
             <TableCell>{sale.createdAt.toLocaleDateString()}</TableCell>
             <TableCell>{sale.total}</TableCell>
-            <TableCell>{'Drink'}</TableCell>
+            <TableCell>{sale.category}</TableCell>
           </TableRow>
         ))}
       </TableBody>

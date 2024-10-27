@@ -11,6 +11,7 @@ const salesRepport = async () => {
         total: true,
         createdAt: true,
         cashier: true,
+        category: true,
       },
     });
     return sales;

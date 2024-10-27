@@ -19,14 +19,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-const chartData = [
-  { category: 'coffee', sales: 1275, fill: 'var(--color-coffee)' },
-  { category: 'tea', sales: 950, fill: 'var(--color-tea)' },
-  { category: 'soda', sales: 800, fill: 'var(--color-soda)' },
-  { category: 'juice', sales: 675, fill: 'var(--color-juice)' },
-  { category: 'water', sales: 500, fill: 'var(--color-water)' },
-];
-
 const chartConfig = {
   sales: {
     label: 'Sales',
@@ -53,7 +45,25 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function SalesCategoryDistribution() {
+interface Props {
+  food: number;
+  drink: number;
+  room: number;
+  other: number;
+}
+
+export default function SalesCategoryDistribution({
+  food,
+  drink,
+  room,
+  other,
+}: Props) {
+  const chartData = [
+    { category: 'Room', sales: room, fill: 'var(--color-coffee)' },
+    { category: 'Drink', sales: drink, fill: 'var(--color-tea)' },
+    { category: 'Food', sales: food, fill: 'var(--color-soda)' },
+    { category: 'Other', sales: other, fill: 'var(--color-juice)' },
+  ];
   const totalSales = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.sales, 0);
   }, []);
@@ -115,9 +125,9 @@ export default function SalesCategoryDistribution() {
         </ChartContainer>
       </CardContent>
       <CardFooter className='flex-col gap-2 text-sm'>
-        <div className='flex items-center gap-2 font-medium leading-none'>
+        {/* <div className='flex items-center gap-2 font-medium leading-none'>
           Trending up by 7.5% this month <TrendingUp className='h-4 w-4' />
-        </div>
+        </div> */}
         <div className='leading-none text-muted-foreground'>
           Showing total sales for each drink category in the last 6 months
         </div>

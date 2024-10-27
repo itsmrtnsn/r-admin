@@ -52,6 +52,7 @@ const createSale = async (
         tax: saleData.tax || 0,
         subTotal: saleData.subTotal,
         total: saleData.total,
+        category: 'DRINK',
       },
     });
 

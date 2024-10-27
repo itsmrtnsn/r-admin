@@ -3,33 +3,43 @@ import { cn } from '@/lib/utils';
 
 import { FaFemale, FaMale, FaUser } from 'react-icons/fa';
 import { FaCircleHalfStroke } from 'react-icons/fa6';
-import { getEmployeeStatistics } from '../_actions/employee-statistic';
 
-const EmployeeSummaryCard = async () => {
-  const employeeStatistics = await getEmployeeStatistics();
+interface Props {
+  totalCustomers: number;
+  activeCustomers: number;
+  men: number;
+  women: number;
+}
+
+const CustomerSummaryCards = ({
+  totalCustomers,
+  activeCustomers,
+  women,
+  men,
+}: Props) => {
   const summaryCards = [
     {
       title: `Total employés`,
       slug: 'total-employees',
-      value: employeeStatistics.totalEmployees,
+      value: totalCustomers,
       icon: FaUser,
     },
     {
       title: 'Employés actifs',
       slug: 'active-employees',
-      value: employeeStatistics.totalActiveEmployees,
+      value: activeCustomers,
       icon: FaCircleHalfStroke,
     },
     {
       title: 'Hommes',
       slug: 'male',
-      value: employeeStatistics.totalMen,
+      value: men,
       icon: FaMale,
     },
     {
       title: 'Femmes',
       slug: 'female',
-      value: employeeStatistics.totalWomen,
+      value: women,
       icon: FaFemale,
     },
   ];
@@ -66,4 +76,4 @@ const EmployeeSummaryCard = async () => {
   );
 };
 
-export default EmployeeSummaryCard;
+export default CustomerSummaryCards;

@@ -180,7 +180,7 @@ export function CheckoutDialog({
       <DialogTrigger asChild>
         <Button
           disabled={items.length === 0}
-          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-700 transition-all duration-300'
+          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gray-950 hover:from-blue-600 hover:to-blue-700 transition-all duration-300'
         >
           Passer à la caisse
         </Button>

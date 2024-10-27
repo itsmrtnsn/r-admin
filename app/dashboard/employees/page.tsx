@@ -28,7 +28,7 @@ const Employees = async () => {
           <Suspense fallback={<EmployeeSummaryCardSkeleton />}>
             <EmployeeSummaryCard />
           </Suspense>
-          <Card className='border-[0.1px] bg-zinc-900 shadow-none flex-1 overflow-hidden'>
+          <Card className='border-[0.1px] bg-slate-50/50 shadow-none flex-1 overflow-hidden'>
             <CardHeader>
               <div className='flex items-center gap-2 justify-between'>
                 <Search />

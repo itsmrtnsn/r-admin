@@ -37,7 +37,12 @@ export default async function SalesReport() {
 
           <div className='grid grid-cols-2 gap-4'>
             <DailySalesChart />
-            <SalesCategoryDistribution />
+            <SalesCategoryDistribution
+              food={10}
+              drink={20}
+              room={100}
+              other={50}
+            />
             <Card className='col-span-2 border-[0.1px] 0 shadow-none'>
               <CardHeader>
                 <div className='flex items-center justify-between'>

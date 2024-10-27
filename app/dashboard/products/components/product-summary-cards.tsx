@@ -1,6 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { BookDashed, FileArchive, Package, ShieldCheck } from 'lucide-react';
+import {
+  BookDashed,
+  FileArchive,
+  icons,
+  Package,
+  ShieldCheck,
+} from 'lucide-react';
 
 interface Props {
   total: number;
@@ -48,18 +54,17 @@ const ProductSummaryCards = ({ total, active, archieved, draft }: Props) => {
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
       {cards.map((card) => (
         <Card
-          className='bg-slate-50/50 shadow-none border-[0.1px]'
-          key={card.id}
+          key={card.title}
+          className='border-[0.1px] shadow-none bg-slate-50/50 '
         >
-          <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-            <CardTitle className='text-sm font-medium'>{card.title}</CardTitle>
-            <card.icon
-              className={cn('w-4 h-4 text-muted-foreground', card.iconColor)}
-            />
+          <CardHeader>
+            <CardTitle className='text-sm font-medium flex items-center gap-2 justify-between'>
+              <p>{card.title}</p>
+              <card.icon className={cn(card.iconColor)} />
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>{card.value}</div>
-            <p className='text-xs text-muted-foreground'>{card.description} </p>
+            <p className='text-3xl font-semibold'>{card.value}</p>
           </CardContent>
         </Card>
       ))}

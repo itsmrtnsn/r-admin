@@ -14,6 +14,9 @@ const createProductFormSchema = z.object({
   price: z
     .number({ invalid_type_error: `Le prix de l'article doit être un nombre` })
     .positive(`Le prix doit être un nombre positif`),
+  costPrice: z
+    .number({ required_error: 'The cost price is required' })
+    .positive(`Le cost price doit être un nombre positif`),
   quantity: z
     .number({
       invalid_type_error: `la quantité de l'article doit être un chiffre`,

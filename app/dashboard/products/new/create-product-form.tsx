@@ -110,7 +110,28 @@ export default function CreateProductForm({ categories }: Props) {
           )}
         </div>
         <div className='space-y-2'>
-          <Label htmlFor='price'>Prix</Label>
+          <Label htmlFor='cost-price'>Cost Price</Label>
+          <Input
+            id='cost-price'
+            type='number'
+            step='0.01'
+            className='bg-white border-[0.1px] shadow-none outline-none'
+            {...register('costPrice', { valueAsNumber: true })}
+            placeholder='0.00'
+          />
+          {errors.costPrice && (
+            <p className='text-destructive text-xs animate-pulse'>
+              {errors.costPrice.message}
+            </p>
+          )}
+          {serverErrors.price && (
+            <p className='text-destructive text-xs animate-pulse'>
+              {serverErrors.price[0]}
+            </p>
+          )}
+        </div>
+        <div className='space-y-2'>
+          <Label htmlFor='price'>Selling Price</Label>
           <Input
             id='price'
             type='number'

@@ -9,8 +9,8 @@ datasource db {
 }
 
 enum Gender {
-  homme
-  femme
+  MEN
+  WOMEN
 }
 
 enum DayOff {
@@ -107,7 +107,8 @@ enum ProductStatus {
 model Product {
   id              String        @id @default(cuid())
   name            String        @unique @db.VarChar(150)
-  price           Int
+  price           Float
+  costPrice Float @default(0)
   quantityInStock Int
   threshold       Int
   category        Category      @relation(fields: [categoryId], references: [id])
@@ -116,9 +117,7 @@ model Product {
   expirationDate  DateTime      @db.Date()
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-
   SaleItem SaleItem[]
-
   @@index([name])
 }
 
@@ -135,9 +134,17 @@ enum Discount {
   PERCENTAGE
 }
 
+enum SaleCategory {
+  ROOM
+  DRINK 
+  FOOD
+  OTHER
+}
+
 model Sale {
   id             String        @id @default(cuid())
   reference      String        @unique @db.VarChar(10)
+  category SaleCategory
   cashier        String        @db.VarChar(100)
   paymentMethod  PaymentMethod @default(cash)
   discountType   Discount?
@@ -183,8 +190,11 @@ model Customer {
   lastName    String   @db.VarChar(50)
   phoneNumber String   @unique @db.VarChar(20)
   email       String   @unique @db.VarChar(50)
+  Gender Gender 
   idType      IdOption
   idNumber    String   @db.VarChar(20)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+

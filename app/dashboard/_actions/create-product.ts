@@ -26,6 +26,7 @@ const cretaeProduct = async (data: CreateProductFormData) => {
         status: result.data.status,
         categoryId: result.data.category,
         expirationDate: date,
+        costPrice: data.costPrice,
       },
     });
     revalidatePath('/dashboard/products');

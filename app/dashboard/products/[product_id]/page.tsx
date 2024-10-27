@@ -13,6 +13,9 @@ import BackButton from '../../employees/new/back-button';
 import { ProductAnaliticsChart } from './product-analitics-chart';
 import { getProductById } from '../../_actions/get-product-by-id';
 import DeleteProductConfirmation from '../_components/delete-product-confirmation';
+import { DateRangePicker } from '@/components/data-range-picker';
+import ProductDetailSummaryCard from './product-detail-summary-cards';
+import ProductSalesOverview from './prodduct-sales-overview';
 
 const salesData = [
   { date: '2023-01', sales: 120, revenue: 3600 },
@@ -53,151 +56,17 @@ export default async function POSSingleProductAnalytics({
           <BackButton />
           <h1 className='text-3xl font-bold'>{response.product?.name}</h1>
         </div>
-        <DeleteProductConfirmation id={product_id} />
+        <DateRangePicker />
       </div>
 
       <ScrollArea className='h-[75vh] overflow-hidden mt-6'>
         <div className='space-y-10'>
-          <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
-            <Card className='bg-slate-50/50 shadow-none border-[0.1px]'>
-              <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-                <CardTitle className='text-sm font-medium'>
-                  Total Revenue
-                </CardTitle>
-                <DollarSign className='w-4 h-4 text-muted-foreground' />
-              </CardHeader>
-              <CardContent>
-                <div className='text-2xl font-bold'>$33,600</div>
-                <p className='text-xs text-muted-foreground'>
-                  +12.5% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card className='bg-slate-50/50 shadow-none border-[0.1px]'>
-              <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-                <CardTitle className='text-sm font-medium'>
-                  Total Sales
-                </CardTitle>
-                <ShoppingCart className='w-4 h-4 text-muted-foreground' />
-              </CardHeader>
-              <CardContent>
-                <div className='text-2xl font-bold'>1,120</div>
-                <p className='text-xs text-muted-foreground'>
-                  +8.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card className='bg-slate-50/50 shadow-none border-[0.1px]'>
-              <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-                <CardTitle className='text-sm font-medium'>
-                  Average Transaction Value
-                </CardTitle>
-                <TrendingUp className='w-4 h-4 text-muted-foreground' />
-              </CardHeader>
-              <CardContent>
-                <div className='text-2xl font-bold'>$30</div>
-                <p className='text-xs text-muted-foreground'>
-                  +4.2% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card className='bg-slate-50/50 shadow-none border-[0.1px]'>
-              <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-                <CardTitle className='text-sm font-medium'>
-                  Current Stock
-                </CardTitle>
-                <Package className='w-4 h-4 text-muted-foreground' />
-              </CardHeader>
-              <CardContent>
-                <div className='text-2xl font-bold'>523 units</div>
-                <p className='text-xs text-muted-foreground'>
-                  5 days of inventory left
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
+          <ProductDetailSummaryCard />
           <ProductAnaliticsChart />
-
-          <Card className='bg-slate-50/50 shadow-none border-[0.1px]'>
-            <CardHeader>
-              <CardTitle>Product Performance Metrics</CardTitle>
-              <CardDescription>
-                Key performance indicators for the product
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue='overview' className='space-y-4'>
-                <TabsList>
-                  <TabsTrigger value='overview'>Overview</TabsTrigger>
-                  <TabsTrigger value='profitability'>Profitability</TabsTrigger>
-                  <TabsTrigger value='trends'>Trends</TabsTrigger>
-                </TabsList>
-                <TabsContent value='overview' className='space-y-4'>
-                  <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-                    <div className='bg-white border-[0.1px] p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Profit Margin</h3>
-                      <p className='text-2xl font-bold'>32%</p>
-                    </div>
-                    <div className='p-4 rounded-lg bg-white border-[0.1px]'>
-                      <h3 className='font-semibold'>Avg. Transaction Value</h3>
-                      <p className='text-2xl font-bold'>$30</p>
-                    </div>
-                    <div className='p-4 rounded-lg bg-white border-[0.1px]'>
-                      <h3 className='font-semibold'>Stock Turnover Rate</h3>
-                      <p className='text-2xl font-bold'>4.2x/month</p>
-                    </div>
-                    <div className='bg-white border-[0.1px] p-4 rounded-lg'>
-                      <h3 className='font-semibold'>
-                        Contribution to Total Sales
-                      </h3>
-                      <p className='text-2xl font-bold'>15%</p>
-                    </div>
-                  </div>
-                </TabsContent>
-                <TabsContent value='profitability' className='space-y-4'>
-                  <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Cost Price</h3>
-                      <p className='text-2xl font-bold'>$20</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Selling Price</h3>
-                      <p className='text-2xl font-bold'>$30</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Gross Profit</h3>
-                      <p className='text-2xl font-bold'>$10/unit</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Monthly Profit</h3>
-                      <p className='text-2xl font-bold'>$10,750</p>
-                    </div>
-                  </div>
-                </TabsContent>
-                <TabsContent value='trends' className='space-y-4'>
-                  <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Sales Trend</h3>
-                      <p className='text-2xl font-bold'>↗ Increasing</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Peak Sales Time</h3>
-                      <p className='text-2xl font-bold'>12PM - 2PM</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Slowest Sales Time</h3>
-                      <p className='text-2xl font-bold'>9AM - 10AM</p>
-                    </div>
-                    <div className='bg-muted p-4 rounded-lg'>
-                      <h3 className='font-semibold'>Seasonal Demand</h3>
-                      <p className='text-2xl font-bold'>Higher in Winter</p>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+          <ProductSalesOverview />
+          <div className='flex justify-end'>
+            <DeleteProductConfirmation id={product_id} />
+          </div>
         </div>
       </ScrollArea>
     </div>

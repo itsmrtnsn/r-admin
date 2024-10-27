@@ -14,7 +14,7 @@ const layout = ({ children }: LayoutProps) => {
         {/* Sidebar */}
         <StoreSidebar />
         {/* Main Content */}
-        <Card className='flex-1 h-[calc(100vh-2rem) border-[0.1px] overflow-hidden shadow-none'>
+        <Card className='flex-1 h-[calc(100vh-2rem)  overflow-hidden shadow-none'>
           <CardContent className='p-0 h-full flex flex-col bg-white'>
             <MotionProvider>{children}</MotionProvider>
           </CardContent>
