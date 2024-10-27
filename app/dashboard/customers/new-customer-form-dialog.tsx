@@ -20,7 +20,10 @@ export default function NewCustomerFormDialog() {
     <div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button>
+          <Button
+            variant='outline'
+            className='border-primary border-[0.1px] text-primary'
+          >
             <Plus />
           </Button>
         </DialogTrigger>

@@ -63,7 +63,7 @@ const Cart = () => {
             </div>
           ))}
         </div>
-        2{/* summary */}
+        {/* summary */}
         <div className='space-y-4 mt-auto p-4 pb-2'>
           <div className='flex justify-between text-base font-semibold'>
             <span>Sous-total</span>
@@ -83,24 +83,6 @@ const Cart = () => {
               </SelectContent>
             </Select>
 
-            {/* <Controller
-              name='discountType'
-              control={control}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className='w-1/2 rounded-l-full shadow-none border-[0.1px]'>
-                    <SelectValue placeholder='Rabais' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='PERCENTAGE'>Pourcentage</SelectItem>
-                    <SelectItem value='FIXED'>Montant fixe</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            /> */}
             <Input
               type='number'
               {...register('discountValue', { valueAsNumber: true })}

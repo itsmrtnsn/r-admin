@@ -59,7 +59,7 @@ export default function SalesCategoryDistribution() {
   }, []);
 
   return (
-    <Card className='flex flex-col w-full col-span-3 border-[0.1px] shadow-none bg-slate-50/50'>
+    <Card className='flex flex-col w-full  border-[0.1px] shadow-none'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Répartition des ventes par catégorie</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

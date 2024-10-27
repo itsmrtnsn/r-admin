@@ -48,7 +48,7 @@ const ProductsPage = async ({ searchParams: { searchQuery, page } }: Props) => {
               draft={totalDraftProducts}
             />
           </Suspense>
-          <Card className='bg-slate-50 shadow-none flex-1 overflow-hidden border-[0.1px]'>
+          <Card className='shadow-none flex-1 overflow-hidden border-[0.1px]'>
             <CardHeader>
               <div className='flex items-center gap-2 justify-between'>
                 <Search />

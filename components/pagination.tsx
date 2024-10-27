@@ -27,7 +27,7 @@ const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
           size='icon'
           className='w-8 h-8 bg-white border-[0.1px] shadow-none'
           onClick={() => handlePageQuery((currentPage - 1).toString())}
-          disabled={currentPage === 1}
+          disabled={currentPage <= 1}
         >
           <ChevronLeft className='h-4 w-4' />
         </Button>

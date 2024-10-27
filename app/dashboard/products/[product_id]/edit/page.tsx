@@ -45,7 +45,7 @@ const NewProductPage = async ({ params: { product_id } }: Props) => {
         </CardDescription>
       </CardHeader>
       <ScrollArea className='h-[80vh]'>
-        <CardContent className='border-[0.1px] bg-slate-50 rounded-lg m-8 mt-4 p-8'>
+        <CardContent className='border-[0.1px] bg-slate-50/50 rounded-lg m-8 mt-4 p-8'>
           <EditProductForm
             categories={categories.map((category) => ({
               ...category,

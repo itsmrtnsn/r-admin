@@ -1,5 +1,4 @@
 'use client';
-
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, format } from 'date-fns';
 import * as React from 'react';
@@ -43,7 +42,7 @@ export function DateRangePicker({
             id='date'
             variant={'outline'}
             className={cn(
-              'w-[250px] justify-start text-left font-normal',
+              'w-[250px] justify-start text-left font-normal shadow-none border-[0.1px]',
               !date && 'text-muted-foreground'
             )}
           >
@@ -62,7 +61,10 @@ export function DateRangePicker({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='start'>
+        <PopoverContent
+          className='w-auto p-0 border-[0.1px] border-gray-300 shadow-none'
+          align='start'
+        >
           <Calendar
             initialFocus
             mode='range'

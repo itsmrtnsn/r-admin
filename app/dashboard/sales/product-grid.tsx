@@ -5,11 +5,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { Fragment } from 'react';
-import { ProductType } from '../_actions/get-products';
 import { useCartStore } from './cart-store';
+import { SellableProduct } from '../_actions/get-sellable-product';
 
 interface Props {
-  products: ProductType[];
+  products: SellableProduct[];
 }
 
 const ProductGrid = ({ products }: Props) => {
@@ -29,7 +29,7 @@ export default ProductGrid;
 // product card component
 
 interface CardProps {
-  product: ProductType;
+  product: SellableProduct;
 }
 
 const ProductCardComponent = ({ product }: CardProps) => {
@@ -48,7 +48,7 @@ const ProductCardComponent = ({ product }: CardProps) => {
             {product.name}
           </h2>
           <p className='text-muted-foreground text-sm mb-2 font-medium'>
-            {product.category}
+            {product.category.name}
           </p>
           <div className='flex justify-between items-center mt-auto'>
             <p className='text-sm font-bold text-primary'>

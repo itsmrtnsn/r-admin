@@ -29,7 +29,7 @@ const tableHeads = [
 
 export default function ProductTable({ products }: Props) {
   return (
-    <div className='border-[0.1px] px-8 py-6 bg-white rounded-lg'>
+    <div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -45,10 +45,7 @@ export default function ProductTable({ products }: Props) {
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow
-              key={product.id}
-              className='cursor-pointer text-normal h-12'
-            >
+            <TableRow key={product.id} className='cursor-pointer  h-12'>
               <TableCell>
                 <Checkbox className='border-[0.1px] rounded-md shadow-none' />
               </TableCell>

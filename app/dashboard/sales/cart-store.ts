@@ -1,22 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  quantityInStock: number;
-}
+import { SellableProduct } from '../_actions/get-sellable-product';
 
 export interface CartItem {
-  product: Product;
+  product: SellableProduct;
   quantity: number;
 }
 
 interface CartStore {
   items: CartItem[];
-  addItem: (product: Product) => void;
+  addItem: (product: SellableProduct) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;

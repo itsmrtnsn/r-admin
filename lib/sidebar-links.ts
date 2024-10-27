@@ -32,11 +32,11 @@ const sidebarItems: {
         path: '/dashboard/products',
         icon: MdDashboardCustomize,
       },
-      {
-        name: 'Aperçu',
-        icon: MdDashboardCustomize,
-        path: '/overview',
-      },
+      // {
+      //   name: 'Aperçu',
+      //   icon: MdDashboardCustomize,
+      //   path: '/overview',
+      // },
       {
         name: 'Clients',
         icon: MdDashboardCustomize,
