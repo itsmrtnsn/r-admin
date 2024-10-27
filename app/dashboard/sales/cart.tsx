@@ -1,9 +1,10 @@
 'use client';
 
 import useCheckoutModal from '@/app/hooks/use-checkout-modal';
-import useDiscount from '@/app/hooks/use-discount';
+import useDiscount, { Discount } from '@/app/hooks/use-discount';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+
 import {
   Select,
   SelectContent,
@@ -12,7 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Discount } from '@prisma/client';
+
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { discountFormSchema } from '../_schema/discount-form-schema';
@@ -20,26 +22,21 @@ import { DiscountFormData } from '../_types/discount-form-data';
 import CartItem from './cart-item';
 import { useCartStore } from './cart-store';
 import { CheckoutDialog } from './checkout-dialog';
-import Link from 'next/link';
 
 const Cart = () => {
   const { openModal } = useCheckoutModal();
   const { items, getTotal } = useCartStore();
 
   const [isClient, setIsClient] = useState(false);
-  const {
-    discountType,
-    discountValue,
-    setDiscountType,
-    setDiscountValue,
-    calculateDiscount,
-  } = useDiscount();
+  const { discountType, setDiscountType, setDiscountValue, calculateDiscount } =
+    useDiscount();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const subtotal = getTotal();
+
   const discount = calculateDiscount(subtotal);
   const total = Math.max(subtotal - discount, 0);
 

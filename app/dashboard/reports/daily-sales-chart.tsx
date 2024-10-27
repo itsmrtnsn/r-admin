@@ -1,127 +1,111 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import React from 'react';
+import { TrendingUp } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from 'recharts';
+
 import {
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
 
-const DailySalesChart = () => {
-  const dailySalesData = [
-    {
-      date: '2023-06-01',
-      total: 2400,
-      food: 1200,
-      drinks: 800,
-      merchandise: 400,
-    },
-    {
-      date: '2023-06-02',
-      total: 1398,
-      food: 700,
-      drinks: 500,
-      merchandise: 198,
-    },
-    {
-      date: '2023-06-03',
-      total: 9800,
-      food: 5000,
-      drinks: 3500,
-      merchandise: 1300,
-    },
-    {
-      date: '2023-06-04',
-      total: 3908,
-      food: 2000,
-      drinks: 1500,
-      merchandise: 408,
-    },
-    {
-      date: '2023-06-05',
-      total: 4800,
-      food: 2500,
-      drinks: 1800,
-      merchandise: 500,
-    },
-    {
-      date: '2023-06-06',
-      total: 3800,
-      food: 1900,
-      drinks: 1400,
-      merchandise: 500,
-    },
-    {
-      date: '2023-06-07',
-      total: 4300,
-      food: 2200,
-      drinks: 1600,
-      merchandise: 500,
-    },
-  ];
+export const description = 'A bar chart with an active bar';
 
+const chartData = [
+  { browser: 'chrome', visitors: 187, fill: 'var(--color-chrome)' },
+  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
+  { browser: 'firefox', visitors: 275, fill: 'var(--color-firefox)' },
+  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
+  { browser: 'other', visitors: 90, fill: 'var(--color-other)' },
+];
+
+const chartConfig = {
+  visitors: {
+    label: 'Visitors',
+  },
+  chrome: {
+    label: 'Chrome',
+    color: 'hsl(var(--chart-1))',
+  },
+  safari: {
+    label: 'Safari',
+    color: 'hsl(var(--chart-2))',
+  },
+  firefox: {
+    label: 'Firefox',
+    color: 'hsl(var(--chart-3))',
+  },
+  edge: {
+    label: 'Edge',
+    color: 'hsl(var(--chart-4))',
+  },
+  other: {
+    label: 'Other',
+    color: 'hsl(var(--chart-5))',
+  },
+} satisfies ChartConfig;
+
+export function SalesCategoryChart() {
   return (
-    <Card className=' shadow-none border-[0.1px] '>
+    <Card className='col-span-3'>
       <CardHeader>
-        <CardTitle>Daily Sales by Category</CardTitle>
+        <CardTitle>Bar Chart - Active</CardTitle>
+        <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
-      <CardContent className='pl-2'>
-        <ResponsiveContainer width='100%' height={350}>
-          <LineChart data={dailySalesData}>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <BarChart accessibilityLayer data={chartData}>
+            <CartesianGrid vertical={false} />
             <XAxis
-              dataKey='date'
-              stroke='#888888'
-              fontSize={12}
+              dataKey='browser'
               tickLine={false}
+              tickMargin={10}
               axisLine={false}
+              tickFormatter={(value) =>
+                chartConfig[value as keyof typeof chartConfig]?.label
+              }
             />
-            <YAxis
-              stroke='#888888'
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `$${value}`}
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
             />
-            <Tooltip />
-            <Legend />
-            <Line
-              type='monotone'
-              dataKey='total'
-              stroke='#8884d8'
+            <Bar
+              dataKey='visitors'
               strokeWidth={2}
-              name='Total'
+              radius={8}
+              activeIndex={2}
+              activeBar={({ ...props }) => {
+                return (
+                  <Rectangle
+                    {...props}
+                    fillOpacity={0.8}
+                    stroke={props.payload.fill}
+                    strokeDasharray={4}
+                    strokeDashoffset={4}
+                  />
+                );
+              }}
             />
-            <Line
-              type='monotone'
-              dataKey='food'
-              stroke='#82ca9d'
-              strokeWidth={2}
-              name='Food'
-            />
-            <Line
-              type='monotone'
-              dataKey='drinks'
-              stroke='#ffc658'
-              strokeWidth={2}
-              name='Drinks'
-            />
-            <Line
-              type='monotone'
-              dataKey='merchandise'
-              stroke='#ff7300'
-              strokeWidth={2}
-              name='Merchandise'
-            />
-          </LineChart>
-        </ResponsiveContainer>
+          </BarChart>
+        </ChartContainer>
       </CardContent>
+      <CardFooter className='flex-col items-start gap-2 text-sm'>
+        <div className='flex gap-2 font-medium leading-none'>
+          Trending up by 5.2% this month <TrendingUp className='h-4 w-4' />
+        </div>
+        <div className='leading-none text-muted-foreground'>
+          Showing total visitors for the last 6 months
+        </div>
+      </CardFooter>
     </Card>
   );
-};
-
-export default DailySalesChart;
+}

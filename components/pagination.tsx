@@ -8,16 +8,17 @@ interface Props {
   totalPages: number;
   currentPage: number;
   itemsPerPage: number;
+  totalItems: number;
 }
 
-const Pagination = ({ totalPages, currentPage, itemsPerPage }: Props) => {
+const Pagination = ({ totalPages, currentPage, totalItems }: Props) => {
   const { handleQuery: handlePageQuery } = useQueryParameter('page');
 
   return (
     <div className='flex w-full flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0'>
       <div className='flex items-center space-x-2'>
         <p className='text-sm text-muted-foreground'>
-          Afficher {itemsPerPage} articles par page
+          Ventes totales: {totalItems}
         </p>
       </div>
 

@@ -23,18 +23,14 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import paymentOptions from '@/lib/payment-option';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { PaymentMethod } from '@prisma/client';
 import { motion } from 'framer-motion';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { FaSpinner } from 'react-icons/fa';
 import { toast } from 'sonner';
 import createSale from '../_actions/create-sale';
-import { discountFormSchema } from '../_schema/discount-form-schema';
-import { DiscountFormData } from '../_types/discount-form-data';
 import { SalesItem } from '../_types/salesItem';
 import { useCartStore } from './cart-store';
 import BarReceipt from './receipt/bar-receipt';
@@ -55,7 +51,8 @@ export function CheckoutDialog({
   const router = useRouter();
   const { clearCart, getTotal, items } = useCartStore();
   const { isOpen, closeModal } = useCheckoutModal();
-  const { calculateDiscount, discountType, resetDiscount } = useDiscount();
+  const { calculateDiscount, resetDiscount, discountPercentage } =
+    useDiscount();
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState<PaymentMethod>('cash');
   const [cashReceived, setCashReceived] = useState<number>(0);
@@ -78,16 +75,6 @@ export function CheckoutDialog({
   const customerChange = () => cashReceived - total;
   const discountValue = calculateDiscount(subTotal);
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   control,
-  //   reset,
-  //   formState: { errors, isSubmitting },
-  // } = useForm<DiscountFormData>({
-  //   resolver: zodResolver(discountFormSchema),
-  // });
-
   const handleCompletePayment = async () => {
     if (isRoomCharge && !roomNumber) {
       return alert('Veuillez entrer le numéro de la chambre');
@@ -103,18 +90,20 @@ export function CheckoutDialog({
           customerChange: customerChange(),
           subTotal: getTotal(),
           total: getTotal() - discountValue, // Use the discount value
-          discountValue: discountValue,
-          discountType,
+          discount: discountValue,
         },
-        items.map(({ product, quantity }) => ({
-          productId: product.id,
-          quantity,
-          unitPrice: product.price,
-          sellingPrice: product.price - discountValue, // Use the discount value
-          totalCost: quantity * product.price,
-        }))
+        items.map(({ product, quantity }) => {
+          const discountAmount = (product.price * discountPercentage) / 100;
+          const sellingPrice = product.price - discountAmount;
+          return {
+            productId: product.id,
+            quantity,
+            unitPrice: product.price,
+            sellingPrice: sellingPrice, // Use the calculated selling price
+            totalCost: quantity * sellingPrice,
+          };
+        })
       );
-
       if (success) {
         clearCart();
         router.refresh();
@@ -125,18 +114,17 @@ export function CheckoutDialog({
           total: saleData?.total!,
           amountReceived: saleData?.amountReceived!,
           customerChange: saleData?.customerChange!,
-          discount: saleData?.discountValue!,
-          items:
-            saleItemData?.map(
-              ({ productId, product, quantity, unitPrice, sellingPrice }) => ({
-                productId,
-                name: product.name,
-                quantity,
-                unitPrice,
-                sellingPrice,
-                totalCost: quantity * sellingPrice,
-              })
-            ) || [],
+          discount: saleData?.discount!,
+          items: saleItemData?.map(
+            ({ productId, product, quantity, unitPrice, sellingPrice }) => ({
+              productId,
+              name: product.name,
+              quantity,
+              unitPrice,
+              sellingPrice,
+              totalCost: quantity * sellingPrice,
+            })
+          )!,
         });
         setCompleted(true);
       } else {

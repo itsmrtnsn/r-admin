@@ -147,8 +147,7 @@ model Sale {
   category SaleCategory
   cashier        String        @db.VarChar(100)
   paymentMethod  PaymentMethod @default(cash)
-  discountType   Discount?
-  discountValue  Float?
+  discount Float?
   subTotal       Float         @default(0)
   tax            Float         @default(0)
   total          Float         @default(0)

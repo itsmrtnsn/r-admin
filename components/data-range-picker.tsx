@@ -23,11 +23,14 @@ export function DateRangePicker({
     to: today,
   });
 
-  const { handleQuery } = useQueryParameter('date_range');
+  const { handleQuery, query } = useQueryParameter('date_range');
+
+  const myDate = query && query.split('x');
+  const startDate = myDate ? new Date(myDate[0]) : new Date();
+  const endDate = myDate ? new Date(myDate[1]) : new Date();
 
   const handleDate = () => {
     if (date?.from && date?.to) {
-      // Only call the query update functions if both from and to dates are set
       handleQuery(
         format(date.from, 'yyyy-MM-dd') + 'x' + format(date.to, 'yyyy-MM-dd')
       );
@@ -47,14 +50,14 @@ export function DateRangePicker({
             )}
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
-            {date?.from ? (
-              date.to ? (
+            {startDate ? (
+              endDate ? (
                 <>
-                  {format(date.from, 'LLL dd, y')} -{' '}
-                  {format(date.to, 'LLL dd, y')}
+                  {format(startDate, 'LLL dd, y')} -{' '}
+                  {format(endDate, 'LLL dd, y')}
                 </>
               ) : (
-                format(date.from, 'LLL dd, y')
+                format(startDate, 'LLL dd, y')
               )
             ) : (
               <span>Pick a date</span>
@@ -68,7 +71,7 @@ export function DateRangePicker({
           <Calendar
             initialFocus
             mode='range'
-            defaultMonth={date?.from}
+            defaultMonth={startDate}
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}

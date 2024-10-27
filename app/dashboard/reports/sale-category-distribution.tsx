@@ -1,6 +1,5 @@
 'use client';
 
-import { TrendingUp } from 'lucide-react';
 import * as React from 'react';
 import { Label, Pie, PieChart } from 'recharts';
 
@@ -69,7 +68,7 @@ export default function SalesCategoryDistribution({
   }, []);
 
   return (
-    <Card className='flex flex-col w-full  border-[0.1px] shadow-none'>
+    <Card className='flex flex-col w-full  border-[0.1px] shadow-none col-span-2'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Répartition des ventes par catégorie</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
@@ -104,7 +103,7 @@ export default function SalesCategoryDistribution({
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className='fill-foreground text-3xl font-bold'
+                          className='fill-foreground text-xl font-bold'
                         >
                           {totalSales.toLocaleString()}
                         </tspan>
@@ -113,7 +112,7 @@ export default function SalesCategoryDistribution({
                           y={(viewBox.cy || 0) + 24}
                           className='fill-muted-foreground'
                         >
-                          Total Sales
+                          Ventes totales
                         </tspan>
                       </text>
                     );
@@ -129,7 +128,7 @@ export default function SalesCategoryDistribution({
           Trending up by 7.5% this month <TrendingUp className='h-4 w-4' />
         </div> */}
         <div className='leading-none text-muted-foreground'>
-          Showing total sales for each drink category in the last 6 months
+          Affichage des ventes totales par catégorie{' '}
         </div>
       </CardFooter>
     </Card>
