@@ -1,30 +1,25 @@
 'use client';
 
-import { Check, ChevronsUpDown } from 'lucide-react';
+import useQueryParameter from '@/app/hooks/use-query-parameter';
 import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import { Input } from '@/components/ui/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { getCustomers } from '../_actions/get-customers';
-import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Customer } from '@prisma/client';
-import useQueryParameter from '@/app/hooks/use-query-parameter';
-import { Input } from '@/components/ui/input';
-
-interface Props {
-  onSelect: () => void;
-}
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { getCustomers } from '../_actions/get-customers';
 
 export function CustomerCombobox() {
   const [customers, setCustomers] = useState<Customer[]>([]);

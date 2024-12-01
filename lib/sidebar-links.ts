@@ -55,6 +55,11 @@ const sidebarItems: {
         path: '/dashboard/employees',
       },
       {
+        name: 'Contrôle de présence',
+        icon: MdDashboardCustomize,
+        path: '/dashboard/new-attendance',
+      },
+      {
         name: 'Présence',
         icon: MdDashboardCustomize,
         path: '/dashboard/attendance',

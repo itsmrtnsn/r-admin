@@ -1,21 +1,11 @@
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DollarSign, Package, ShoppingCart, TrendingUp } from 'lucide-react';
-import BackButton from '../../employees/new/back-button';
-import { ProductAnaliticsChart } from './product-analitics-chart';
-import { getProductById } from '../../_actions/get-product-by-id';
-import DeleteProductConfirmation from '../_components/delete-product-confirmation';
 import { DateRangePicker } from '@/components/data-range-picker';
-import ProductDetailSummaryCard from './product-detail-summary-cards';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { getProductById } from '../../_actions/get-product-by-id';
+import BackButton from '../../employees/new/back-button';
+import DeleteProductConfirmation from '../_components/delete-product-confirmation';
 import ProductSalesOverview from './prodduct-sales-overview';
+import { ProductAnaliticsChart } from './product-analitics-chart';
+import ProductDetailSummaryCard from './product-detail-summary-cards';
 
 const salesData = [
   { date: '2023-01', sales: 120, revenue: 3600 },

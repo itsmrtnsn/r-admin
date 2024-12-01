@@ -40,7 +40,7 @@ const StoreSidebar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-2rem)] overflow-hidden border-[0.1px]  shadow-none  bg-gray-950 '>
+    <Card className='h-[calc(100vh-2rem)] overflow-hidden border-[0.1px]  shadow  bg-white '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}
@@ -56,7 +56,7 @@ const StoreSidebar = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className='text-xl font-bold  text-white'
+                    className='text-xl font-bold '
                   >
                     La Pause Inn
                   </motion.h2>
@@ -81,10 +81,10 @@ const StoreSidebar = () => {
                           <Button
                             variant='ghost'
                             className={cn(
-                              'w-full justify-between text-white outline-none  transition-all duration-300 ease-in-out',
+                              'w-full justify-between outline-none  transition-all duration-300 ease-in-out',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
-                                'bg-blue-600 text-white hover:text-blue-600',
+                                'bg-blue-600 hover:text-blue-600',
                               activeMenu === item.name && 'rounded-lg'
                             )}
                             onClick={() => {
@@ -183,7 +183,7 @@ const StoreSidebar = () => {
                                 href={`${subitem.path}`}
                                 className={cn(
                                   buttonVariants({ variant: 'ghost' }),
-                                  'w-full my-1.5 block text-white  transition-all duration-300'
+                                  'w-full my-1.5 block  transition-all duration-300'
                                 )}
                               >
                                 {subitem.name}

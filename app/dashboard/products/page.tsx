@@ -59,11 +59,11 @@ const ProductsPage = async ({ searchParams: { searchQuery, page } }: Props) => {
             {products.length >= 1 ? (
               <CardContent>
                 <ProductTable products={products} />
-                <Pagination
+                {/* <Pagination
                   totalPages={totalPages}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
-                />
+                /> */}
               </CardContent>
             ) : (
               <EmptyProducts />

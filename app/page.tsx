@@ -1,100 +1,155 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { PrinterIcon } from 'lucide-react';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import useDiscount, { discountSchema } from './hooks/use-discount';
+import { z } from 'zod';
+import { toast } from '@/hooks/use-toast';
 
-interface ReceiptItem {
-  name: string;
-  quantity: number;
-  price: number;
-}
+type DiscountFormValues = z.infer<typeof discountSchema>;
 
-interface ReceiptProps {
-  items: ReceiptItem[];
-  subtotal: number;
-  tax: number;
-  total: number;
-  barName: string;
-  date: string;
-  orderNumber: string;
-}
+export default function DiscountModal() {
+  const [open, setOpen] = useState(false);
+  const { setDiscount, resetDiscount } = useDiscount();
 
-export default function BarReceipt({
-  items = [
-    { name: 'Beer', quantity: 2, price: 5 },
-    { name: 'Wine', quantity: 1, price: 8 },
-    { name: 'Cocktail', quantity: 1, price: 10 },
-  ],
-  subtotal = 28,
-  tax = 2.24,
-  total = 30.24,
-  barName = 'The Cozy Tavern',
-  date = '2023-10-21',
-  orderNumber = '1234',
-}: ReceiptProps) {
-  const [isPrinting, setIsPrinting] = useState(false);
-  const printRef = useRef<HTMLDivElement>(null);
+  const form = useForm<DiscountFormValues>({
+    resolver: zodResolver(discountSchema),
+    defaultValues: {
+      discountType: 'PERCENTAGE',
+      discountValue: 0,
+      confirmationCode: '',
+    },
+  });
 
-  const handlePrint = () => {
-    if (printRef.current) {
-      setIsPrinting(true);
-      print();
-      setTimeout(() => setIsPrinting(false), 1000);
-    }
-  };
+  function onSubmit(data: DiscountFormValues) {
+    setDiscount(data);
+    toast({
+      title: 'Discount Applied',
+      description: (
+        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+    setOpen(false);
+    form.reset();
+  }
 
   return (
-    <>
-      <Card className='w-full max-w-md mx-auto'>
-        <CardHeader className='text-center'>
-          <CardTitle className='text-2xl font-bold'>{barName}</CardTitle>
-          <p className='text-sm text-muted-foreground'>Order #{orderNumber}</p>
-          <p className='text-sm text-muted-foreground'>{date}</p>
-        </CardHeader>
-        <CardContent ref={printRef}>
-          <div className='space-y-4'>
-            {items.map((item, index) => (
-              <div key={index} className='flex justify-between'>
-                <span>
-                  {item.quantity}x {item.name}
-                </span>
-                <span>${(item.price * item.quantity).toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-          <Separator className='my-4' />
-          <div className='space-y-2'>
-            <div className='flex justify-between'>
-              <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
-            </div>
-            <div className='flex justify-between'>
-              <span>Tax</span>
-              <span>${tax.toFixed(2)}</span>
-            </div>
-            <div className='flex justify-between font-bold'>
-              <span>Total</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className='flex justify-center'>
-          <Button onClick={handlePrint} disabled={isPrinting}>
-            <PrinterIcon className='mr-2 h-4 w-4' /> Print Receipt
-          </Button>
-        </CardFooter>
-      </Card>
-
-      <p>Hello world</p>
-    </>
+    <Dialog
+      open={open}
+      onOpenChange={(newOpen) => {
+        setOpen(newOpen);
+        if (!newOpen) {
+          form.reset();
+        }
+      }}
+    >
+      <DialogTrigger asChild>
+        <Button variant='outline'>Apply Discount</Button>
+      </DialogTrigger>
+      <DialogContent className='sm:max-w-[425px]'>
+        <DialogHeader>
+          <DialogTitle>Apply Discount</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+            <FormField
+              control={form.control}
+              name='discountType'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select a discount type' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value='PERCENTAGE'>Percentage</SelectItem>
+                      <SelectItem value='FIXED'>Fixed Amount</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='discountValue'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount Value</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value))
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='confirmationCode'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirmation Code</FormLabel>
+                  <FormControl>
+                    <Input type='password' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Apply Discount</Button>
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => {
+                resetDiscount();
+                form.reset();
+                toast({ title: 'Discount Reset' });
+              }}
+            >
+              Reset Discount
+            </Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }

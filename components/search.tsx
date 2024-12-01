@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Search = ({ placeholder }: Props) => {
-  const { query, handleQuery } = useQueryParameter('searchQuery');
+  const { handleQuery } = useQueryParameter('searchQuery');
   return (
     <div className='relative w-full md:w-auto'>
       <SearchIcon className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />

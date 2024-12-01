@@ -104,6 +104,7 @@ export function CheckoutDialog({
           };
         })
       );
+
       if (success) {
         clearCart();
         router.refresh();

@@ -47,9 +47,7 @@ model Employee {
   status     EmployeeStatus @default(en_attente)
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
-
   Attendance Attendance[]
-
   @@index([email])
   @@index([phone])
 }
@@ -78,11 +76,11 @@ model Attendance {
   employee         Employee                  @relation(fields: [employeeId], references: [id])
   attendanceStatus AttendanceStatus          @default(present)
   employeeId       String
-  date             DateTime                  @db.Date()
+  date             DateTime                  
   checkInStatus    AttendanceCheckInStatus?
-  checkInTime      DateTime?                 @db.Time()
+  checkInTime      String?                 
   checkOutStatus   AttendanceCheckOutStatus?
-  checkOutTime     DateTime?                 @db.Time()
+  checkOutTime     String?
   createdAt        DateTime                  @default(now())
   updatedAt        DateTime                  @updatedAt
 }
@@ -156,24 +154,21 @@ model Sale {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   SaleItem       SaleItem[]
-
   @@index([reference])
 }
 
 model SaleItem {
   id           String   @id @default(cuid())
-  product      Product  @relation(fields: [productId], references: [id])
+  product      Product  @relation(fields: [product_id], references: [id])
   sale         Sale     @relation(fields: [saleId], references: [id])
-  productId    String
+  product_id    String
   saleId       String
   quantity     Int
-  unitPrice    Int
-  sellingPrice Float
-  totalCost    Int
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([productId])
+  unit_price    Int
+  total_price    Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  @@index([product_id])
 }
 
 enum IdOption {
